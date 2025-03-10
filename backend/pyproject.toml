@@ -11,10 +11,17 @@ requires-python = ">=3.12"
 dependencies = [
     "flask (>=3.1.0,<4.0.0)",
     "flask-restful (>=0.3.10,<0.4.0)",
-    "flasgger (>=0.9.7.1,<0.10.0.0)"
+    "flasgger (>=0.9.7.1,<0.10.0.0)",
+    "geopandas (>=1.0.1,<2.0.0)"
 ]
 
 
 [build-system]
 requires = ["poetry-core>=2.0.0,<3.0.0"]
 build-backend = "poetry.core.masonry.api"
+
+[tool.poetry.group.dev.dependencies]
+jupyter = "^1.1.1"
+osmpythontools = "^0.3.5"
+matplotlib = "^3.10.1"
+

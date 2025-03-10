@@ -1,1 +1,3 @@
 __pycache__
+notebooks/cache
+notebooks/.ipynb_checkpoints
