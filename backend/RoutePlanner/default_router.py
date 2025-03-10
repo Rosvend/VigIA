@@ -2,8 +2,8 @@ import math
 import geopandas as gpd
 from geopandas import GeoDataFrame
 from shapely import Polygon, Point
-from ors_secrets import ORS_KEY
-from HotspotQuerier import stub_random_hotspots
+from .ors_secrets import ORS_KEY
+from .HotspotQuerier import stub_random_hotspots, Hotspot
 import openrouteservice
 
 AREA = 'Medellín, Colombia'
@@ -21,17 +21,17 @@ def angle(source: Point, dest: Point) -> float:
     return math.atan2(dest.y - source.y, dest.x - source.x) % (2*math.pi)
 
 
-def classify_points(hotspots: list, n: int, start: LonLat = None):
+def classify_points(hotspots: list, n: int, start = None):
     """
     Classify the LonLat points of hotspots in n groups based on their
     angles from start, or the euclidian center, if not supplied.
     """
     if start is None:
-        start = center(hotspots)
+        start = center([hotspot.pt for hotspot in hotspots])
 
     return [[
         point for point in hotspots
-            if (angle(start, point) // (2*math.pi/n) == i)
+            if (angle(start, point.pt) // (2*math.pi/n) == i)
         ] for i in range(n)]
 
 # Stub?
@@ -39,7 +39,9 @@ comunas = gpd.read_file(COMUNAS_FILE)
 def get_operation_area(police_station: Point) -> Polygon:
     return comunas.loc[comunas.contains(police_station)].union_all()
 
-def pt2tup(point: Point):
+def pt2tup(point):
+    if type(point) is Hotspot:
+        point = point.pt
     return (point.x, point.y)
 
 class PoliceRouter:
@@ -57,17 +59,15 @@ class PoliceRouter:
                 profile=DEFAULT_ORS_PROFILE,
                 optimize_waypoints=True
             )['routes'][0]['geometry']
-        )
+        )['coordinates']
 
     def compute_routes(self, cai_id: int, n: int):
         station = self._stations.iloc[[cai_id]].geometry.union_all()
         area = get_operation_area(station)
         hotspots = stub_random_hotspots(area)
         hotspot_areas = classify_points(hotspots, n)
-        return [self.query_route(station, area)
-            for area in hotspot_areas]
-
-if __name__ == "__main__":
-    # Test stuff, get rid of this please
-    p_router = PoliceRouter()
-    print(p_router.compute_routes(0, 2))
+        return {
+            'hotspots': [point.toDict() for point in hotspots],
+            'routes': [self.query_route(station, area)
+                for area in hotspot_areas]
+       }

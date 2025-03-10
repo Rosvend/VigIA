@@ -15,9 +15,9 @@ app.config['SWAGGER'] = {
 }
 swagger = Swagger(app)
 
-route_computer = PoliceRouter()
 
 class RouteSuggestions(Resource):
+    route_computer = PoliceRouter()
     parser: RequestParser
     def __init__(self):
         self.parser = RequestParser()
@@ -34,26 +34,9 @@ class RouteSuggestions(Resource):
     def get(self):
         args = self.parser.parse_args()
         # Todo: use real values here
-        return {
-            'cai': { 'lat': 23.4, 'lon': -28.09},
-            'hotspots': [
-                {
-                    'coordinates': { 'lat': 56.8, 'lon': -38.3},
-                    'probability': 0.34
-                },
-                {
-                    'coordinates': { 'lat': 36.9, 'lon': -18.5},
-                    'probability': 0.9
-                },
-            ],
-            'routes': [
-                [
-                    { 'lat': 56.3, 'lon': 83.4},
-                    { 'lat': 90.3, 'lon': 32.2},
-                    { 'lat': 482.3, 'lon': 484.3}
-                ]
-            ] * (args['n'] if args['n'] is not None else 1)
-        };
+        return self.route_computer.compute_routes(
+            args['cai'], args['n'] if args['n'] is not None else 1
+        )
 
 api.add_resource(RouteSuggestions, '/api/routes')
 if __name__ == '__main__':
