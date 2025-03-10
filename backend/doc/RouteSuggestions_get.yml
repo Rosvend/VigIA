@@ -24,43 +24,34 @@ responses:
       id: RouteSuggestionsResponse
       type: object
       properties:
-        cai:
-          schema:
-            id: LatLon
-            type: object
-            description: Coordenadas de un punto geográfico
-            properties:
-              lat:
-                type: number
-                description: Latitud del punto
-                format: double
-                example: 6.4533
-              lon:
-                type: number
-                description: Longitud del punto
-                format: double
-                example: -72.45
         hotspots:
           type: array
           items:
-            schema:
-              id: LatLon
+            type: object
+            properties: 
+              coordinates:
+                type: array
+                description: Coordenadas (lat, lon) geográficas del punto caliente
+                minItems: 2
+                maxItems: 2
+                items:
+                    type: number
+                example: [-75.455, 6.452]
+              probability:
+                type: number
+                description: Probabilidad de crimen en el punto
+                example: 0.573
+                min: 0.0
+                max: 1.0
         routes:
           type: array
           items:
             type: array
             items:
-              type: object
-              schema:
-              description: Coordenadas de un punto en ruta
-              properties:
-                lat:
+              type: array
+              description: Coordenadas (lat, lon) geográficas de un punto en ruta
+              minItems: 2
+              maxItems: 2
+              items:
                   type: number
-                  description: Latitud del punto
-                  format: double
-                  example: 6.4533
-                lon:
-                  type: number
-                  description: Longitud del punto
-                  format: double
-                  example: -72.45
+              example: [-75.455, 6.452]
