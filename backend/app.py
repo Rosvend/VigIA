@@ -5,7 +5,7 @@ from flask_restful import Resource, Api
 from flask_restful.reqparse import RequestParser
 from flasgger import Swagger, swag_from
 
-__version__ = "0.0.1"
+__version__ = "0.0.2"
 
 app = Flask(__name__)
 api = Api(app)
