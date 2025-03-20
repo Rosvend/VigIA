@@ -65,7 +65,7 @@ class PoliceRouter:
         station = self._stations.iloc[[cai_id]].geometry.union_all()
         area = get_operation_area(station)
         hotspots = stub_random_hotspots(area)
-        hotspot_areas = classify_points(hotspots, n)
+        hotspot_areas = classify_points(hotspots, n, station)
         return {
             'hotspots': [point.toDict() for point in hotspots],
             'routes': [self.query_route(station, area)
