@@ -1,10 +1,14 @@
 from shapely import Point, Polygon, intersection
 import numpy as np
 from itertools import chain
+import geopandas as gpd
 from random import uniform
 
-SCALE_FACTOR = 0.01
+# TODO: find the ideal value for this variable
+SCALE_FACTOR = 0.002
 MAX_DISTANCE = 0.05
+
+grid = gpd.GeoDataFrame.from_file("../geodata/grid.geojson").to_crs(crs="EPSG:4326")
 
 class Hotarea:
     area: Polygon
@@ -31,7 +35,6 @@ class Hotarea:
             for (x,y) in self.meshgrid()
             if Point(x,y).within(self.area)
         ]
-        
 
 class Hotspot:
     pt: Point
@@ -47,47 +50,20 @@ class Hotspot:
             'probability': self.probability
         }
 
+def stub_assign_probabilities(grid: gpd.GeoSeries) -> list:
+    """A stub method to assign random probabilities to the set of
+    geometries on a grid. Should be replaced by query to the model."""
 
-def random_point(area: Polygon) -> Point:
-    point = None
-    while point is None or not point.within(area):
-        point = Point(uniform(area.bounds[0], area.bounds[2]),
-                      uniform(area.bounds[1], area.bounds[3]))
-    return point
-
-def random_subarea(area: Polygon) -> Polygon:
-    center = random_point(area)
-    # create a random 4-vertex polygon from center
-    return intersection(Polygon((
-        (center.x + uniform(0, MAX_DISTANCE), center.y + uniform(0, MAX_DISTANCE)),
-        (center.x + uniform(0, MAX_DISTANCE), center.y - uniform(0, MAX_DISTANCE)),
-        (center.x - uniform(0, MAX_DISTANCE), center.y - uniform(0, MAX_DISTANCE)),
-        (center.x - uniform(0, MAX_DISTANCE), center.y + uniform(0, MAX_DISTANCE)),
-       )), area)
-
-# A stub hotarea generator that generates a list of hotareas which are
-# included within the given op_area. Will be replaced by code that
-# actually queries the model
-def stub_random_hotareas(op_area: Polygon, n: int = 10) -> list:
-    return [
-        Hotarea(uniform(0,1), random_subarea(op_area)) for _ in range(n)
+    return [Hotarea(uniform(0,1), cell)
+        for _,cell in grid.items()
     ]
 
+def grid_intersection(op_area: Polygon) -> gpd.GeoSeries:
+    return grid[grid.geometry.intersects(op_area)].geometry
+
 def stub_random_hotspots(op_area: Polygon) -> list:
-    return list(chain.from_iterable([subarea.hotspots() for subarea in stub_random_hotareas(op_area)]))
-
-    
-
-# A stup hotspot generator that generates hotspots randomly (a la montecarlo). Will be
-# replaced with the code that actually queries the model.
-#def stub_random_hotspots(op_area: Polygon, n: int = 10) -> list:
-#    hotspots = []
-#    while len(hotspots) < n:
-#        point = Hotspot(
-#            uniform(0,1),
-#            uniform(op_area.bounds[0], op_area.bounds[2]),
-#            uniform(op_area.bounds[1], op_area.bounds[3])
-#        )
-#        if op_area.contains(point.pt):
-#            hotspots.append(point)
-#    return hotspots
+    hotspots = []
+    areas = stub_assign_probabilities(grid_intersection(op_area))
+    for subarea in areas:
+        hotspots.extend(subarea.hotspots())
+    return hotspots
