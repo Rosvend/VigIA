@@ -10,6 +10,7 @@ AREA = 'Medellín, Colombia'
 POLICE_STATIONS_FILE = '../geodata/police.geojson'
 COMUNAS_FILE = '../geodata/comunas.geojson'
 DEFAULT_ORS_PROFILE = 'driving-car'
+MAX_POINTS_PER_ROUTE = 80
 
 def center(points: list):
     return(Point(
@@ -44,6 +45,15 @@ def pt2tup(point):
         point = point.pt
     return (point.x, point.y)
 
+def filter_most_likely(points: list) -> list:
+    """Filter the the incoming list of points to make sure it has less
+    points than the maximum permitted by ORS."""
+
+    return sorted(points,
+        key=(lambda pt: pt.probability),
+        reverse=True
+        )[:(MAX_POINTS_PER_ROUTE - 2)]
+
 class PoliceRouter:
     _stations: GeoDataFrame
     _route_client: openrouteservice.Client
@@ -55,7 +65,9 @@ class PoliceRouter:
     def query_route(self, station, points):
         return openrouteservice.convert.decode_polyline(
             self._route_client.directions(
-                [pt2tup(point) for point in [station, *points, station]],
+                [pt2tup(point) for point in
+                    [station, *filter_most_likely(points), station]
+                ],
                 profile=DEFAULT_ORS_PROFILE,
                 optimize_waypoints=True
             )['routes'][0]['geometry']
