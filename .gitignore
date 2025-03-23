@@ -2,4 +2,6 @@ __pycache__
 notebooks/cache
 notebooks/.ipynb_checkpoints
 *secrets.*
-map_*.html
+crime_heatmap.html
+mapa_puntos.html
+
