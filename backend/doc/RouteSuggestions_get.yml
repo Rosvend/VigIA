@@ -21,6 +21,9 @@ parameters:
     enum: [driving-car, driving-hgv, foot-walking, foot-hiking, cycling-regular, cycling-road,cycling-mountain, cycling-electric]
     default: driving-car
     description: Perfil (tipo de transporte) de ruta para ORS.
+  - name: exclude_station
+    in: query
+    description: Si este parámetro está presente, las rutas no pasarán por el CAI.
 responses:
   "200":
     description: Coordenadas del cai, hotspots y puntos de las rutas.

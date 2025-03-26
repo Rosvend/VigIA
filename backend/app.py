@@ -32,6 +32,9 @@ class RouteSuggestions(Resource):
                                  type=str,
                                  choices=ORS_PROFILES,
                                  location='args')
+        self.parser.add_argument('exclude_station',
+                                 type=bool,
+                                 location='args')
     
     @swag_from("doc/RouteSuggestions_get.yml")
     def get(self):
@@ -41,7 +44,8 @@ class RouteSuggestions(Resource):
             args['cai'],
             args['n'] if args['n'] is not None else 1,
             args['profile'] if args['profile'] is not None
-                else DEFAULT_ORS_PROFILE
+                else DEFAULT_ORS_PROFILE,
+            args['exclude_station'] is None
         )
 
 api.add_resource(RouteSuggestions, '/api/routes')
