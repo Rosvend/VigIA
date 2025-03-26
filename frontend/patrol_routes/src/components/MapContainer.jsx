@@ -1,15 +1,23 @@
-function MapContainer({ marginLeft }) {
+import { useState } from 'react'
+import "../App.css"
+import { Popup, Marker, TileLayer, MapContainer, useMap } from "react-leaflet"
+import L from "leaflet"
+import "leaflet/dist/leaflet.css"
+
+const initial_center = [6.24938, -75.56]
+
+function MapCont({ marginLeft }) {
   return (
-    <div id="map-container" style={{ marginLeft }}>
-      <div id="map">
-        {/* Replace with actual map implementation */}
-        <img
-          src="/assets/MAP_DEMOSTRATION.png"
-          alt="Mapa de rutas de patrulla"
-        />
-      </div>
+    <div style={{marginLeft}}>
+      <MapContainer className="map-container" center={initial_center} zoom={13}>
+  <TileLayer
+    attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+    url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+  />
+</MapContainer>
+
     </div>
   );
 }
 
-export default MapContainer;
+export default MapCont;
