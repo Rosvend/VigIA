@@ -14,7 +14,7 @@ ORS_PROFILES = ["driving-car", "driving-hgv", "foot-walking",
                 "foot-hiking", "cycling-regular",
                 "cycling-road","cycling-mountain",
                 "cycling-electric",]
-MAX_POINTS_PER_ROUTE = 70
+MAX_POINTS_PER_ROUTE = 50
 
 def center(points: list):
     return(Point(
@@ -81,6 +81,7 @@ class PoliceRouter:
                         else filter_most_likely(points, False))
                 ],
                 profile=profile,
+                radiuses=-1,
                 optimize_waypoints=True
             )['routes'][0]['geometry']
         )['coordinates']
