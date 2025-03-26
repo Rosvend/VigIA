@@ -34,9 +34,13 @@ def classify_points(hotspots: list, n: int, start = None):
     if start is None:
         start = center([hotspot.pt for hotspot in hotspots])
 
+    min_angle = min(angle(start, point.pt) for point in hotspots)
+    max_angle = max(angle(start, point.pt) for point in hotspots)
+    range_angles = max_angle - min_angle
+
     return [[
         point for point in hotspots
-            if (angle(start, point.pt) // (2*math.pi/n) == i)
+            if ((angle(start, point.pt) - min_angle) // (range_angles/n) == i)
         ] for i in range(n)]
 
 # Stub?
