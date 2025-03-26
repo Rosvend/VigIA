@@ -280,3 +280,7 @@ h1 {
     padding: 10px;
   }
 }
+.map-container {
+	width: 90vw;
+	height: 90vh;
+}

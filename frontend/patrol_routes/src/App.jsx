@@ -1,7 +1,7 @@
 import { useState } from "react";
 import Header from "./components/Header";
 import Sidebar from "./components/Sidebar";
-import MapContainer from "./components/MapContainer";
+import MapCont from "./components/MapContainer";
 import "./App.css";
 
 function App() {
@@ -30,8 +30,8 @@ function App() {
         </button>
 
         <Sidebar active={sidebarActive} />
-        <MapContainer
-          marginLeft={sidebarActive ? "300px" : "0"}
+        <MapCont
+          marginLeft={sidebarActive ? "300px" : "30px"}
           activeRole={activeRole}
         />
       </div>
