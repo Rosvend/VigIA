@@ -1,7 +1,13 @@
 import { useState } from "react";
 import SidebarSection from "./SidebarSection";
+import GeoSelect from "./GeoSelect";
+
+import { features as comunas } from "../../../../geodata/comunas.json"
+import { features as stations } from "../../../../geodata/police.json"
 
 function Sidebar({ active }) {
+  const [selComuna, setSelComuna] = useState(0);
+  const [selCai, setSelCai] = useState(0);
   const [routeCounter, setRouteCounter] = useState(1);
   const [routes, setRoutes] = useState([1]);
 
@@ -14,15 +20,10 @@ function Sidebar({ active }) {
   // Filter section content
   const filterContent = (
     <>
-      <div className="form-group">
-        <label htmlFor="comunas">Comunas</label>
-        <input
-          type="text"
-          id="comunas"
-          className="form-control"
-          placeholder="Laureles-Estadio"
-        />
-      </div>
+      <GeoSelect features={comunas}
+                 selIndex={selComuna}
+                 setSelIndex={setSelComuna}
+                 name="Comuna"/>
       <div className="form-group">
         <label htmlFor="crimen">Crimen</label>
         <select id="crimen" className="form-control">
@@ -31,14 +32,10 @@ function Sidebar({ active }) {
           <option value="homicidio">HOMICIDIO</option>
         </select>
       </div>
-      <div className="form-group">
-        <label htmlFor="cai">CAI</label>
-        <select id="cai" className="form-control">
-          <option value="cai1">ESTACION CIRA 64</option>
-          <option value="cai2">ESTACION CENTRAL</option>
-          <option value="cai3">ESTACION SUR</option>
-        </select>
-      </div>
+      <GeoSelect features={stations}
+                 selIndex={selCai}
+                 setSelIndex={setSelCai}
+                 name="Cai"/>
       <div className="form-group">
         <label htmlFor="rutas">Rutas Activas</label>
         <div style={{ display: "flex", gap: "10px" }}>
