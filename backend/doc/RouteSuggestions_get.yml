@@ -24,6 +24,13 @@ parameters:
   - name: exclude_station
     in: query
     description: Si este parámetro está presente, las rutas no pasarán por el CAI.
+  - name: threshold
+    in: query
+    type: float
+    minimum: 0.0
+    maximum: 1.0
+    default: 0.0
+    description: Probabilidad mínima que tiene que tener un punto para ser considerado.
 responses:
   "200":
     description: Coordenadas del cai, hotspots y puntos de las rutas.

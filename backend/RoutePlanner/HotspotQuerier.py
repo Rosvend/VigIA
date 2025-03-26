@@ -61,9 +61,10 @@ def stub_assign_probabilities(grid: gpd.GeoSeries) -> list:
 def grid_intersection(op_area: Polygon) -> gpd.GeoSeries:
     return grid[grid.geometry.intersects(op_area)].geometry
 
-def stub_random_hotspots(op_area: Polygon) -> list:
+def stub_random_hotspots(op_area: Polygon, p_threshold: float = 0.0) -> list:
     hotspots = []
     areas = stub_assign_probabilities(grid_intersection(op_area))
     for subarea in areas:
-        hotspots.extend(subarea.hotspots())
+        if subarea.probability >= p_threshold:
+            hotspots.extend(subarea.hotspots())
     return hotspots

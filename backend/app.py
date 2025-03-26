@@ -35,6 +35,9 @@ class RouteSuggestions(Resource):
         self.parser.add_argument('exclude_station',
                                  type=bool,
                                  location='args')
+        self.parser.add_argument('threshold',
+                                 type=float,
+                                 location='args')
     
     @swag_from("doc/RouteSuggestions_get.yml")
     def get(self):
@@ -45,7 +48,9 @@ class RouteSuggestions(Resource):
             args['n'] if args['n'] is not None else 1,
             args['profile'] if args['profile'] is not None
                 else DEFAULT_ORS_PROFILE,
-            args['exclude_station'] is None
+            args['exclude_station'] is None,
+            args['threshold'] if args['threshold'] is not None
+                else 0.0
         )
 
 api.add_resource(RouteSuggestions, '/api/routes')
