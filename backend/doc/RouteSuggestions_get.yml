@@ -4,19 +4,23 @@ parameters:
   - name: cai
     in: query
     required: true
-    schema:
-      type: integer
+    type: integer
     description: Id del cai del cual partir.
     example: 34
   - name: n
     in: query
-    schema:
-      type: integer
-      minimum: 1
-      maximum: 10
+    type: integer
+    minimum: 1
+    maximum: 10
     description: Número de rutas a generar.
     default: 1
     example: 3
+  - name: profile
+    in: query
+    type: string
+    enum: [driving-car, driving-hgv, foot-walking, foot-hiking, cycling-regular, cycling-road,cycling-mountain, cycling-electric]
+    default: driving-car
+    description: Perfil (tipo de transporte) de ruta para ORS.
 responses:
   "200":
     description: Coordenadas del cai, hotspots y puntos de las rutas.

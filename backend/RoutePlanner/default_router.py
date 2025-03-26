@@ -10,6 +10,10 @@ AREA = 'Medellín, Colombia'
 POLICE_STATIONS_FILE = '../geodata/police.geojson'
 COMUNAS_FILE = '../geodata/comunas.geojson'
 DEFAULT_ORS_PROFILE = 'driving-car'
+ORS_PROFILES = ["driving-car", "driving-hgv", "foot-walking",
+                "foot-hiking", "cycling-regular",
+                "cycling-road","cycling-mountain",
+                "cycling-electric",]
 MAX_POINTS_PER_ROUTE = 80
 
 def center(points: list):
@@ -62,24 +66,24 @@ class PoliceRouter:
         self._stations = gpd.read_file(POLICE_STATIONS_FILE)
         self._route_client = openrouteservice.Client(key=ORS_KEY)
     
-    def query_route(self, station, points):
+    def query_route(self, station, points, profile):
         return openrouteservice.convert.decode_polyline(
             self._route_client.directions(
                 [pt2tup(point) for point in
                     [station, *filter_most_likely(points), station]
                 ],
-                profile=DEFAULT_ORS_PROFILE,
+                profile=profile,
                 optimize_waypoints=True
             )['routes'][0]['geometry']
         )['coordinates']
 
-    def compute_routes(self, cai_id: int, n: int):
+    def compute_routes(self, cai_id: int, n: int, profile = DEFAULT_ORS_PROFILE):
         station = self._stations.iloc[[cai_id]].geometry.union_all()
         area = get_operation_area(station)
         hotspots = stub_random_hotspots(area)
         hotspot_areas = classify_points(hotspots, n, station)
         return {
             'hotspots': [point.toDict() for point in hotspots],
-            'routes': [self.query_route(station, area)
+            'routes': [self.query_route(station, area, profile)
                 for area in hotspot_areas]
        }
