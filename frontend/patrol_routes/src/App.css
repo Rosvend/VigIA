@@ -121,7 +121,7 @@ h1 {
   cursor: pointer;
   z-index: 40;
   transition: all 0.3s ease;
-  box-shadow: 3px 3px 5px rgba(0, 0, 0, 0.1);
+  box-shadow: 3px 3px 3px rgba(0, 0, 0, 0.1);
 }
 
 .burger-menu.active {
