@@ -1,4 +1,6 @@
-__pycache__
-notebooks/cache
-notebooks/.ipynb_checkpoints
+__pycache__/
+notebooks/cache/
+notebooks/.ipynb_checkpoints/
 *secrets.*
+geodata/crime_heatmap.html
+geodata/mapa_puntos.html

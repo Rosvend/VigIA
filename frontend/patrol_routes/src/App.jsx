@@ -1,12 +1,13 @@
 import { useState } from "react";
 import Header from "./components/Header";
 import Sidebar from "./components/Sidebar";
-import MapContainer from "./components/MapContainer";
+import MapCont from "./components/MapContainer";
 import "./App.css";
 
 function App() {
   const [sidebarActive, setSidebarActive] = useState(false);
   const [activeRole, setActiveRole] = useState("policia");
+  const [routeInfo, setRouteInfo] = useState(null);
 
   const toggleSidebar = () => {
     setSidebarActive(!sidebarActive);
@@ -15,6 +16,7 @@ function App() {
   const handleRoleChange = (role) => {
     setActiveRole(role);
   };
+
 
   return (
     <div className="app">
@@ -29,10 +31,11 @@ function App() {
           <div className="burger-line"></div>
         </button>
 
-        <Sidebar active={sidebarActive} />
-        <MapContainer
-          marginLeft={sidebarActive ? "300px" : "0"}
+        <Sidebar setRouteInfo={setRouteInfo} active={sidebarActive} />
+        <MapCont
+          marginLeft={sidebarActive ? "300px" : "30px"}
           activeRole={activeRole}
+          routeInfo={routeInfo}
         />
       </div>
     </div>

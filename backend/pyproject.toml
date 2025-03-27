@@ -7,13 +7,14 @@ authors = [
 ]
 license = {text = "MIT"}
 readme = "README.md"
-requires-python = ">=3.12"
+requires-python = ">=3.12,<4.0"
 dependencies = [
     "flask (>=3.1.0,<4.0.0)",
     "flask-restful (>=0.3.10,<0.4.0)",
     "flasgger (>=0.9.7.1,<0.10.0.0)",
     "geopandas (>=1.0.1,<2.0.0)",
-    "openrouteservice (>=2.3.3,<3.0.0)"
+    "openrouteservice (>=2.3.3,<3.0.0)",
+    "flask-cors (>=5.0.1,<6.0.0)"
 ]
 
 

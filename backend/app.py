@@ -1,5 +1,6 @@
 from flask import Flask, request
-from RoutePlanner.default_router import PoliceRouter
+from flask_cors import CORS
+from RoutePlanner.default_router import PoliceRouter, ORS_PROFILES, DEFAULT_ORS_PROFILE
 from markupsafe import escape
 from flask_restful import Resource, Api
 from flask_restful.reqparse import RequestParser
@@ -8,6 +9,7 @@ from flasgger import Swagger, swag_from
 __version__ = "0.0.2"
 
 app = Flask(__name__)
+CORS(app)
 api = Api(app)
 app.config['SWAGGER'] = {
     'title': 'Patrol Routes API',
@@ -28,14 +30,29 @@ class RouteSuggestions(Resource):
         self.parser.add_argument('n',
                                  type=int,
                                  location='args')
-
+        self.parser.add_argument('profile',
+                                 type=str,
+                                 choices=ORS_PROFILES,
+                                 location='args')
+        self.parser.add_argument('exclude_station',
+                                 type=bool,
+                                 location='args')
+        self.parser.add_argument('threshold',
+                                 type=float,
+                                 location='args')
     
     @swag_from("doc/RouteSuggestions_get.yml")
     def get(self):
         args = self.parser.parse_args()
         # Todo: use real values here
         return self.route_computer.compute_routes(
-            args['cai'], args['n'] if args['n'] is not None else 1
+            args['cai'],
+            args['n'] if args['n'] is not None else 1,
+            args['profile'] if args['profile'] is not None
+                else DEFAULT_ORS_PROFILE,
+            args['exclude_station'] is None,
+            args['threshold'] if args['threshold'] is not None
+                else 0.0
         )
 
 api.add_resource(RouteSuggestions, '/api/routes')

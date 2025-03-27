@@ -10,7 +10,11 @@ AREA = 'Medellín, Colombia'
 POLICE_STATIONS_FILE = '../geodata/police.geojson'
 COMUNAS_FILE = '../geodata/comunas.geojson'
 DEFAULT_ORS_PROFILE = 'driving-car'
-MAX_POINTS_PER_ROUTE = 80
+ORS_PROFILES = ["driving-car", "driving-hgv", "foot-walking",
+                "foot-hiking", "cycling-regular",
+                "cycling-road","cycling-mountain",
+                "cycling-electric",]
+MAX_POINTS_PER_ROUTE = 50
 
 def center(points: list):
     return(Point(
@@ -30,9 +34,13 @@ def classify_points(hotspots: list, n: int, start = None):
     if start is None:
         start = center([hotspot.pt for hotspot in hotspots])
 
+    min_angle = min(angle(start, point.pt) for point in hotspots)
+    max_angle = max(angle(start, point.pt) for point in hotspots)
+    range_angles = max_angle - min_angle
+
     return [[
         point for point in hotspots
-            if (angle(start, point.pt) // (2*math.pi/n) == i)
+            if ((angle(start, point.pt) - min_angle) // (range_angles/n) == i)
         ] for i in range(n)]
 
 # Stub?
@@ -45,14 +53,16 @@ def pt2tup(point):
         point = point.pt
     return (point.x, point.y)
 
-def filter_most_likely(points: list) -> list:
+def filter_most_likely(points: list, include_station: bool) -> list:
     """Filter the the incoming list of points to make sure it has less
     points than the maximum permitted by ORS."""
+
+    n_points = MAX_POINTS_PER_ROUTE - (2 * int(include_station))
 
     return sorted(points,
         key=(lambda pt: pt.probability),
         reverse=True
-        )[:(MAX_POINTS_PER_ROUTE - 2)]
+        )[:n_points]
 
 class PoliceRouter:
     _stations: GeoDataFrame
@@ -62,24 +72,33 @@ class PoliceRouter:
         self._stations = gpd.read_file(POLICE_STATIONS_FILE)
         self._route_client = openrouteservice.Client(key=ORS_KEY)
     
-    def query_route(self, station, points):
+    def query_route(self, station, points, profile, include_station):
         return openrouteservice.convert.decode_polyline(
             self._route_client.directions(
                 [pt2tup(point) for point in
-                    [station, *filter_most_likely(points), station]
+                    ([station, *filter_most_likely(points, True), station]
+                        if include_station
+                        else filter_most_likely(points, False))
                 ],
-                profile=DEFAULT_ORS_PROFILE,
+                profile=profile,
+                radiuses=-1,
                 optimize_waypoints=True
             )['routes'][0]['geometry']
         )['coordinates']
 
-    def compute_routes(self, cai_id: int, n: int):
+    def compute_routes(self,
+                      cai_id: int,
+                      n: int,
+                      profile = DEFAULT_ORS_PROFILE,
+                      include_station: bool = True,
+                      threshold: float = 0.0):
+        
         station = self._stations.iloc[[cai_id]].geometry.union_all()
         area = get_operation_area(station)
-        hotspots = stub_random_hotspots(area)
+        hotspots = stub_random_hotspots(area, threshold)
         hotspot_areas = classify_points(hotspots, n, station)
         return {
             'hotspots': [point.toDict() for point in hotspots],
-            'routes': [self.query_route(station, area)
+            'routes': [self.query_route(station, area, profile, include_station)
                 for area in hotspot_areas]
        }
