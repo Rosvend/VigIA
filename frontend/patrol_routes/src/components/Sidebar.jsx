@@ -27,9 +27,6 @@ function Sidebar({ active, setRouteInfo }) {
     }
   }
 
-  useEffect(() => { fetchRouteInfo(selCai, routeCounter) }
-    , [selCai, routeCounter]);
-
   const addRoute = () => {
     const newRouteNumber = routeCounter + 1;
     setRouteCounter(newRouteNumber);
@@ -70,6 +67,9 @@ function Sidebar({ active, setRouteInfo }) {
           </button>
         </div>
       </div>
+      <button className="btn" onClick={() => fetchRouteInfo(selCai, routeCounter)}>
+        Generar rutas
+      </button>
     </>
   );
 
