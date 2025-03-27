@@ -1,15 +1,34 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import SidebarSection from "./SidebarSection";
 import GeoSelect from "./GeoSelect";
+import { API_URL } from "../api"
 
 import { features as comunas } from "../../../../geodata/comunas.json"
 import { features as stations } from "../../../../geodata/police.json"
 
-function Sidebar({ active }) {
+
+function Sidebar({ active, setRouteInfo }) {
   const [selComuna, setSelComuna] = useState(0);
   const [selCai, setSelCai] = useState(0);
   const [routeCounter, setRouteCounter] = useState(1);
   const [routes, setRoutes] = useState([1]);
+
+  const fetchRouteInfo = async (cai, n_routes) => {
+    const params = new URLSearchParams();
+    params.append("cai", cai);
+    params.append("n", n_routes);
+
+    try {
+      const response = await fetch(`${API_URL}/routes?${params}`)
+      if (response.ok)
+        setRouteInfo(await response.json())
+    } catch (e) {
+      console.log(e)
+    }
+  }
+
+  useEffect(() => { fetchRouteInfo(selCai, routeCounter) }
+    , [selCai, routeCounter]);
 
   const addRoute = () => {
     const newRouteNumber = routeCounter + 1;
