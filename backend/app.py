@@ -1,4 +1,5 @@
 from flask import Flask, request
+from flask_cors import CORS
 from RoutePlanner.default_router import PoliceRouter, ORS_PROFILES, DEFAULT_ORS_PROFILE
 from markupsafe import escape
 from flask_restful import Resource, Api
@@ -8,6 +9,7 @@ from flasgger import Swagger, swag_from
 __version__ = "0.0.2"
 
 app = Flask(__name__)
+CORS(app)
 api = Api(app)
 app.config['SWAGGER'] = {
     'title': 'Patrol Routes API',
