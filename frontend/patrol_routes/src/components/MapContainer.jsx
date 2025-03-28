@@ -23,14 +23,27 @@ const colors = ["blue", "red", "green", "yellow", "orange", "magenta"];
 function MapCont({ marginLeft, routeInfo }) {
   console.log(routeInfo);
   return (
-    <div id="map-container" style={{ marginLeft }}>
-      <div id="map">
-        {/* Replace with actual map implementation */}
-        <img
-          src="/assets/MAP_DEMOSTRATION.png"
-          alt="Mapa de rutas de patrulla"
+    <div style={{ marginLeft }}>
+      <MapContainer className="map-container" center={initial_center} zoom={13}>
+        <TileLayer
+          attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+          url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
         />
-      </div>
+        {routeInfo &&
+          routeInfo.hotspots.map(({ coordinates, probability }, i) => (
+            <Marker key={"m" + i} position={rev(coordinates)}>
+              <Popup>{probability}</Popup>
+            </Marker>
+          ))}
+        {routeInfo &&
+          routeInfo.routes.map((route, i) => (
+            <Polyline
+              pathOptions={{ color: colors[i % colors.length] }}
+              key={"r" + i}
+              positions={route.map((pos) => rev(pos))}
+            />
+          ))}
+      </MapContainer>
     </div>
   );
 }
