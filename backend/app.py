@@ -102,7 +102,10 @@ class Route(Resource):
             date = datetime.datetime.strptime(date, '%Y-%m-%d')
         except ValueError:
             return {"error": "Value %s is not of the YYYY-MM-DD date format." % date}, 400
-        return self._get_route(date, cai_id, assigned_to).geometry
+        route = self._get_route(date, cai_id, assigned_to)
+        if route == None:
+            return {"error": "Route not found"}, 404
+        return route.geometry
 
     @flask_login.login_required
     @swag_from("doc/Route_put.yml")
