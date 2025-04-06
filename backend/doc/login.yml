@@ -1,0 +1,24 @@
+Iniciar sesión obteniendo un token de autorización.
+---
+parameters:
+  - name: username
+    in: formData
+    required: true
+    type: string
+    description: Cédula del supervisor.
+  - name: password
+    in: formData
+    type: string
+    description: Contraseña del supervisor.
+responses:
+  "200":
+    description: Token JWT a usar para autenticación.
+    schema:
+      type: object
+      properties:
+        access_token:
+          type: string
+          description: El token JWT a usar para la autenticación.
+        token_type:
+          type: string
+          description: Tipo de token retornado.

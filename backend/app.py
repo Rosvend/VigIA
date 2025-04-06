@@ -11,6 +11,7 @@ from database.models import Manager, Route as DBRoute
 from werkzeug.security import check_password_hash as check_pw
 import datetime
 import jwt
+import yaml
 
 TOKEN_EXPIRE_MINUTES = 30
 ALGORITHM = "HS256"
@@ -26,11 +27,11 @@ __version__ = "0.0.2"
 app = Flask(__name__)
 CORS(app)
 api = Api(app)
-app.config['SWAGGER'] = {
-    'title': 'Patrol Routes API',
-    'uiversion': 3,
-}
-swagger = Swagger(app)
+
+with open('doc/global.yml') as stream:
+    doc_template = yaml.safe_load(stream)
+
+swagger = Swagger(app, template=doc_template)
 
 app.secret_key = os.getenv('APP_SECRET_KEY')
 if len(app.secret_key) == 0:
@@ -95,6 +96,7 @@ class Route(Resource):
                & (DBRoute.assigned_to == assigned_to))\
             .first()
     
+    @swag_from("doc/Route_get.yml")
     def get(self, date, cai_id, assigned_to):
         try:
             date = datetime.datetime.strptime(date, '%Y-%m-%d')
@@ -103,6 +105,7 @@ class Route(Resource):
         return self._get_route(date, cai_id, assigned_to).geometry
 
     @flask_login.login_required
+    @swag_from("doc/Route_put.yml")
     def put(self, date, cai_id, assigned_to):
         if cai_id != flask_login.current_user.cai_id:
             return {"error": "Current manager is unauthorized to assign routes for %d." % cai_id}
@@ -124,7 +127,7 @@ class Route(Resource):
                         .execute())
         return {"info": "route stored successfully."}
 
-
+@swag_from("doc/login.yml")
 @app.post('/api/admin/login')
 def admin_login():
     # Use 'username' here for Oauth2 compliance
