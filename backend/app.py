@@ -7,7 +7,7 @@ from flask_restful import Resource, Api
 from flask_restful.reqparse import RequestParser
 from flasgger import Swagger, swag_from
 import os
-from database.models import Manager
+from database.models import Manager, Route as DBRoute
 from werkzeug.security import check_password_hash as check_pw
 import datetime
 import jwt
@@ -86,20 +86,43 @@ class RouteSuggestions(Resource):
         )
 
 class Route(Resource):
+    @staticmethod
+    def _get_route(date, cai_id, assigned_to):
+        return DBRoute\
+            .select()\
+            .where((DBRoute.date == date)
+               & (DBRoute.cai_id == cai_id)
+               & (DBRoute.assigned_to == assigned_to))\
+            .first()
+    
     def get(self, date, cai_id, assigned_to):
         try:
             date = datetime.datetime.strptime(date, '%Y-%m-%d')
         except ValueError:
-            abort(400)
-        return {
-            'date': date.strftime('%Y/%m/%d'),
-            'cai_id': cai_id,
-            'assigned_to': assigned_to,
-        }
+            return {"error": "Value %s is not of the YYYY-MM-DD date format." % date}, 400
+        return self._get_route(date, cai_id, assigned_to).geometry
 
     @flask_login.login_required
     def put(self, date, cai_id, assigned_to):
-        return flask_login.current_user.cedula
+        if cai_id != flask_login.current_user.cai_id:
+            return {"error": "Current manager is unauthorized to assign routes for %d." % cai_id}
+        route = request.get_json()
+        route_id = (DBRoute
+                        .insert(
+                            geometry=route,
+                            date=date,
+                            cai_id=cai_id,
+                            assigned_to=assigned_to,
+                            assigned_by=flask_login.current_user
+                        )
+                        .on_conflict(
+                            conflict_target=[DBRoute.date,
+                                             DBRoute.cai_id,
+                                             DBRoute.assigned_to],
+                            preserve=[DBRoute.geometry],
+                        )
+                        .execute())
+        return {"info": "route stored successfully."}
 
 
 @app.post('/api/admin/login')
