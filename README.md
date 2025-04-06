@@ -10,7 +10,6 @@ Based on these predictions, the system generates optimized patrol routes from po
 - **Software Engineers:**  
   - Fernando Gonzales (@fergonzr)  
   - Argenis Omaña (@4rg3n15)  
-  - Valentina Sánchez (@valentinaSV1028)  
 
 ## Features
 
