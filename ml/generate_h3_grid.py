@@ -7,7 +7,7 @@ The hexagons are stored in a GeoDataFrame and can be used for
 further analysis or visualization.
 
 REQUIREMENTS:
-h3>=4.0.0
+h3>=4.0.0 (Highly important, as the library has changed significantly since 3x version)
 geopandas
 numpy
 matplotlib

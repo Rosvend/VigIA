@@ -1,7 +1,34 @@
 """
-Preprocesamiento de datos
+Preprocessing script for crime prediction dataset
+This script processes the crime data, police station locations, and grid cells to create a dataset suitable for machine learning models.
+It includes the following steps:
+1. Count crimes in each grid cell
+2. Calculate distance to the nearest police station for each grid cell
+3. Add time-based features (hour of the day, day of the week)
+4. Add crime type features (counts of each crime type in each cell)
+5. Add demographic features (from barrios that intersect with each cell)
+6. Create a binary target variable indicating whether the crime count exceeds a certain threshold
+7. Save the final dataset to a GeoPackage file
+
+
+REQUIRED LIBRARIES:
+- pandas
+- geopandas
+- shapely
+- sklearn
+- numpy
+- matplotlib
+- seaborn
 """
 
+import pandas as pd
+import geopandas as gpd
+from shapely.geometry import Point
+from sklearn.model_selection import train_test_split
+import os
+import numpy as np
+import matplotlib.pyplot as plt
+import seaborn as sns
 
 # 1. Contar crimenes en cada celda
 def count_crimes_per_cell(grid_gdf, crime_gdf):
@@ -91,13 +118,9 @@ def add_crime_type_features(grid_gdf, crime_gdf):
     result = grid_gdf.merge(grid_df.drop('cell_id', axis=1), left_index=True, right_index=True)
     return result
 
-##hecho por claude
-# 5. Add demographic features (if available)
+# 5. Add demographic features
 def add_demographic_features(grid_gdf, barrios_gdf):
     """Add demographic features from barrios that intersect with each cell"""
-    # This is a placeholder - you would need demographic data for this
-    # For now, just add which barrios intersect with each cell
-
     # Get barrios that intersect with each cell
     grid_with_barrios = grid_gdf.copy()
     grid_with_barrios['barrios'] = None
