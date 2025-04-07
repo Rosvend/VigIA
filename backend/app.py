@@ -50,7 +50,7 @@ def request_loader(request):
         return None
 
 class RouteSuggestions(Resource):
-    route_computer = PoliceRouter()
+    route_computer = PoliceRouter(os.getenv('ORS_KEY'))
     parser: RequestParser
     def __init__(self):
         self.parser = RequestParser()

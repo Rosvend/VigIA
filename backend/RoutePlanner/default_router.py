@@ -2,9 +2,10 @@ import math
 import geopandas as gpd
 from geopandas import GeoDataFrame
 from shapely import Polygon, Point
-from .ors_secrets import ORS_KEY
 from .HotspotQuerier import stub_random_hotspots, Hotspot
 import openrouteservice
+from dotenv import load_dotenv
+import os
 
 AREA = 'Medellín, Colombia'
 POLICE_STATIONS_FILE = '../geodata/police.geojson'
@@ -65,12 +66,14 @@ def filter_most_likely(points: list, include_station: bool) -> list:
         )[:n_points]
 
 class PoliceRouter:
+    _ors_key: str
     _stations: GeoDataFrame
     _route_client: openrouteservice.Client
 
-    def __init__(self):
+    def __init__(self, ors_key):
         self._stations = gpd.read_file(POLICE_STATIONS_FILE)
-        self._route_client = openrouteservice.Client(key=ORS_KEY)
+        self._route_client = openrouteservice.Client(key=ors_key)
+        self._ors_key = ors_key
     
     def query_route(self, station, points, profile, include_station):
         return openrouteservice.convert.decode_polyline(
