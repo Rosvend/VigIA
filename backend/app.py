@@ -40,11 +40,13 @@ class RouteSuggestions(Resource):
         self.parser.add_argument('threshold',
                                  type=float,
                                  location='args')
+        self.parser.add_argument('hotspots',
+                                 type=bool,
+                                 location='args')
     
     @swag_from("doc/RouteSuggestions_get.yml")
     def get(self):
         args = self.parser.parse_args()
-        # Todo: use real values here
         return self.route_computer.compute_routes(
             args['cai'],
             args['n'] if args['n'] is not None else 1,
@@ -52,7 +54,8 @@ class RouteSuggestions(Resource):
                 else DEFAULT_ORS_PROFILE,
             args['exclude_station'] is None,
             args['threshold'] if args['threshold'] is not None
-                else 0.0
+                else 0.0,
+            args['hotspots'] is not None
         )
 
 api.add_resource(RouteSuggestions, '/api/routes')

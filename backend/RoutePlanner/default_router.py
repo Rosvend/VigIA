@@ -3,7 +3,7 @@ import geopandas as gpd
 from geopandas import GeoDataFrame
 from shapely import Polygon, Point
 from .ors_secrets import ORS_KEY
-from .HotspotQuerier import stub_random_hotspots, Hotspot
+from .HotspotQuerier import stub_random_hotspots_and_areas, Hotspot
 import openrouteservice
 
 AREA = 'Medellín, Colombia'
@@ -91,14 +91,18 @@ class PoliceRouter:
                       n: int,
                       profile = DEFAULT_ORS_PROFILE,
                       include_station: bool = True,
-                      threshold: float = 0.0):
+                      threshold: float = 0.0,
+                      include_hotspots: bool = False):
         
         station = self._stations.iloc[[cai_id]].geometry.union_all()
         area = get_operation_area(station)
-        hotspots = stub_random_hotspots(area, threshold)
+        hotspots, areas = stub_random_hotspots_and_areas(area, threshold)
         hotspot_areas = classify_points(hotspots, n, station)
-        return {
-            'hotspots': [point.toDict() for point in hotspots],
+        result = {
+            'hotareas': areas.to_geo_dict(),
             'routes': [self.query_route(station, area, profile, include_station)
                 for area in hotspot_areas]
-       }
+        }
+        if include_hotspots:
+            result['hotspots'] = [hotspot.toDict() for hotspot in hotspots]
+        return result
