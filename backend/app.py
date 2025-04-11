@@ -149,7 +149,8 @@ def admin_login():
                            algorithm=ALGORITHM)
         return {
             'access_token': token,
-            'token_type': "bearer"
+            'token_type': "bearer",
+            'user': manager.toDict()
         }
     else:
         return {"error": "Wrong credentials"}, 401
