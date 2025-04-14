@@ -2,6 +2,7 @@ import { useState } from "react";
 import Header from "./components/Header";
 import Sidebar from "./components/Sidebar";
 import MapCont from "./components/MapContainer";
+import AuthProvider from "./Auth";
 import "./App.css";
 
 function App() {
@@ -19,26 +20,28 @@ function App() {
 
 
   return (
-    <div className="app">
-      <Header activeRole={activeRole} onRoleChange={handleRoleChange} />
-      <div className="container">
-        <button
-          className={`burger-menu ${sidebarActive ? "active" : ""}`}
-          onClick={toggleSidebar}
-        >
-          <div className="burger-line"></div>
-          <div className="burger-line"></div>
-          <div className="burger-line"></div>
-        </button>
+    <AuthProvider>
+      <div className="app">
+        <Header activeRole={activeRole} onRoleChange={handleRoleChange} />
+        <div className="container">
+          <button
+            className={`burger-menu ${sidebarActive ? "active" : ""}`}
+            onClick={toggleSidebar}
+          >
+            <div className="burger-line"></div>
+            <div className="burger-line"></div>
+            <div className="burger-line"></div>
+          </button>
 
-        <Sidebar setRouteInfo={setRouteInfo} active={sidebarActive} />
-        <MapCont
-          marginLeft={sidebarActive ? "300px" : "30px"}
-          activeRole={activeRole}
-          routeInfo={routeInfo}
-        />
+          <Sidebar setRouteInfo={setRouteInfo} active={sidebarActive} />
+          <MapCont
+            marginLeft={sidebarActive ? "300px" : "30px"}
+            activeRole={activeRole}
+            routeInfo={routeInfo}
+          />
+        </div>
       </div>
-    </div>
+    </AuthProvider>
   );
 }
 
