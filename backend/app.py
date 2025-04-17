@@ -1,6 +1,7 @@
 from flask import Flask, request
 from flask_cors import CORS
 from RoutePlanner.default_router import PoliceRouter, ORS_PROFILES, DEFAULT_ORS_PROFILE
+from RoutePlanner.prediction.simple_wrapper import SimpleModelWrapper
 from markupsafe import escape
 from flask_restful import Resource, Api
 from flask_restful.reqparse import RequestParser
@@ -19,7 +20,10 @@ swagger = Swagger(app)
 
 
 class RouteSuggestions(Resource):
-    route_computer = PoliceRouter()
+    route_computer = PoliceRouter(SimpleModelWrapper(
+        model_data_path = "crime_model_simple.pkl",
+        grid_features_path = "crime_dataset_quick_sample.csv"
+    ))
     parser: RequestParser
     def __init__(self):
         self.parser = RequestParser()

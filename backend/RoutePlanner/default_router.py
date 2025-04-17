@@ -3,7 +3,8 @@ import geopandas as gpd
 from geopandas import GeoDataFrame
 from shapely import Polygon, Point
 from .ors_secrets import ORS_KEY
-from .HotspotQuerier import stub_random_hotspots_and_areas, Hotspot
+from .HotspotQuerier import gen_hotspots_and_areas, Hotspot
+from .prediction.wrapper_interface import ModelWrapperInterface
 import openrouteservice
 
 AREA = 'Medellín, Colombia'
@@ -67,8 +68,10 @@ def filter_most_likely(points: list, include_station: bool) -> list:
 class PoliceRouter:
     _stations: GeoDataFrame
     _route_client: openrouteservice.Client
+    _model_wrapper: ModelWrapperInterface
 
-    def __init__(self):
+    def __init__(self, model_wrapper):
+        self._model_wrapper = model_wrapper
         self._stations = gpd.read_file(POLICE_STATIONS_FILE)
         self._route_client = openrouteservice.Client(key=ORS_KEY)
     
@@ -96,7 +99,7 @@ class PoliceRouter:
         
         station = self._stations.iloc[[cai_id]].geometry.union_all()
         area = get_operation_area(station)
-        hotspots, areas = stub_random_hotspots_and_areas(area, threshold)
+        hotspots, areas = gen_hotspots_and_areas(self._model_wrapper, area, threshold)
         hotspot_areas = classify_points(hotspots, n, station)
         result = {
             'hotareas': areas.to_geo_dict(),

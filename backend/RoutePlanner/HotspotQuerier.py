@@ -3,12 +3,13 @@ import numpy as np
 from itertools import chain
 import geopandas as gpd
 from random import uniform
+from .prediction.wrapper_interface import ModelWrapperInterface
 
 # TODO: find the ideal value for this variable
-SCALE_FACTOR = 0.002
+SCALE_FACTOR = 0.0004
 MAX_DISTANCE = 0.05
 
-grid = gpd.GeoDataFrame.from_file("../geodata/grid.geojson").to_crs(crs="EPSG:4326")
+grid = gpd.GeoDataFrame.from_file("../geodata/hex_grid.gpkg").to_crs(crs="EPSG:4326")
 
 class Hotarea:
     area: Polygon
@@ -58,10 +59,10 @@ def stub_assign_probabilities(grid: gpd.GeoDataFrame) -> list:
 def grid_intersection(op_area: Polygon) -> gpd.GeoSeries:
     return grid[grid.geometry.intersects(op_area)].copy()
 
-def stub_random_hotspots_and_areas(op_area: Polygon, p_threshold: float = 0.0) -> list:
+def gen_hotspots_and_areas(model_wrapper: ModelWrapperInterface, op_area: Polygon, p_threshold: float = 0.0) -> list:
     hotspots = []
     areas = grid_intersection(op_area)
-    stub_assign_probabilities(areas)
+    areas = model_wrapper.predict(areas)
     for subarea in areas.itertuples():
         if subarea.probability >= p_threshold:
             hotspots.extend(
