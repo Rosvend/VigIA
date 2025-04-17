@@ -9,6 +9,7 @@ from numpy import ndarray
 import pandas as pd
 from sklearn.ensemble import RandomForestClassifier
 from sklearn.preprocessing import StandardScaler
+from datetime import datetime, timedelta
 
 sys.path.append("../ml")
 
@@ -25,11 +26,9 @@ class SimpleModelWrapper(ModelWrapperInterface):
     """
     A class to wrap a Simple/Quick model and obtain predictions from it.
     """
-
-    _model: RandomForestClassifier
-    _scaler: StandardScaler
-    _numerical_columns: list
-    _required_features: list
+    UPDATE_CACHE_TIMEDIFF = timedelta(hours=24)
+    _cell_predictions_cache: DataFrame
+    _last_updated: datetime
 
     def __init__(self, model_data_path: str, grid_features_path: str):
         
@@ -38,16 +37,20 @@ class SimpleModelWrapper(ModelWrapperInterface):
         self._model_data = joblib.load(model_data_path)
         logger.info(f"Model loaded successfully - trained on {self._model_data.get('training_date', 'unknown date')}")
 
-        self._model = self._model_data['model']
-        self._scaler = self._model_data['scaler']
-        self._numerical_columns = self._model_data['numerical_columns']
-        self._required_features = self._model_data.get('features', [])
-
         # Load the features dataframe into the object
         self._grid_features = pd.read_csv(grid_features_path)
 
+        # Generate the predictions and store them on cache
+        self.update_prediction_cache()
+
+    def update_prediction_cache(self):
+        self._cell_predictions_cache = generate_quick_predictions(self._model_data)
+        self._last_updated = datetime.now()
+
     def predict(self, grid_cells: DataFrame) -> DataFrame:
-        df = generate_quick_predictions(self._model_data, grid_cells)
+        if (datetime.now() - self._last_updated) >= self.UPDATE_CACHE_TIMEDIFF:
+            self.update_prediction_cache()
+        df = pd.merge(grid_cells, self._cell_predictions_cache[['h3_index', 'risk']], on='h3_index')
         df['probability'] = df['risk']
         df = df.drop('risk', axis=1)
         return df
