@@ -6,7 +6,7 @@ from random import uniform
 from .prediction.wrapper_interface import ModelWrapperInterface
 
 # TODO: find the ideal value for this variable
-SCALE_FACTOR = 0.0004
+SCALE_FACTOR = 0.0002
 MAX_DISTANCE = 0.05
 
 grid = gpd.GeoDataFrame.from_file("../geodata/hex_grid.gpkg").to_crs(crs="EPSG:4326")
@@ -38,15 +38,22 @@ class Hotarea:
 
 class Hotspot:
     pt: Point
+    requested: bool
     probability: float
     
-    def __init__(self, probability, *args):
+    def __init__(self, probability: float | None, *args):
         self.pt = Point(*args)
-        self.probability = probability
+        if probability is None:
+            self.probability = 1
+            self.requested = True
+        else:
+            self.probability = probability
+            self.requested = False
 
     def toDict(self):
         return {
             'coordinates': [self.pt.x, self.pt.y],
+            'requested' : self.requested,
             'probability': self.probability
         }
 

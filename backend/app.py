@@ -6,6 +6,7 @@ from markupsafe import escape
 from flask_restful import Resource, Api
 from flask_restful.reqparse import RequestParser
 from flasgger import Swagger, swag_from
+import json
 
 __version__ = "0.0.2"
 
@@ -47,10 +48,16 @@ class RouteSuggestions(Resource):
         self.parser.add_argument('hotspots',
                                  type=bool,
                                  location='args')
+        self.parser.add_argument('requested_spots',
+                                 type=str,
+                                 location='args')
     
     @swag_from("doc/RouteSuggestions_get.yml")
     def get(self):
         args = self.parser.parse_args()
+        requested_spots = json.loads(args['requested_spots']) \
+            if args['requested_spots'] is not None \
+            else []
         return self.route_computer.compute_routes(
             args['cai'],
             args['n'] if args['n'] is not None else 1,
@@ -59,7 +66,8 @@ class RouteSuggestions(Resource):
             args['exclude_station'] is None,
             args['threshold'] if args['threshold'] is not None
                 else 0.0,
-            args['hotspots'] is not None
+            args['hotspots'] is not None,
+            requested_spots
         )
 
 api.add_resource(RouteSuggestions, '/api/routes')

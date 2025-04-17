@@ -95,11 +95,14 @@ class PoliceRouter:
                       profile = DEFAULT_ORS_PROFILE,
                       include_station: bool = True,
                       threshold: float = 0.0,
-                      include_hotspots: bool = False):
+                      include_hotspots: bool = False,
+                      requested_spots: list[list] = []):
         
         station = self._stations.iloc[[cai_id]].geometry.union_all()
         area = get_operation_area(station)
         hotspots, areas = gen_hotspots_and_areas(self._model_wrapper, area, threshold)
+        hotspots += [Hotspot(None, *pt) for pt in requested_spots]
+        # TODO: ensure the number of hotspots is non-zero
         hotspot_areas = classify_points(hotspots, n, station)
         result = {
             'hotareas': areas.to_geo_dict(),

@@ -17,6 +17,8 @@ function Sidebar({ active, setRouteInfo }) {
     const params = new URLSearchParams();
     params.append("cai", cai);
     params.append("n", n_routes);
+    // TODO: add the requested spots feature (already implemented in backend)
+    // params.append("requested_spots", JSON.stringify([[lat, lon]]));
 
     try {
       const response = await fetch(`${API_URL}/routes?${params}`)
