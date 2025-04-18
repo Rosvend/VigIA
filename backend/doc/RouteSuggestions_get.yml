@@ -31,6 +31,10 @@ parameters:
     maximum: 1.0
     default: 0.0
     description: Probabilidad mínima que tiene que tener un punto para ser considerado.
+  - name: requested_spots
+    in: query
+    type: list
+    description: Lista de puntos por los que se requiere que pase la ruta.
 responses:
   "200":
     description: Coordenadas del cai, hotspots y puntos de las rutas.
