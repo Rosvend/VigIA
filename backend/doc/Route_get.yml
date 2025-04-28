@@ -1,0 +1,25 @@
+Retornar la geometría de una determinada ruta asignada a una cuadrilla.
+---
+parameters:
+  - name: date
+    in: path
+    type: string
+    description: Fecha (en formato YYYY-MM-DD) para la que se asignó la ruta.
+    example: "2025-04-06"
+  - name: cai_id
+    in: path
+    type: integer
+    description: Id del cai para el que se aplica la ruta.
+    example: 12
+  - name: assigned_to
+    type: integer
+    in: path
+    description: Identificador de la cuadrilla a la cual se le asignó la ruta.
+    example: 3
+responses:
+  "200":
+    description: GeoJSON de la ruta.
+  "400":
+    description: Parámetros incorrectos.
+  "404":
+    description: Ruta no encontrada

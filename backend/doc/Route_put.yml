@@ -1,0 +1,27 @@
+Asignar (o actualizar) una ruta.
+---
+parameters:
+  - name: date
+    in: path
+    type: string
+    description: Fecha (en formato YYYY-MM-DD) para la que se asignó la ruta.
+    example: "2025-04-06"
+  - name: cai_id
+    in: path
+    type: integer
+    description: Id del cai para el que se aplica la ruta.
+    example: 12
+  - name: assigned_to
+    in: path
+    type: integer
+    description: Identificador de la cuadrilla a la cual se le asignó la ruta.
+    example: 3
+  - name: geometry
+    type: object
+    in: body
+    description: GeoJSON de la ruta a guardar.
+security:
+  - oAuth2ManagerPassword: []
+responses:
+  "200":
+    description: Ruta exitosamente asignada/actualizada

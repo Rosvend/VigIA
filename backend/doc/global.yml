@@ -1,0 +1,9 @@
+swagger: "2.0"
+info:
+  title: "Patrol Routes API"
+securityDefinitions:
+  oAuth2ManagerPassword:
+    type: oauth2
+    flow: password
+    tokenUrl: /api/admin/login
+

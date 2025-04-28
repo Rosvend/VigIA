@@ -1,7 +1,32 @@
+import { useState } from "react";
+import { useAuth } from "../Auth";
+import LoginModal from "./LoginModal";
+
 function Header({ activeRole, onRoleChange }) {
+  const { user, logIn, logOut } = useAuth();
+  const [showLoginModal, setShowLoginModal] = useState(false);
+
   const toggleRole = () => {
-    const newRole = activeRole === "policia" ? "supervisor" : "policia";
-    onRoleChange(newRole);
+    if (activeRole === "policia") {
+      if (user) {
+        onRoleChange("supervisor");
+      } else {
+        setShowLoginModal(true);
+      }
+    } else {
+      onRoleChange("policia");
+    }
+  };
+
+  const handleLogin = (username, password) => {
+    logIn(username, password).then(() => {
+      setShowLoginModal(false);
+      onRoleChange("supervisor");
+    });
+  };
+
+  const handleCloseModal = () => {
+    setShowLoginModal(false);
   };
 
   return (
@@ -11,11 +36,16 @@ function Header({ activeRole, onRoleChange }) {
         <div className="role-toggle" onClick={toggleRole}>
           <span className="role-label">Rol:</span>
           <span className="role-value">
-            {activeRole === "policia" ? "Policía" : "Supervisor"}
+            {activeRole === "policia"
+              ? "Policía"
+              : `Supervisor ${user ? `(${user.cedula})` : ""}`}
           </span>
           <span className="role-arrow">👮🏻‍♂️</span>
         </div>
       </div>
+      {showLoginModal && (
+        <LoginModal onLogin={handleLogin} onClose={handleCloseModal} />
+      )}
     </header>
   );
 }
