@@ -2,16 +2,19 @@ import { useState, useEffect } from "react";
 import SidebarSection from "./SidebarSection";
 import GeoSelect from "./GeoSelect";
 import { API_URL } from "../api";
+import { useAuth } from "../Auth";
 
 import { features as comunas } from "../../../../geodata/comunas.json";
 import { features as stations } from "../../../../geodata/police.json";
 
 function Sidebar({ active, setRouteInfo }) {
+  const { user } = useAuth();
   const [selComuna, setSelComuna] = useState(0);
   const [selCai, setSelCai] = useState(0);
   const [routeCounter, setRouteCounter] = useState(1);
   const [routes, setRoutes] = useState([1]);
   const [showDeleteConfirm, setShowDeleteConfirm] = useState(false);
+  const isSupervisor = user !== null;
 
   const fetchRouteInfo = async (cai, n_routes) => {
     const params = new URLSearchParams();
@@ -80,7 +83,7 @@ function Sidebar({ active, setRouteInfo }) {
               className="form-control form-control-inline"
               multiple
               size={Math.min(routes.length, 4)}
-              style={{ width: "calc(100% - 80px)" }}
+              style={{ width: isSupervisor ? "calc(100% - 80px)" : "100%" }}
             >
               {routes.map((route) => (
                 <option key={route} value={route}>
@@ -88,39 +91,28 @@ function Sidebar({ active, setRouteInfo }) {
                 </option>
               ))}
             </select>
-            <div
-              style={{ display: "flex", flexDirection: "column", gap: "5px" }}
-            >
-              <button className="btn" onClick={addRoute} title="Agregar Ruta">
-                +
-              </button>
-              <button
-                className="btn"
-                onClick={confirmDeleteRoute}
-                title="Eliminar Primera Ruta"
-                disabled={routes.length <= 1}
+            {isSupervisor && (
+              <div
+                style={{ display: "flex", flexDirection: "column", gap: "5px" }}
               >
-                -
-              </button>
-            </div>
+                <button className="btn" onClick={addRoute} title="Agregar Ruta">
+                  +
+                </button>
+                <button
+                  className="btn"
+                  onClick={confirmDeleteRoute}
+                  title="Eliminar Primera Ruta"
+                  disabled={routes.length <= 1}
+                >
+                  -
+                </button>
+              </div>
+            )}
           </div>
         </div>
       </div>
       {showDeleteConfirm && (
-        <div
-          className="delete-confirm"
-          style={{
-            position: "absolute",
-            top: "50%",
-            left: "50%",
-            transform: "translate(-50%, -50%)",
-            backgroundColor: "white",
-            padding: "20px",
-            borderRadius: "8px",
-            boxShadow: "0 0 10px rgba(0,0,0,0.1)",
-            zIndex: 100,
-          }}
-        >
+        <div className="delete-confirm">
           <p>¿Estás seguro de eliminar la ruta?</p>
           <div
             style={{
@@ -142,12 +134,14 @@ function Sidebar({ active, setRouteInfo }) {
           </div>
         </div>
       )}
-      <button
-        className="btn"
-        onClick={() => fetchRouteInfo(selCai, routeCounter)}
-      >
-        Generar rutas
-      </button>
+      {isSupervisor && (
+        <button
+          className="btn"
+          onClick={() => fetchRouteInfo(selCai, routeCounter)}
+        >
+          Generar rutas
+        </button>
+      )}
     </>
   );
 
