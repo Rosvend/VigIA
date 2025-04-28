@@ -30,15 +30,12 @@ class SimpleModelWrapper(ModelWrapperInterface):
     _cell_predictions_cache: DataFrame
     _last_updated: datetime
 
-    def __init__(self, model_data_path: str, grid_features_path: str):
+    def __init__(self, model_data_path: str):
         
         # Loading the model and related data
         logger.info(f"Loading model from {model_data_path}")
         self._model_data = joblib.load(model_data_path)
         logger.info(f"Model loaded successfully - trained on {self._model_data.get('training_date', 'unknown date')}")
-
-        # Load the features dataframe into the object
-        self._grid_features = pd.read_csv(grid_features_path)
 
         # Generate the predictions and store them on cache
         self.update_prediction_cache()

@@ -56,7 +56,6 @@ class RouteSuggestions(Resource):
     os.getenv('ORS_KEY'),
     SimpleModelWrapper(
         model_data_path = "crime_model_simple.pkl",
-        grid_features_path = "crime_dataset_quick_sample.csv"
     ))
     parser: RequestParser
     def __init__(self):
