@@ -1,5 +1,5 @@
-from . import default_router
 from . import HotspotQuerier as HQ
+from . import default_router
 from shapely import Polygon, Point, transform
 import unittest
 

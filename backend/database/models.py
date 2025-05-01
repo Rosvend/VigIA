@@ -2,7 +2,6 @@
 from playhouse.postgres_ext import *
 from playhouse.shortcuts import model_to_dict
 from flask_login import UserMixin
-from flask import current_app
 
 class BaseModel(Model):
     EXCLUDED_FIELDS = []

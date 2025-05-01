@@ -1,5 +1,5 @@
-from pandas import DataFrame, Series
 from numpy import ndarray
+from pandas import DataFrame, Series
 
 class ModelWrapperInterface:
     """

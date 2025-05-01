@@ -1,13 +1,11 @@
-import math
-import geopandas as gpd
+from .HotspotQuerier import gen_hotspots_and_areas, Hotspot
+from .ors_secrets import ORS_KEY
+from .prediction.wrapper_interface import ModelWrapperInterface
 from geopandas import GeoDataFrame
 from shapely import Polygon, Point
-from .ors_secrets import ORS_KEY
-from .HotspotQuerier import gen_hotspots_and_areas, Hotspot
-from .prediction.wrapper_interface import ModelWrapperInterface
+import geopandas as gpd
+import math
 import openrouteservice
-from dotenv import load_dotenv
-import os
 
 AREA = 'Medellín, Colombia'
 POLICE_STATIONS_FILE = '../geodata/police.geojson'

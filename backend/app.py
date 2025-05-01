@@ -1,20 +1,18 @@
-from flask import Flask, request, abort, current_app
-from flask_cors import CORS
-import flask_login
 from RoutePlanner.default_router import PoliceRouter, ORS_PROFILES, DEFAULT_ORS_PROFILE
 from RoutePlanner.prediction.simple_wrapper import SimpleModelWrapper
-from markupsafe import escape
+from database.models import Manager, Route as DBRoute
+from flasgger import Swagger, swag_from
+from flask import Flask, request, current_app
+from flask_cors import CORS
 from flask_restful import Resource, Api
 from flask_restful.reqparse import RequestParser
-from flasgger import Swagger, swag_from
-import json
-import os
-from database.models import Manager, Route as DBRoute
+from markupsafe import escape
 from werkzeug.security import check_password_hash as check_pw
 import datetime
+import flask_login
+import json
 import jwt
 import yaml
-from dotenv import load_dotenv
 
 TOKEN_EXPIRE_MINUTES = 30
 ALGORITHM = "HS256"
@@ -145,8 +143,6 @@ def admin_login():
         return {"error": "Wrong credentials"}, 401
 
 def create_app(config_filename='config_dev.py'):
-    load_dotenv()
-
     __version__ = "0.0.2"
 
     app = Flask(__name__)

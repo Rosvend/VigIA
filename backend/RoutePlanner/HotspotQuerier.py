@@ -1,9 +1,9 @@
-from shapely import Point, Polygon, intersection
-import numpy as np
-from itertools import chain
-import geopandas as gpd
-from random import uniform
 from .prediction.wrapper_interface import ModelWrapperInterface
+from itertools import chain
+from random import uniform
+from shapely import Point, Polygon, intersection
+import geopandas as gpd
+import numpy as np
 
 # TODO: find the ideal value for this variable
 SCALE_FACTOR = 0.0002
