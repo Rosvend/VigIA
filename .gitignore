@@ -1,6 +1,7 @@
 __pycache__/
 notebooks/cache/
 notebooks/.ipynb_checkpoints/
+backend/config_*
 *secrets.*
 geodata/crime_heatmap.html
 geodata/mapa_puntos.html

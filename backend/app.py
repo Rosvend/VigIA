@@ -1,4 +1,4 @@
-from flask import Flask, request, abort
+from flask import Flask, request, abort, current_app
 from flask_cors import CORS
 import flask_login
 from RoutePlanner.default_router import PoliceRouter, ORS_PROFILES, DEFAULT_ORS_PROFILE
@@ -14,32 +14,12 @@ from werkzeug.security import check_password_hash as check_pw
 import datetime
 import jwt
 import yaml
+from dotenv import load_dotenv
 
 TOKEN_EXPIRE_MINUTES = 30
 ALGORITHM = "HS256"
 
-try:
-    from dotenv import load_dotenv
-    load_dotenv()
-except ImportException:
-    pass
-
-__version__ = "0.0.2"
-
-app = Flask(__name__)
-CORS(app)
-api = Api(app)
-
-with open('doc/global.yml') as stream:
-    doc_template = yaml.safe_load(stream)
-
-swagger = Swagger(app, template=doc_template)
-
-app.secret_key = os.getenv('APP_SECRET_KEY')
-if len(app.secret_key) == 0:
-    raise EnvironmentError("No APP_SECRET_KEY provided.")
 login_manager = flask_login.LoginManager()
-login_manager.init_app(app)
 
 @login_manager.request_loader
 def request_loader(request):
@@ -52,13 +32,10 @@ def request_loader(request):
         return None
 
 class RouteSuggestions(Resource):
-    route_computer = PoliceRouter(
-    os.getenv('ORS_KEY'),
-    SimpleModelWrapper(
-        model_data_path = "crime_model_simple.pkl",
-    ))
+    route_computer: PoliceRouter
     parser: RequestParser
     def __init__(self):
+        self.route_computer = current_app.config['POLICE_ROUTER']
         self.parser = RequestParser()
         self.parser.add_argument('cai',
                                  required=True,
@@ -147,21 +124,17 @@ class Route(Resource):
         return {"info": "route stored successfully."}
 
 @swag_from("doc/login.yml")
-@app.post('/api/admin/login')
 def admin_login():
     # Use 'username' here for Oauth2 compliance
     cedula = request.form['username']
     password = request.form['password']
 
-    try:
-        manager = Manager.get(Manager.cedula == cedula)
-    except:
-        return {"error": "Wrong credentials"}, 401
+    manager = Manager.get(Manager.cedula == cedula)
     if check_pw(manager.password_hash, password):
         expires_at = datetime.datetime.now(datetime.timezone.utc) \
             + datetime.timedelta(minutes=TOKEN_EXPIRE_MINUTES)
         token = jwt.encode({"sub": manager.cedula, "exp": expires_at},
-                           app.secret_key,
+                           current_app.secret_key,
                            algorithm=ALGORITHM)
         return {
             'access_token': token,
@@ -171,8 +144,34 @@ def admin_login():
     else:
         return {"error": "Wrong credentials"}, 401
 
-api.add_resource(Route,
-    '/api/routes/<string:date>/<int:cai_id>/<int:assigned_to>')
-api.add_resource(RouteSuggestions, '/api/routes')
-if __name__ == '__main__':
-    app.run(debug=True)
+def create_app(config_filename='config_dev.py'):
+    load_dotenv()
+
+    __version__ = "0.0.2"
+
+    app = Flask(__name__)
+    CORS(app)
+    api = Api(app)
+    # app.config.from_prefixed_env(prefix="APP_")
+    app.config.from_pyfile(config_filename)
+    app.config['POLICE_ROUTER'] = PoliceRouter(
+        ors_key=app.config['ORS_KEY'],
+        model_wrapper=SimpleModelWrapper(
+            app.config['MODEL_PATH']
+        )
+    )
+
+    with open('doc/global.yml') as stream:
+        doc_template = yaml.safe_load(stream)
+    swagger = Swagger(app, template=doc_template)
+
+    Manager.setDatabase(app)
+    DBRoute.setDatabase(app)
+
+    login_manager.init_app(app)
+    api.add_resource(Route,
+        '/api/routes/<string:date>/<int:cai_id>/<int:assigned_to>')
+    api.add_resource(RouteSuggestions, '/api/routes')
+    app.add_url_rule('/api/admin/login', methods=["POST"], view_func=admin_login)
+
+    return app
