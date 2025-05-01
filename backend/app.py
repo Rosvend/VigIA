@@ -154,6 +154,7 @@ class Routes(Resource):
             .where((DBRoute.date == date)
                & (DBRoute.cai_id == cai_id))
 
+    @swag_from("doc/Routes_get.yml")
     def get(self, date, cai_id):
         try:
             date = datetime.datetime.strptime(date, '%Y-%m-%d')
