@@ -33,11 +33,16 @@ function App() {
             <div className="burger-line"></div>
           </button>
 
-          <Sidebar setRouteInfo={setRouteInfo} active={sidebarActive} />
+          <Sidebar
+            routeInfo={routeInfo}
+            setRouteInfo={setRouteInfo}
+            active={sidebarActive}
+          />
           <MapCont
             marginLeft={sidebarActive ? "300px" : "30px"}
             activeRole={activeRole}
             routeInfo={routeInfo}
+            setRouteInfo={setRouteInfo}
           />
         </div>
       </div>
