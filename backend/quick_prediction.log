@@ -1,0 +1,1997 @@
+2025-04-28 16:28:35,541 - RoutePlanner.prediction.simple_wrapper - INFO - Loading model from crime_model_simple.pkl
+2025-04-28 16:36:15,233 - RoutePlanner.prediction.simple_wrapper - INFO - Loading model from crime_model_simple.pkl
+2025-04-28 16:36:15,261 - RoutePlanner.prediction.simple_wrapper - INFO - Model loaded successfully - trained on 2025-04-28 16:31:29
+2025-04-28 17:41:38,013 - RoutePlanner.prediction.simple_wrapper - INFO - Loading model from crime_model_simple.pkl
+2025-04-28 17:41:38,039 - RoutePlanner.prediction.simple_wrapper - INFO - Model loaded successfully - trained on 2025-04-28 16:31:29
+2025-04-28 17:57:51,169 - RoutePlanner.prediction.simple_wrapper - INFO - Loading model from crime_model_simple.pkl
+2025-04-28 17:57:51,196 - RoutePlanner.prediction.simple_wrapper - INFO - Model loaded successfully - trained on 2025-04-28 16:31:29
+2025-04-28 18:01:10,047 - RoutePlanner.prediction.simple_wrapper - INFO - Loading model from crime_model_simple.pkl
+2025-04-28 18:01:10,073 - RoutePlanner.prediction.simple_wrapper - INFO - Model loaded successfully - trained on 2025-04-28 16:31:29
+2025-04-28 18:01:10,073 - quick_predict - INFO - Loading grid data...
+2025-04-28 18:01:12,824 - quick_predict - INFO - Preprocessing grid data...
+2025-04-28 18:01:12,977 - quick_predict - INFO - Added crime_count column. Range: 1 - 1142
+2025-04-28 18:01:13,328 - quick_predict - INFO - Added distance_to_police column. Range: 0.01 - 3.73 km
+2025-04-28 18:01:13,329 - quick_predict - INFO - Preparing features for prediction...
+2025-04-28 18:01:13,334 - quick_predict - INFO - Generating predictions...
+2025-04-28 18:01:13,363 - quick_predict - INFO - 
+Sample predictions:
+2025-04-28 18:01:13,365 - quick_predict - INFO -             h3_index      risk
+513  896619d92a7ffff  0.160313
+605  896619d9057ffff  0.159968
+326  896618365a7ffff  0.158459
+175  896619d92c7ffff  0.153254
+451  896619d904fffff  0.152191
+2025-04-28 18:01:13,479 - werkzeug - INFO - [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on http://127.0.0.1:5000
+2025-04-28 18:01:13,479 - werkzeug - INFO - [33mPress CTRL+C to quit[0m
+2025-04-28 18:01:13,480 - werkzeug - INFO -  * Restarting with stat
+2025-04-28 18:01:20,776 - RoutePlanner.prediction.simple_wrapper - INFO - Loading model from crime_model_simple.pkl
+2025-04-28 18:01:20,843 - RoutePlanner.prediction.simple_wrapper - INFO - Model loaded successfully - trained on 2025-04-28 16:31:29
+2025-04-28 18:01:20,843 - quick_predict - INFO - Loading grid data...
+2025-04-28 18:01:23,866 - quick_predict - INFO - Preprocessing grid data...
+2025-04-28 18:01:24,016 - quick_predict - INFO - Added crime_count column. Range: 1 - 1142
+2025-04-28 18:01:24,189 - quick_predict - INFO - Added distance_to_police column. Range: 0.01 - 3.73 km
+2025-04-28 18:01:24,189 - quick_predict - INFO - Preparing features for prediction...
+2025-04-28 18:01:24,194 - quick_predict - INFO - Generating predictions...
+2025-04-28 18:01:24,232 - quick_predict - INFO - 
+Sample predictions:
+2025-04-28 18:01:24,234 - quick_predict - INFO -             h3_index      risk
+513  896619d92a7ffff  0.160313
+605  896619d9057ffff  0.159968
+326  896618365a7ffff  0.158459
+175  896619d92c7ffff  0.153254
+451  896619d904fffff  0.152191
+2025-04-28 18:01:24,456 - werkzeug - WARNING -  * Debugger is active!
+2025-04-28 18:01:24,458 - werkzeug - INFO -  * Debugger PIN: 112-684-392
+2025-04-28 18:03:23,721 - werkzeug - INFO - 127.0.0.1 - - [28/Apr/2025 18:03:23] "POST /api/admin/login HTTP/1.1" 200 -
+2025-04-28 18:03:52,312 - werkzeug - INFO - 127.0.0.1 - - [28/Apr/2025 18:03:52] "GET /api/routes?cai=0&n=1 HTTP/1.1" 200 -
+2025-04-28 18:05:38,448 - werkzeug - INFO -  * Detected change in '/home/fer/Documents/upb/2025_1/ticprog/Crime-visualization-prediction-Medellin/backend/app.py', reloading
+2025-04-28 18:05:40,188 - werkzeug - INFO -  * Restarting with stat
+2025-04-28 18:05:46,159 - RoutePlanner.prediction.simple_wrapper - INFO - Loading model from crime_model_simple.pkl
+2025-04-28 18:05:46,193 - RoutePlanner.prediction.simple_wrapper - INFO - Model loaded successfully - trained on 2025-04-28 16:31:29
+2025-04-28 18:05:46,193 - quick_predict - INFO - Loading grid data...
+2025-04-28 18:05:48,923 - quick_predict - INFO - Preprocessing grid data...
+2025-04-28 18:05:49,085 - quick_predict - INFO - Added crime_count column. Range: 1 - 1142
+2025-04-28 18:05:49,271 - quick_predict - INFO - Added distance_to_police column. Range: 0.01 - 3.73 km
+2025-04-28 18:05:49,271 - quick_predict - INFO - Preparing features for prediction...
+2025-04-28 18:05:49,276 - quick_predict - INFO - Generating predictions...
+2025-04-28 18:05:49,304 - quick_predict - INFO - 
+Sample predictions:
+2025-04-28 18:05:49,307 - quick_predict - INFO -             h3_index      risk
+513  896619d92a7ffff  0.160313
+605  896619d9057ffff  0.159968
+326  896618365a7ffff  0.158459
+175  896619d92c7ffff  0.153254
+451  896619d904fffff  0.152191
+2025-04-28 18:05:49,352 - werkzeug - WARNING -  * Debugger is active!
+2025-04-28 18:05:49,354 - werkzeug - INFO -  * Debugger PIN: 112-684-392
+2025-04-28 18:12:45,313 - werkzeug - INFO -  * Detected change in '/home/fer/.cache/pypoetry/virtualenvs/backend-Xqoh8ZUo-py3.12/lib/python3.12/site-packages/joblib/disk.py', reloading
+2025-04-28 18:12:45,747 - werkzeug - INFO -  * Restarting with stat
+2025-05-01 02:09:13,465 - RoutePlanner.prediction.simple_wrapper - INFO - Loading model from crime_model_simple.pkl
+2025-05-01 02:09:13,668 - RoutePlanner.prediction.simple_wrapper - INFO - Model loaded successfully - trained on 2025-04-28 16:31:29
+2025-05-01 02:09:13,668 - quick_predict - INFO - Loading grid data...
+2025-05-01 02:09:16,957 - quick_predict - INFO - Preprocessing grid data...
+2025-05-01 02:09:17,101 - quick_predict - INFO - Added crime_count column. Range: 1 - 1142
+2025-05-01 02:09:17,270 - quick_predict - INFO - Added distance_to_police column. Range: 0.01 - 3.73 km
+2025-05-01 02:09:17,270 - quick_predict - INFO - Preparing features for prediction...
+2025-05-01 02:09:17,275 - quick_predict - INFO - Generating predictions...
+2025-05-01 02:09:17,305 - quick_predict - INFO - 
+Sample predictions:
+2025-05-01 02:09:17,307 - quick_predict - INFO -             h3_index      risk
+600  89661836d17ffff  0.171690
+890  896619d9003ffff  0.166636
+483  896619d92d7ffff  0.166233
+513  896619d92a7ffff  0.165283
+326  896618365a7ffff  0.165013
+2025-05-01 02:09:17,527 - werkzeug - INFO - [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on http://127.0.0.1:5000
+2025-05-01 02:09:17,527 - werkzeug - INFO - [33mPress CTRL+C to quit[0m
+2025-05-01 02:09:17,528 - werkzeug - INFO -  * Restarting with stat
+2025-05-01 02:09:19,903 - RoutePlanner.prediction.simple_wrapper - INFO - Loading model from crime_model_simple.pkl
+2025-05-01 02:09:19,927 - RoutePlanner.prediction.simple_wrapper - INFO - Model loaded successfully - trained on 2025-04-28 16:31:29
+2025-05-01 02:09:19,927 - quick_predict - INFO - Loading grid data...
+2025-05-01 02:09:22,556 - quick_predict - INFO - Preprocessing grid data...
+2025-05-01 02:09:22,693 - quick_predict - INFO - Added crime_count column. Range: 1 - 1142
+2025-05-01 02:09:22,857 - quick_predict - INFO - Added distance_to_police column. Range: 0.01 - 3.73 km
+2025-05-01 02:09:22,857 - quick_predict - INFO - Preparing features for prediction...
+2025-05-01 02:09:22,862 - quick_predict - INFO - Generating predictions...
+2025-05-01 02:09:22,888 - quick_predict - INFO - 
+Sample predictions:
+2025-05-01 02:09:22,890 - quick_predict - INFO -             h3_index      risk
+600  89661836d17ffff  0.171690
+890  896619d9003ffff  0.166636
+483  896619d92d7ffff  0.166233
+513  896619d92a7ffff  0.165283
+326  896618365a7ffff  0.165013
+2025-05-01 02:09:22,928 - werkzeug - WARNING -  * Debugger is active!
+2025-05-01 02:09:22,929 - werkzeug - INFO -  * Debugger PIN: 779-770-115
+2025-05-01 02:18:01,641 - werkzeug - INFO - 127.0.0.1 - - [01/May/2025 02:18:01] "[32mGET /apidocs HTTP/1.1[0m" 308 -
+2025-05-01 02:18:01,735 - werkzeug - INFO - 127.0.0.1 - - [01/May/2025 02:18:01] "GET /apidocs/ HTTP/1.1" 200 -
+2025-05-01 02:18:01,821 - werkzeug - INFO - 127.0.0.1 - - [01/May/2025 02:18:01] "GET /flasgger_static/lib/jquery.min.js HTTP/1.1" 200 -
+2025-05-01 02:18:01,875 - werkzeug - INFO - 127.0.0.1 - - [01/May/2025 02:18:01] "GET /flasgger_static/swagger-ui.css HTTP/1.1" 200 -
+2025-05-01 02:18:01,887 - werkzeug - INFO - 127.0.0.1 - - [01/May/2025 02:18:01] "GET /flasgger_static/swagger-ui-standalone-preset.js HTTP/1.1" 200 -
+2025-05-01 02:18:01,891 - werkzeug - INFO - 127.0.0.1 - - [01/May/2025 02:18:01] "GET /flasgger_static/swagger-ui-bundle.js HTTP/1.1" 200 -
+2025-05-01 02:18:02,470 - werkzeug - INFO - 127.0.0.1 - - [01/May/2025 02:18:02] "GET /apispec_1.json HTTP/1.1" 200 -
+2025-05-01 02:18:02,471 - werkzeug - INFO - 127.0.0.1 - - [01/May/2025 02:18:02] "GET /flasgger_static/favicon-32x32.png HTTP/1.1" 200 -
+2025-05-01 02:33:24,410 - werkzeug - INFO -  * Detected change in '/home/fer/Documents/upb/2025_1/ticprog/Crime-visualization-prediction-Medellin/backend/app.py', reloading
+2025-05-01 02:33:24,828 - werkzeug - INFO -  * Restarting with stat
+2025-05-01 02:36:19,430 - RoutePlanner.prediction.simple_wrapper - INFO - Loading model from crime_model_simple.pkl
+2025-05-01 02:36:19,455 - RoutePlanner.prediction.simple_wrapper - INFO - Model loaded successfully - trained on 2025-04-28 16:31:29
+2025-05-01 02:36:19,455 - quick_predict - INFO - Loading grid data...
+2025-05-01 02:36:22,112 - quick_predict - INFO - Preprocessing grid data...
+2025-05-01 02:36:22,250 - quick_predict - INFO - Added crime_count column. Range: 1 - 1142
+2025-05-01 02:36:22,416 - quick_predict - INFO - Added distance_to_police column. Range: 0.01 - 3.73 km
+2025-05-01 02:36:22,416 - quick_predict - INFO - Preparing features for prediction...
+2025-05-01 02:36:22,421 - quick_predict - INFO - Generating predictions...
+2025-05-01 02:36:22,447 - quick_predict - INFO - 
+Sample predictions:
+2025-05-01 02:36:22,449 - quick_predict - INFO -             h3_index      risk
+600  89661836d17ffff  0.171690
+890  896619d9003ffff  0.166636
+483  896619d92d7ffff  0.166233
+513  896619d92a7ffff  0.165283
+326  896618365a7ffff  0.165013
+2025-05-01 02:36:22,487 - werkzeug - INFO - [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on http://127.0.0.1:5000
+2025-05-01 02:36:22,488 - werkzeug - INFO - [33mPress CTRL+C to quit[0m
+2025-05-01 02:36:22,488 - werkzeug - INFO -  * Restarting with stat
+2025-05-01 02:36:24,869 - RoutePlanner.prediction.simple_wrapper - INFO - Loading model from crime_model_simple.pkl
+2025-05-01 02:36:24,894 - RoutePlanner.prediction.simple_wrapper - INFO - Model loaded successfully - trained on 2025-04-28 16:31:29
+2025-05-01 02:36:24,894 - quick_predict - INFO - Loading grid data...
+2025-05-01 02:36:27,522 - quick_predict - INFO - Preprocessing grid data...
+2025-05-01 02:36:27,658 - quick_predict - INFO - Added crime_count column. Range: 1 - 1142
+2025-05-01 02:36:27,823 - quick_predict - INFO - Added distance_to_police column. Range: 0.01 - 3.73 km
+2025-05-01 02:36:27,823 - quick_predict - INFO - Preparing features for prediction...
+2025-05-01 02:36:27,828 - quick_predict - INFO - Generating predictions...
+2025-05-01 02:36:27,854 - quick_predict - INFO - 
+Sample predictions:
+2025-05-01 02:36:27,856 - quick_predict - INFO -             h3_index      risk
+600  89661836d17ffff  0.171690
+890  896619d9003ffff  0.166636
+483  896619d92d7ffff  0.166233
+513  896619d92a7ffff  0.165283
+326  896618365a7ffff  0.165013
+2025-05-01 02:36:27,895 - werkzeug - WARNING -  * Debugger is active!
+2025-05-01 02:36:27,896 - werkzeug - INFO -  * Debugger PIN: 779-770-115
+2025-05-01 02:36:36,221 - werkzeug - INFO -  * Detected change in '/home/fer/Documents/upb/2025_1/ticprog/Crime-visualization-prediction-Medellin/backend/app.py', reloading
+2025-05-01 02:36:36,634 - werkzeug - INFO -  * Restarting with stat
+2025-05-01 02:36:39,024 - RoutePlanner.prediction.simple_wrapper - INFO - Loading model from crime_model_simple.pkl
+2025-05-01 02:36:39,049 - RoutePlanner.prediction.simple_wrapper - INFO - Model loaded successfully - trained on 2025-04-28 16:31:29
+2025-05-01 02:36:39,049 - quick_predict - INFO - Loading grid data...
+2025-05-01 02:36:41,674 - quick_predict - INFO - Preprocessing grid data...
+2025-05-01 02:36:41,814 - quick_predict - INFO - Added crime_count column. Range: 1 - 1142
+2025-05-01 02:36:41,989 - quick_predict - INFO - Added distance_to_police column. Range: 0.01 - 3.73 km
+2025-05-01 02:36:41,989 - quick_predict - INFO - Preparing features for prediction...
+2025-05-01 02:36:41,995 - quick_predict - INFO - Generating predictions...
+2025-05-01 02:36:42,024 - quick_predict - INFO - 
+Sample predictions:
+2025-05-01 02:36:42,025 - quick_predict - INFO -             h3_index      risk
+600  89661836d17ffff  0.171690
+890  896619d9003ffff  0.166636
+483  896619d92d7ffff  0.166233
+513  896619d92a7ffff  0.165283
+326  896618365a7ffff  0.165013
+2025-05-01 02:40:21,339 - RoutePlanner.prediction.simple_wrapper - INFO - Loading model from crime_model_simple.pkl
+2025-05-01 02:40:21,364 - RoutePlanner.prediction.simple_wrapper - INFO - Model loaded successfully - trained on 2025-04-28 16:31:29
+2025-05-01 02:40:21,364 - quick_predict - INFO - Loading grid data...
+2025-05-01 02:40:24,003 - quick_predict - INFO - Preprocessing grid data...
+2025-05-01 02:40:24,142 - quick_predict - INFO - Added crime_count column. Range: 1 - 1142
+2025-05-01 02:40:24,308 - quick_predict - INFO - Added distance_to_police column. Range: 0.01 - 3.73 km
+2025-05-01 02:40:24,308 - quick_predict - INFO - Preparing features for prediction...
+2025-05-01 02:40:24,313 - quick_predict - INFO - Generating predictions...
+2025-05-01 02:40:24,341 - quick_predict - INFO - 
+Sample predictions:
+2025-05-01 02:40:24,343 - quick_predict - INFO -             h3_index      risk
+600  89661836d17ffff  0.171690
+890  896619d9003ffff  0.166636
+483  896619d92d7ffff  0.166233
+513  896619d92a7ffff  0.165283
+326  896618365a7ffff  0.165013
+2025-05-01 02:40:40,562 - RoutePlanner.prediction.simple_wrapper - INFO - Loading model from crime_model_simple.pkl
+2025-05-01 02:40:40,587 - RoutePlanner.prediction.simple_wrapper - INFO - Model loaded successfully - trained on 2025-04-28 16:31:29
+2025-05-01 02:40:40,587 - quick_predict - INFO - Loading grid data...
+2025-05-01 02:40:43,230 - quick_predict - INFO - Preprocessing grid data...
+2025-05-01 02:40:43,371 - quick_predict - INFO - Added crime_count column. Range: 1 - 1142
+2025-05-01 02:40:43,547 - quick_predict - INFO - Added distance_to_police column. Range: 0.01 - 3.73 km
+2025-05-01 02:40:43,548 - quick_predict - INFO - Preparing features for prediction...
+2025-05-01 02:40:43,555 - quick_predict - INFO - Generating predictions...
+2025-05-01 02:40:43,582 - quick_predict - INFO - 
+Sample predictions:
+2025-05-01 02:40:43,584 - quick_predict - INFO -             h3_index      risk
+600  89661836d17ffff  0.171690
+890  896619d9003ffff  0.166636
+483  896619d92d7ffff  0.166233
+513  896619d92a7ffff  0.165283
+326  896618365a7ffff  0.165013
+2025-05-01 02:40:43,633 - werkzeug - INFO - [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on http://127.0.0.1:5000
+2025-05-01 02:40:43,633 - werkzeug - INFO - [33mPress CTRL+C to quit[0m
+2025-05-01 02:40:43,634 - werkzeug - INFO -  * Restarting with stat
+2025-05-01 02:40:46,023 - RoutePlanner.prediction.simple_wrapper - INFO - Loading model from crime_model_simple.pkl
+2025-05-01 02:40:46,048 - RoutePlanner.prediction.simple_wrapper - INFO - Model loaded successfully - trained on 2025-04-28 16:31:29
+2025-05-01 02:40:46,048 - quick_predict - INFO - Loading grid data...
+2025-05-01 02:40:48,723 - quick_predict - INFO - Preprocessing grid data...
+2025-05-01 02:40:48,861 - quick_predict - INFO - Added crime_count column. Range: 1 - 1142
+2025-05-01 02:40:49,027 - quick_predict - INFO - Added distance_to_police column. Range: 0.01 - 3.73 km
+2025-05-01 02:40:49,027 - quick_predict - INFO - Preparing features for prediction...
+2025-05-01 02:40:49,032 - quick_predict - INFO - Generating predictions...
+2025-05-01 02:40:49,058 - quick_predict - INFO - 
+Sample predictions:
+2025-05-01 02:40:49,060 - quick_predict - INFO -             h3_index      risk
+600  89661836d17ffff  0.171690
+890  896619d9003ffff  0.166636
+483  896619d92d7ffff  0.166233
+513  896619d92a7ffff  0.165283
+326  896618365a7ffff  0.165013
+2025-05-01 02:40:49,099 - werkzeug - WARNING -  * Debugger is active!
+2025-05-01 02:40:49,100 - werkzeug - INFO -  * Debugger PIN: 779-770-115
+2025-05-01 02:47:23,479 - werkzeug - INFO - 127.0.0.1 - - [01/May/2025 02:47:23] "[31m[1mPOST /api/admin/login HTTP/1.1[0m" 401 -
+2025-05-01 02:47:26,438 - werkzeug - INFO - 127.0.0.1 - - [01/May/2025 02:47:26] "[31m[1mPOST /api/admin/login HTTP/1.1[0m" 401 -
+2025-05-01 02:47:43,054 - werkzeug - INFO - 127.0.0.1 - - [01/May/2025 02:47:43] "[31m[1mPOST /api/admin/login HTTP/1.1[0m" 401 -
+2025-05-01 02:47:53,770 - werkzeug - INFO - 127.0.0.1 - - [01/May/2025 02:47:53] "[31m[1mPOST /api/admin/login HTTP/1.1[0m" 401 -
+2025-05-01 02:48:28,552 - werkzeug - INFO - 127.0.0.1 - - [01/May/2025 02:48:28] "[31m[1mPOST /api/admin/login HTTP/1.1[0m" 401 -
+2025-05-01 02:48:48,234 - werkzeug - INFO - 127.0.0.1 - - [01/May/2025 02:48:48] "POST /api/admin/login HTTP/1.1" 200 -
+2025-05-01 03:00:25,111 - werkzeug - INFO - 127.0.0.1 - - [01/May/2025 03:00:25] "GET /api/routes?cai=0&n=1 HTTP/1.1" 200 -
+2025-05-01 03:05:57,934 - werkzeug - INFO - 127.0.0.1 - - [01/May/2025 03:05:57] "GET /api/routes?cai=9&n=1 HTTP/1.1" 200 -
+2025-05-01 03:10:46,165 - werkzeug - INFO - 127.0.0.1 - - [01/May/2025 03:10:46] "GET /api/routes?cai=0&n=1 HTTP/1.1" 200 -
+2025-05-01 03:13:18,555 - werkzeug - INFO - 127.0.0.1 - - [01/May/2025 03:13:18] "GET /api/routes?cai=0&n=1 HTTP/1.1" 200 -
+2025-05-01 03:16:02,494 - werkzeug - INFO - 127.0.0.1 - - [01/May/2025 03:16:02] "GET /api/routes?cai=0&n=1 HTTP/1.1" 200 -
+2025-05-01 03:20:16,757 - werkzeug - INFO - 127.0.0.1 - - [01/May/2025 03:20:16] "GET /api/routes?cai=0&n=1 HTTP/1.1" 200 -
+2025-05-01 03:21:11,228 - werkzeug - INFO - 127.0.0.1 - - [01/May/2025 03:21:11] "GET /api/routes?cai=0&n=1 HTTP/1.1" 200 -
+2025-05-01 03:23:14,782 - werkzeug - INFO - 127.0.0.1 - - [01/May/2025 03:23:14] "GET /api/routes?cai=0&n=1 HTTP/1.1" 200 -
+2025-05-01 03:24:22,745 - werkzeug - INFO - 127.0.0.1 - - [01/May/2025 03:24:22] "GET /api/routes?cai=0&n=1 HTTP/1.1" 200 -
+2025-05-01 03:26:02,171 - werkzeug - INFO - 127.0.0.1 - - [01/May/2025 03:26:02] "GET /api/routes?cai=0&n=1 HTTP/1.1" 200 -
+2025-05-01 03:28:48,881 - werkzeug - INFO - 127.0.0.1 - - [01/May/2025 03:28:48] "GET /api/routes?cai=0&n=1 HTTP/1.1" 200 -
+2025-05-01 03:29:40,253 - werkzeug - INFO - 127.0.0.1 - - [01/May/2025 03:29:40] "GET /api/routes?cai=0&n=2 HTTP/1.1" 200 -
+2025-05-01 03:45:28,816 - werkzeug - INFO - 127.0.0.1 - - [01/May/2025 03:45:28] "GET /api/routes?cai=11&n=2 HTTP/1.1" 200 -
+2025-05-01 03:46:25,529 - werkzeug - INFO - 127.0.0.1 - - [01/May/2025 03:46:25] "[33mPOST /api/routes/{year}-{month}-{day}/{cai}/{id} HTTP/1.1[0m" 404 -
+2025-05-01 03:46:25,530 - werkzeug - INFO - 127.0.0.1 - - [01/May/2025 03:46:25] "[33mPOST /api/routes/{year}-{month}-{day}/{cai}/{id} HTTP/1.1[0m" 404 -
+2025-05-01 03:47:29,255 - werkzeug - INFO - 127.0.0.1 - - [01/May/2025 03:47:29] "GET /api/routes?cai=12&n=2 HTTP/1.1" 200 -
+2025-05-01 03:47:45,755 - werkzeug - INFO - 127.0.0.1 - - [01/May/2025 03:47:45] "[33mPOST /api/routes/{year}-{month}-{day}/{cai}/{id} HTTP/1.1[0m" 404 -
+2025-05-01 03:47:45,757 - werkzeug - INFO - 127.0.0.1 - - [01/May/2025 03:47:45] "[33mPOST /api/routes/{year}-{month}-{day}/{cai}/{id} HTTP/1.1[0m" 404 -
+2025-05-01 03:48:26,096 - werkzeug - INFO - 127.0.0.1 - - [01/May/2025 03:48:26] "[33mOPTIONS /api/routes/{year}-{month}-{day}/{cai}/{id} HTTP/1.1[0m" 404 -
+2025-05-01 03:48:26,099 - werkzeug - INFO - 127.0.0.1 - - [01/May/2025 03:48:26] "[33mOPTIONS /api/routes/{year}-{month}-{day}/{cai}/{id} HTTP/1.1[0m" 404 -
+2025-05-01 03:49:38,383 - werkzeug - INFO - 127.0.0.1 - - [01/May/2025 03:49:38] "GET /api/routes?cai=12&n=2 HTTP/1.1" 200 -
+2025-05-01 03:49:53,595 - werkzeug - INFO - 127.0.0.1 - - [01/May/2025 03:49:53] "[33mOPTIONS /api/routes/{year}-{month}-{day}/{cai}/{id} HTTP/1.1[0m" 404 -
+2025-05-01 03:49:53,600 - werkzeug - INFO - 127.0.0.1 - - [01/May/2025 03:49:53] "[33mOPTIONS /api/routes/{year}-{month}-{day}/{cai}/{id} HTTP/1.1[0m" 404 -
+2025-05-01 03:51:27,305 - werkzeug - INFO - 127.0.0.1 - - [01/May/2025 03:51:27] "GET /api/routes?cai=30&n=2 HTTP/1.1" 200 -
+2025-05-01 03:51:54,650 - werkzeug - INFO - 127.0.0.1 - - [01/May/2025 03:51:54] "[33mOPTIONS /api/routes/{year}-{month}-{day}/{cai}/{id} HTTP/1.1[0m" 404 -
+2025-05-01 03:51:54,653 - werkzeug - INFO - 127.0.0.1 - - [01/May/2025 03:51:54] "[33mOPTIONS /api/routes/{year}-{month}-{day}/{cai}/{id} HTTP/1.1[0m" 404 -
+2025-05-01 03:52:25,452 - werkzeug - INFO - 127.0.0.1 - - [01/May/2025 03:52:25] "[33mOPTIONS /api/routes/{year}-{month}-{day}/{cai}/{id} HTTP/1.1[0m" 404 -
+2025-05-01 03:52:25,457 - werkzeug - INFO - 127.0.0.1 - - [01/May/2025 03:52:25] "[33mOPTIONS /api/routes/{year}-{month}-{day}/{cai}/{id} HTTP/1.1[0m" 404 -
+2025-05-01 03:54:09,336 - werkzeug - INFO - 127.0.0.1 - - [01/May/2025 03:54:09] "[33mOPTIONS /api/routes/{year}-{month}-{day}/{cai}/{id} HTTP/1.1[0m" 404 -
+2025-05-01 03:54:09,339 - werkzeug - INFO - 127.0.0.1 - - [01/May/2025 03:54:09] "[33mOPTIONS /api/routes/{year}-{month}-{day}/{cai}/{id} HTTP/1.1[0m" 404 -
+2025-05-01 03:55:10,125 - werkzeug - INFO - 127.0.0.1 - - [01/May/2025 03:55:10] "GET /api/routes?cai=35&n=2 HTTP/1.1" 200 -
+2025-05-01 03:55:25,308 - werkzeug - INFO - 127.0.0.1 - - [01/May/2025 03:55:25] "[33mOPTIONS /api/routes/{year}-{month}-{day}/{cai}/{id} HTTP/1.1[0m" 404 -
+2025-05-01 03:55:25,309 - werkzeug - INFO - 127.0.0.1 - - [01/May/2025 03:55:25] "[33mOPTIONS /api/routes/{year}-{month}-{day}/{cai}/{id} HTTP/1.1[0m" 404 -
+2025-05-01 03:56:40,677 - werkzeug - INFO - 127.0.0.1 - - [01/May/2025 03:56:40] "GET /api/routes?cai=34&n=3 HTTP/1.1" 200 -
+2025-05-01 03:57:07,103 - werkzeug - INFO - 127.0.0.1 - - [01/May/2025 03:57:07] "[33mOPTIONS /api/routes/{year}-{month}-{day}/{cai}/{id} HTTP/1.1[0m" 404 -
+2025-05-01 03:57:07,104 - werkzeug - INFO - 127.0.0.1 - - [01/May/2025 03:57:07] "[33mOPTIONS /api/routes/{year}-{month}-{day}/{cai}/{id} HTTP/1.1[0m" 404 -
+2025-05-01 03:57:07,106 - werkzeug - INFO - 127.0.0.1 - - [01/May/2025 03:57:07] "[33mOPTIONS /api/routes/{year}-{month}-{day}/{cai}/{id} HTTP/1.1[0m" 404 -
+2025-05-01 03:59:15,612 - werkzeug - INFO - 127.0.0.1 - - [01/May/2025 03:59:15] "GET /api/routes?cai=25&n=2 HTTP/1.1" 200 -
+2025-05-01 04:00:29,924 - werkzeug - INFO - 127.0.0.1 - - [01/May/2025 04:00:29] "[33mOPTIONS /api/routes/{year}-{month}-{day}/{cai}/{id} HTTP/1.1[0m" 404 -
+2025-05-01 04:00:29,926 - werkzeug - INFO - 127.0.0.1 - - [01/May/2025 04:00:29] "[33mOPTIONS /api/routes/{year}-{month}-{day}/{cai}/{id} HTTP/1.1[0m" 404 -
+2025-05-01 04:01:28,541 - werkzeug - INFO - 127.0.0.1 - - [01/May/2025 04:01:28] "[33mOPTIONS /api/routes/{year}-{month}-{day}/{cai}/{id} HTTP/1.1[0m" 404 -
+2025-05-01 04:01:28,543 - werkzeug - INFO - 127.0.0.1 - - [01/May/2025 04:01:28] "[33mOPTIONS /api/routes/{year}-{month}-{day}/{cai}/{id} HTTP/1.1[0m" 404 -
+2025-05-01 04:04:25,598 - werkzeug - INFO - 127.0.0.1 - - [01/May/2025 04:04:25] "GET /api/routes?cai=36&n=2 HTTP/1.1" 200 -
+2025-05-01 04:04:44,187 - werkzeug - INFO - 127.0.0.1 - - [01/May/2025 04:04:44] "[33mPUT /api/routes/{year}-{month}-{day}/{cai}/{id} HTTP/1.1[0m" 404 -
+2025-05-01 04:04:44,189 - werkzeug - INFO - 127.0.0.1 - - [01/May/2025 04:04:44] "[33mPUT /api/routes/{year}-{month}-{day}/{cai}/{id} HTTP/1.1[0m" 404 -
+2025-05-01 04:06:11,231 - werkzeug - INFO - 127.0.0.1 - - [01/May/2025 04:06:11] "[33mPUT /api/routes/{year}-{month}-{day}/{cai}/{id} HTTP/1.1[0m" 404 -
+2025-05-01 04:06:11,233 - werkzeug - INFO - 127.0.0.1 - - [01/May/2025 04:06:11] "[33mPUT /api/routes/{year}-{month}-{day}/{cai}/{id} HTTP/1.1[0m" 404 -
+2025-05-01 04:08:36,976 - werkzeug - INFO - 127.0.0.1 - - [01/May/2025 04:08:36] "GET /api/routes?cai=22&n=2 HTTP/1.1" 200 -
+2025-05-01 04:08:57,146 - werkzeug - INFO - 127.0.0.1 - - [01/May/2025 04:08:57] "[33mPUT /api/routes/{year}-{month}-{day}/{cai}/{id} HTTP/1.1[0m" 404 -
+2025-05-01 04:08:57,147 - werkzeug - INFO - 127.0.0.1 - - [01/May/2025 04:08:57] "[33mPUT /api/routes/{year}-{month}-{day}/{cai}/{id} HTTP/1.1[0m" 404 -
+2025-05-01 04:19:15,821 - werkzeug - INFO - 127.0.0.1 - - [01/May/2025 04:19:15] "GET /api/routes?cai=27&n=2 HTTP/1.1" 200 -
+2025-05-01 04:20:06,402 - werkzeug - INFO - 127.0.0.1 - - [01/May/2025 04:20:06] "[31m[1mPUT /api/routes/2025-4-1/27/2 HTTP/1.1[0m" 401 -
+2025-05-01 04:20:06,406 - werkzeug - INFO - 127.0.0.1 - - [01/May/2025 04:20:06] "[31m[1mPUT /api/routes/2025-4-1/27/3 HTTP/1.1[0m" 401 -
+2025-05-01 04:21:00,684 - werkzeug - INFO - 127.0.0.1 - - [01/May/2025 04:21:00] "GET /api/routes?cai=3&n=2 HTTP/1.1" 200 -
+2025-05-01 04:21:15,240 - werkzeug - INFO - 127.0.0.1 - - [01/May/2025 04:21:15] "[31m[1mPUT /api/routes/2025-4-1/3/2 HTTP/1.1[0m" 401 -
+2025-05-01 04:21:15,247 - werkzeug - INFO - 127.0.0.1 - - [01/May/2025 04:21:15] "[31m[1mPUT /api/routes/2025-4-1/3/3 HTTP/1.1[0m" 401 -
+2025-05-01 04:22:19,902 - werkzeug - INFO - 127.0.0.1 - - [01/May/2025 04:22:19] "POST /api/admin/login HTTP/1.1" 200 -
+2025-05-01 04:22:32,145 - werkzeug - INFO - 127.0.0.1 - - [01/May/2025 04:22:32] "GET /api/routes?cai=4&n=2 HTTP/1.1" 200 -
+2025-05-01 04:22:55,387 - werkzeug - INFO - 127.0.0.1 - - [01/May/2025 04:22:55] "[31m[1mPUT /api/routes/2025-4-1/4/2 HTTP/1.1[0m" 401 -
+2025-05-01 04:22:55,403 - werkzeug - INFO - 127.0.0.1 - - [01/May/2025 04:22:55] "[31m[1mPUT /api/routes/2025-4-1/4/6 HTTP/1.1[0m" 401 -
+2025-05-01 04:25:39,439 - werkzeug - INFO - 127.0.0.1 - - [01/May/2025 04:25:39] "PUT /api/routes/2025-4-1/0/2 HTTP/1.1" 200 -
+2025-05-01 04:25:39,443 - werkzeug - INFO - 127.0.0.1 - - [01/May/2025 04:25:39] "PUT /api/routes/2025-4-1/0/6 HTTP/1.1" 200 -
+2025-05-01 04:27:19,032 - werkzeug - INFO -  * Detected change in '/home/fer/Documents/upb/2025_1/ticprog/Crime-visualization-prediction-Medellin/backend/app.py', reloading
+2025-05-01 04:27:19,444 - werkzeug - INFO -  * Restarting with stat
+2025-05-01 04:27:21,882 - RoutePlanner.prediction.simple_wrapper - INFO - Loading model from crime_model_simple.pkl
+2025-05-01 04:27:21,907 - RoutePlanner.prediction.simple_wrapper - INFO - Model loaded successfully - trained on 2025-04-28 16:31:29
+2025-05-01 04:27:21,907 - quick_predict - INFO - Loading grid data...
+2025-05-01 04:27:24,592 - quick_predict - INFO - Preprocessing grid data...
+2025-05-01 04:27:24,751 - quick_predict - INFO - Added crime_count column. Range: 1 - 1142
+2025-05-01 04:27:24,934 - quick_predict - INFO - Added distance_to_police column. Range: 0.01 - 3.73 km
+2025-05-01 04:27:24,935 - quick_predict - INFO - Preparing features for prediction...
+2025-05-01 04:27:24,940 - quick_predict - INFO - Generating predictions...
+2025-05-01 04:27:24,968 - quick_predict - INFO - 
+Sample predictions:
+2025-05-01 04:27:24,970 - quick_predict - INFO -             h3_index      risk
+600  89661836d17ffff  0.155539
+809  896619d92b7ffff  0.150840
+179  896619d900fffff  0.150840
+451  896619d904fffff  0.150532
+890  896619d9003ffff  0.150485
+2025-05-01 04:27:25,014 - werkzeug - WARNING -  * Debugger is active!
+2025-05-01 04:27:25,015 - werkzeug - INFO -  * Debugger PIN: 779-770-115
+2025-05-01 04:27:25,046 - werkzeug - INFO - 127.0.0.1 - - [01/May/2025 04:27:25] "[31m[1mPUT /api/routes/2025-4-1/0/2 HTTP/1.1[0m" 401 -
+2025-05-01 04:27:25,051 - werkzeug - INFO - 127.0.0.1 - - [01/May/2025 04:27:25] "[31m[1mPUT /api/routes/2025-4-1/0/6 HTTP/1.1[0m" 401 -
+2025-05-01 04:27:42,614 - werkzeug - INFO - 127.0.0.1 - - [01/May/2025 04:27:42] "PUT /api/routes/2025-4-1/4/2 HTTP/1.1" 200 -
+2025-05-01 04:27:42,616 - werkzeug - INFO - 127.0.0.1 - - [01/May/2025 04:27:42] "PUT /api/routes/2025-4-1/4/6 HTTP/1.1" 200 -
+2025-05-01 04:31:40,361 - werkzeug - INFO - 127.0.0.1 - - [01/May/2025 04:31:40] "POST /api/admin/login HTTP/1.1" 200 -
+2025-05-01 04:32:11,301 - werkzeug - INFO - 127.0.0.1 - - [01/May/2025 04:32:11] "POST /api/admin/login HTTP/1.1" 200 -
+2025-05-01 04:34:13,019 - werkzeug - INFO - 127.0.0.1 - - [01/May/2025 04:34:13] "[33mGET /api/routes/{year}-{month}-{day}/{cai} HTTP/1.1[0m" 404 -
+2025-05-01 04:34:53,811 - werkzeug - INFO - 127.0.0.1 - - [01/May/2025 04:34:53] "[35m[1mGET /api/routes/2025-4-1/0 HTTP/1.1[0m" 500 -
+2025-05-01 04:35:09,922 - werkzeug - INFO -  * Detected change in '/home/fer/Documents/upb/2025_1/ticprog/Crime-visualization-prediction-Medellin/backend/app.py', reloading
+2025-05-01 04:35:10,344 - werkzeug - INFO -  * Restarting with stat
+2025-05-01 04:35:12,758 - RoutePlanner.prediction.simple_wrapper - INFO - Loading model from crime_model_simple.pkl
+2025-05-01 04:35:12,783 - RoutePlanner.prediction.simple_wrapper - INFO - Model loaded successfully - trained on 2025-04-28 16:31:29
+2025-05-01 04:35:12,784 - quick_predict - INFO - Loading grid data...
+2025-05-01 04:35:15,467 - quick_predict - INFO - Preprocessing grid data...
+2025-05-01 04:35:15,608 - quick_predict - INFO - Added crime_count column. Range: 1 - 1142
+2025-05-01 04:35:15,779 - quick_predict - INFO - Added distance_to_police column. Range: 0.01 - 3.73 km
+2025-05-01 04:35:15,779 - quick_predict - INFO - Preparing features for prediction...
+2025-05-01 04:35:15,785 - quick_predict - INFO - Generating predictions...
+2025-05-01 04:35:15,811 - quick_predict - INFO - 
+Sample predictions:
+2025-05-01 04:35:15,813 - quick_predict - INFO -             h3_index      risk
+600  89661836d17ffff  0.155539
+809  896619d92b7ffff  0.150840
+179  896619d900fffff  0.150840
+451  896619d904fffff  0.150532
+890  896619d9003ffff  0.150485
+2025-05-01 04:35:15,859 - werkzeug - WARNING -  * Debugger is active!
+2025-05-01 04:35:15,860 - werkzeug - INFO -  * Debugger PIN: 779-770-115
+2025-05-01 04:35:24,830 - werkzeug - INFO - 127.0.0.1 - - [01/May/2025 04:35:24] "[35m[1mGET /api/routes/2025-4-1/0 HTTP/1.1[0m" 500 -
+2025-05-01 04:35:44,663 - werkzeug - INFO -  * Detected change in '/home/fer/Documents/upb/2025_1/ticprog/Crime-visualization-prediction-Medellin/backend/app.py', reloading
+2025-05-01 04:35:45,082 - werkzeug - INFO -  * Restarting with stat
+2025-05-01 04:35:47,479 - RoutePlanner.prediction.simple_wrapper - INFO - Loading model from crime_model_simple.pkl
+2025-05-01 04:35:47,504 - RoutePlanner.prediction.simple_wrapper - INFO - Model loaded successfully - trained on 2025-04-28 16:31:29
+2025-05-01 04:35:47,504 - quick_predict - INFO - Loading grid data...
+2025-05-01 04:35:50,200 - quick_predict - INFO - Preprocessing grid data...
+2025-05-01 04:35:50,342 - quick_predict - INFO - Added crime_count column. Range: 1 - 1142
+2025-05-01 04:35:50,510 - quick_predict - INFO - Added distance_to_police column. Range: 0.01 - 3.73 km
+2025-05-01 04:35:50,510 - quick_predict - INFO - Preparing features for prediction...
+2025-05-01 04:35:50,516 - quick_predict - INFO - Generating predictions...
+2025-05-01 04:35:50,542 - quick_predict - INFO - 
+Sample predictions:
+2025-05-01 04:35:50,544 - quick_predict - INFO -             h3_index      risk
+600  89661836d17ffff  0.155539
+809  896619d92b7ffff  0.150840
+179  896619d900fffff  0.150840
+451  896619d904fffff  0.150532
+890  896619d9003ffff  0.150485
+2025-05-01 04:35:50,583 - werkzeug - WARNING -  * Debugger is active!
+2025-05-01 04:35:50,584 - werkzeug - INFO -  * Debugger PIN: 779-770-115
+2025-05-01 04:35:50,612 - werkzeug - INFO - 127.0.0.1 - - [01/May/2025 04:35:50] "[33mGET /api/routes/2025-4-1/0 HTTP/1.1[0m" 404 -
+2025-05-01 04:36:12,404 - werkzeug - INFO - 127.0.0.1 - - [01/May/2025 04:36:12] "[33mGET /api/routes/2025-4-1/3 HTTP/1.1[0m" 404 -
+2025-05-01 04:36:19,066 - werkzeug - INFO - 127.0.0.1 - - [01/May/2025 04:36:19] "[35m[1mGET /api/routes/2025-4-1/4 HTTP/1.1[0m" 500 -
+2025-05-01 04:36:42,179 - werkzeug - INFO -  * Detected change in '/home/fer/Documents/upb/2025_1/ticprog/Crime-visualization-prediction-Medellin/backend/app.py', reloading
+2025-05-01 04:36:42,601 - werkzeug - INFO -  * Restarting with stat
+2025-05-01 04:36:45,015 - RoutePlanner.prediction.simple_wrapper - INFO - Loading model from crime_model_simple.pkl
+2025-05-01 04:36:45,040 - RoutePlanner.prediction.simple_wrapper - INFO - Model loaded successfully - trained on 2025-04-28 16:31:29
+2025-05-01 04:36:45,040 - quick_predict - INFO - Loading grid data...
+2025-05-01 04:36:47,699 - quick_predict - INFO - Preprocessing grid data...
+2025-05-01 04:36:47,838 - quick_predict - INFO - Added crime_count column. Range: 1 - 1142
+2025-05-01 04:36:48,007 - quick_predict - INFO - Added distance_to_police column. Range: 0.01 - 3.73 km
+2025-05-01 04:36:48,007 - quick_predict - INFO - Preparing features for prediction...
+2025-05-01 04:36:48,013 - quick_predict - INFO - Generating predictions...
+2025-05-01 04:36:48,039 - quick_predict - INFO - 
+Sample predictions:
+2025-05-01 04:36:48,041 - quick_predict - INFO -             h3_index      risk
+600  89661836d17ffff  0.155539
+809  896619d92b7ffff  0.150840
+179  896619d900fffff  0.150840
+451  896619d904fffff  0.150532
+890  896619d9003ffff  0.150485
+2025-05-01 04:36:48,081 - werkzeug - WARNING -  * Debugger is active!
+2025-05-01 04:36:48,082 - werkzeug - INFO -  * Debugger PIN: 779-770-115
+2025-05-01 04:36:51,212 - werkzeug - INFO -  * Detected change in '/home/fer/Documents/upb/2025_1/ticprog/Crime-visualization-prediction-Medellin/backend/app.py', reloading
+2025-05-01 04:36:51,644 - werkzeug - INFO -  * Restarting with stat
+2025-05-01 04:36:54,051 - RoutePlanner.prediction.simple_wrapper - INFO - Loading model from crime_model_simple.pkl
+2025-05-01 04:36:54,076 - RoutePlanner.prediction.simple_wrapper - INFO - Model loaded successfully - trained on 2025-04-28 16:31:29
+2025-05-01 04:36:54,076 - quick_predict - INFO - Loading grid data...
+2025-05-01 04:36:56,734 - quick_predict - INFO - Preprocessing grid data...
+2025-05-01 04:36:56,875 - quick_predict - INFO - Added crime_count column. Range: 1 - 1142
+2025-05-01 04:36:57,056 - quick_predict - INFO - Added distance_to_police column. Range: 0.01 - 3.73 km
+2025-05-01 04:36:57,056 - quick_predict - INFO - Preparing features for prediction...
+2025-05-01 04:36:57,064 - quick_predict - INFO - Generating predictions...
+2025-05-01 04:36:57,091 - quick_predict - INFO - 
+Sample predictions:
+2025-05-01 04:36:57,092 - quick_predict - INFO -             h3_index      risk
+600  89661836d17ffff  0.155539
+809  896619d92b7ffff  0.150840
+179  896619d900fffff  0.150840
+451  896619d904fffff  0.150532
+890  896619d9003ffff  0.150485
+2025-05-01 04:36:57,138 - werkzeug - WARNING -  * Debugger is active!
+2025-05-01 04:36:57,140 - werkzeug - INFO -  * Debugger PIN: 779-770-115
+2025-05-01 04:37:02,242 - werkzeug - INFO - 127.0.0.1 - - [01/May/2025 04:37:02] "[35m[1mGET /api/routes/2025-4-1/4 HTTP/1.1[0m" 500 -
+2025-05-01 04:39:50,416 - werkzeug - INFO -  * Detected change in '/home/fer/Documents/upb/2025_1/ticprog/Crime-visualization-prediction-Medellin/backend/app.py', reloading
+2025-05-01 04:39:50,827 - werkzeug - INFO -  * Restarting with stat
+2025-05-01 04:39:53,219 - RoutePlanner.prediction.simple_wrapper - INFO - Loading model from crime_model_simple.pkl
+2025-05-01 04:39:53,244 - RoutePlanner.prediction.simple_wrapper - INFO - Model loaded successfully - trained on 2025-04-28 16:31:29
+2025-05-01 04:39:53,244 - quick_predict - INFO - Loading grid data...
+2025-05-01 04:39:55,949 - quick_predict - INFO - Preprocessing grid data...
+2025-05-01 04:39:56,090 - quick_predict - INFO - Added crime_count column. Range: 1 - 1142
+2025-05-01 04:39:56,254 - quick_predict - INFO - Added distance_to_police column. Range: 0.01 - 3.73 km
+2025-05-01 04:39:56,254 - quick_predict - INFO - Preparing features for prediction...
+2025-05-01 04:39:56,260 - quick_predict - INFO - Generating predictions...
+2025-05-01 04:39:56,286 - quick_predict - INFO - 
+Sample predictions:
+2025-05-01 04:39:56,288 - quick_predict - INFO -             h3_index      risk
+600  89661836d17ffff  0.155539
+809  896619d92b7ffff  0.150840
+179  896619d900fffff  0.150840
+451  896619d904fffff  0.150532
+890  896619d9003ffff  0.150485
+2025-05-01 04:39:56,327 - werkzeug - WARNING -  * Debugger is active!
+2025-05-01 04:39:56,328 - werkzeug - INFO -  * Debugger PIN: 779-770-115
+2025-05-01 04:40:03,029 - werkzeug - INFO - 127.0.0.1 - - [01/May/2025 04:40:03] "[35m[1mGET /api/routes/2025-4-1/4 HTTP/1.1[0m" 500 -
+2025-05-01 04:41:22,256 - werkzeug - INFO - 127.0.0.1 - - [01/May/2025 04:41:22] "[35m[1mGET /api/routes/2025-4-1/4 HTTP/1.1[0m" 500 -
+2025-05-01 04:41:22,387 - werkzeug - INFO - 127.0.0.1 - - [01/May/2025 04:41:22] "GET /api/routes/2025-4-1/4?__debugger__=yes&cmd=resource&f=style.css HTTP/1.1" 200 -
+2025-05-01 04:41:22,394 - werkzeug - INFO - 127.0.0.1 - - [01/May/2025 04:41:22] "GET /api/routes/2025-4-1/4?__debugger__=yes&cmd=resource&f=debugger.js HTTP/1.1" 200 -
+2025-05-01 04:41:22,463 - werkzeug - INFO - 127.0.0.1 - - [01/May/2025 04:41:22] "GET /api/routes/2025-4-1/4?__debugger__=yes&cmd=resource&f=console.png HTTP/1.1" 200 -
+2025-05-01 04:41:22,473 - werkzeug - INFO - 127.0.0.1 - - [01/May/2025 04:41:22] "GET /api/routes/2025-4-1/4?__debugger__=yes&cmd=resource&f=console.png&s=zQXGunWllP63TeAJEjW3 HTTP/1.1" 200 -
+2025-05-01 04:42:35,991 - werkzeug - INFO -  * Detected change in '/home/fer/Documents/upb/2025_1/ticprog/Crime-visualization-prediction-Medellin/backend/app.py', reloading
+2025-05-01 04:42:36,419 - werkzeug - INFO -  * Restarting with stat
+2025-05-01 04:42:38,859 - RoutePlanner.prediction.simple_wrapper - INFO - Loading model from crime_model_simple.pkl
+2025-05-01 04:42:38,885 - RoutePlanner.prediction.simple_wrapper - INFO - Model loaded successfully - trained on 2025-04-28 16:31:29
+2025-05-01 04:42:38,885 - quick_predict - INFO - Loading grid data...
+2025-05-01 04:42:41,530 - quick_predict - INFO - Preprocessing grid data...
+2025-05-01 04:42:41,682 - quick_predict - INFO - Added crime_count column. Range: 1 - 1142
+2025-05-01 04:42:41,864 - quick_predict - INFO - Added distance_to_police column. Range: 0.01 - 3.73 km
+2025-05-01 04:42:41,864 - quick_predict - INFO - Preparing features for prediction...
+2025-05-01 04:42:41,871 - quick_predict - INFO - Generating predictions...
+2025-05-01 04:42:41,898 - quick_predict - INFO - 
+Sample predictions:
+2025-05-01 04:42:41,901 - quick_predict - INFO -             h3_index      risk
+600  89661836d17ffff  0.155539
+809  896619d92b7ffff  0.150840
+179  896619d900fffff  0.150840
+451  896619d904fffff  0.150532
+890  896619d9003ffff  0.150485
+2025-05-01 04:42:41,947 - werkzeug - WARNING -  * Debugger is active!
+2025-05-01 04:42:41,948 - werkzeug - INFO -  * Debugger PIN: 779-770-115
+2025-05-01 04:42:41,989 - werkzeug - INFO - 127.0.0.1 - - [01/May/2025 04:42:41] "[35m[1mGET /api/routes/2025-4-1/4 HTTP/1.1[0m" 500 -
+2025-05-01 04:42:42,019 - werkzeug - INFO - 127.0.0.1 - - [01/May/2025 04:42:42] "[36mGET /api/routes/2025-4-1/4?__debugger__=yes&cmd=resource&f=style.css HTTP/1.1[0m" 304 -
+2025-05-01 04:42:42,019 - werkzeug - INFO - 127.0.0.1 - - [01/May/2025 04:42:42] "[36mGET /api/routes/2025-4-1/4?__debugger__=yes&cmd=resource&f=debugger.js HTTP/1.1[0m" 304 -
+2025-05-01 04:42:42,045 - werkzeug - INFO - 127.0.0.1 - - [01/May/2025 04:42:42] "GET /api/routes/2025-4-1/4?__debugger__=yes&cmd=resource&f=console.png&s=7JxHxrIbzGpeUbpcuPYg HTTP/1.1" 200 -
+2025-05-01 04:42:43,218 - werkzeug - INFO - 127.0.0.1 - - [01/May/2025 04:42:43] "[35m[1mGET /api/routes/2025-4-1/4 HTTP/1.1[0m" 500 -
+2025-05-01 04:42:43,250 - werkzeug - INFO - 127.0.0.1 - - [01/May/2025 04:42:43] "[36mGET /api/routes/2025-4-1/4?__debugger__=yes&cmd=resource&f=style.css HTTP/1.1[0m" 304 -
+2025-05-01 04:42:43,251 - werkzeug - INFO - 127.0.0.1 - - [01/May/2025 04:42:43] "[36mGET /api/routes/2025-4-1/4?__debugger__=yes&cmd=resource&f=debugger.js HTTP/1.1[0m" 304 -
+2025-05-01 04:42:43,271 - werkzeug - INFO - 127.0.0.1 - - [01/May/2025 04:42:43] "[36mGET /api/routes/2025-4-1/4?__debugger__=yes&cmd=resource&f=console.png&s=7JxHxrIbzGpeUbpcuPYg HTTP/1.1[0m" 304 -
+2025-05-01 04:44:38,002 - werkzeug - INFO -  * Detected change in '/home/fer/Documents/upb/2025_1/ticprog/Crime-visualization-prediction-Medellin/backend/app.py', reloading
+2025-05-01 04:44:38,460 - werkzeug - INFO -  * Restarting with stat
+2025-05-01 04:44:40,908 - RoutePlanner.prediction.simple_wrapper - INFO - Loading model from crime_model_simple.pkl
+2025-05-01 04:44:40,933 - RoutePlanner.prediction.simple_wrapper - INFO - Model loaded successfully - trained on 2025-04-28 16:31:29
+2025-05-01 04:44:40,933 - quick_predict - INFO - Loading grid data...
+2025-05-01 04:44:43,647 - quick_predict - INFO - Preprocessing grid data...
+2025-05-01 04:44:43,804 - quick_predict - INFO - Added crime_count column. Range: 1 - 1142
+2025-05-01 04:44:43,982 - quick_predict - INFO - Added distance_to_police column. Range: 0.01 - 3.73 km
+2025-05-01 04:44:43,983 - quick_predict - INFO - Preparing features for prediction...
+2025-05-01 04:44:43,989 - quick_predict - INFO - Generating predictions...
+2025-05-01 04:44:44,016 - quick_predict - INFO - 
+Sample predictions:
+2025-05-01 04:44:44,017 - quick_predict - INFO -             h3_index      risk
+600  89661836d17ffff  0.155539
+809  896619d92b7ffff  0.150840
+179  896619d900fffff  0.150840
+451  896619d904fffff  0.150532
+890  896619d9003ffff  0.150485
+2025-05-01 04:44:44,068 - werkzeug - WARNING -  * Debugger is active!
+2025-05-01 04:44:44,069 - werkzeug - INFO -  * Debugger PIN: 779-770-115
+2025-05-01 04:44:44,116 - werkzeug - INFO - 127.0.0.1 - - [01/May/2025 04:44:44] "[35m[1mGET /api/routes/2025-4-1/4 HTTP/1.1[0m" 500 -
+2025-05-01 04:44:44,153 - werkzeug - INFO - 127.0.0.1 - - [01/May/2025 04:44:44] "[36mGET /api/routes/2025-4-1/4?__debugger__=yes&cmd=resource&f=style.css HTTP/1.1[0m" 304 -
+2025-05-01 04:44:44,153 - werkzeug - INFO - 127.0.0.1 - - [01/May/2025 04:44:44] "[36mGET /api/routes/2025-4-1/4?__debugger__=yes&cmd=resource&f=debugger.js HTTP/1.1[0m" 304 -
+2025-05-01 04:44:44,182 - werkzeug - INFO - 127.0.0.1 - - [01/May/2025 04:44:44] "GET /api/routes/2025-4-1/4?__debugger__=yes&cmd=resource&f=console.png&s=KVagQl1bjKZOiyPXvKZx HTTP/1.1" 200 -
+2025-05-01 04:44:46,438 - werkzeug - INFO - 127.0.0.1 - - [01/May/2025 04:44:46] "[35m[1mGET /api/routes/2025-4-1/4 HTTP/1.1[0m" 500 -
+2025-05-01 04:44:46,473 - werkzeug - INFO - 127.0.0.1 - - [01/May/2025 04:44:46] "[36mGET /api/routes/2025-4-1/4?__debugger__=yes&cmd=resource&f=style.css HTTP/1.1[0m" 304 -
+2025-05-01 04:44:46,474 - werkzeug - INFO - 127.0.0.1 - - [01/May/2025 04:44:46] "[36mGET /api/routes/2025-4-1/4?__debugger__=yes&cmd=resource&f=debugger.js HTTP/1.1[0m" 304 -
+2025-05-01 04:44:46,495 - werkzeug - INFO - 127.0.0.1 - - [01/May/2025 04:44:46] "[36mGET /api/routes/2025-4-1/4?__debugger__=yes&cmd=resource&f=console.png&s=KVagQl1bjKZOiyPXvKZx HTTP/1.1[0m" 304 -
+2025-05-01 04:47:30,288 - werkzeug - INFO -  * Detected change in '/home/fer/Documents/upb/2025_1/ticprog/Crime-visualization-prediction-Medellin/backend/database/models.py', reloading
+2025-05-01 04:47:30,741 - werkzeug - INFO -  * Restarting with stat
+2025-05-01 04:47:33,201 - RoutePlanner.prediction.simple_wrapper - INFO - Loading model from crime_model_simple.pkl
+2025-05-01 04:47:33,230 - RoutePlanner.prediction.simple_wrapper - INFO - Model loaded successfully - trained on 2025-04-28 16:31:29
+2025-05-01 04:47:33,230 - quick_predict - INFO - Loading grid data...
+2025-05-01 04:47:35,928 - quick_predict - INFO - Preprocessing grid data...
+2025-05-01 04:47:36,079 - quick_predict - INFO - Added crime_count column. Range: 1 - 1142
+2025-05-01 04:47:36,255 - quick_predict - INFO - Added distance_to_police column. Range: 0.01 - 3.73 km
+2025-05-01 04:47:36,255 - quick_predict - INFO - Preparing features for prediction...
+2025-05-01 04:47:36,263 - quick_predict - INFO - Generating predictions...
+2025-05-01 04:47:36,290 - quick_predict - INFO - 
+Sample predictions:
+2025-05-01 04:47:36,293 - quick_predict - INFO -             h3_index      risk
+600  89661836d17ffff  0.155539
+809  896619d92b7ffff  0.150840
+179  896619d900fffff  0.150840
+451  896619d904fffff  0.150532
+890  896619d9003ffff  0.150485
+2025-05-01 04:47:36,341 - werkzeug - WARNING -  * Debugger is active!
+2025-05-01 04:47:36,342 - werkzeug - INFO -  * Debugger PIN: 779-770-115
+2025-05-01 04:47:36,379 - werkzeug - INFO - 127.0.0.1 - - [01/May/2025 04:47:36] "GET /api/routes/2025-4-1/4 HTTP/1.1" 200 -
+2025-05-01 04:47:36,415 - werkzeug - INFO - 127.0.0.1 - - [01/May/2025 04:47:36] "[33mGET /favicon.ico HTTP/1.1[0m" 404 -
+2025-05-01 04:48:08,344 - werkzeug - INFO -  * Detected change in '/home/fer/Documents/upb/2025_1/ticprog/Crime-visualization-prediction-Medellin/backend/database/models.py', reloading
+2025-05-01 04:48:08,790 - werkzeug - INFO -  * Restarting with stat
+2025-05-01 04:48:11,249 - RoutePlanner.prediction.simple_wrapper - INFO - Loading model from crime_model_simple.pkl
+2025-05-01 04:48:11,274 - RoutePlanner.prediction.simple_wrapper - INFO - Model loaded successfully - trained on 2025-04-28 16:31:29
+2025-05-01 04:48:11,274 - quick_predict - INFO - Loading grid data...
+2025-05-01 04:48:13,937 - quick_predict - INFO - Preprocessing grid data...
+2025-05-01 04:48:14,087 - quick_predict - INFO - Added crime_count column. Range: 1 - 1142
+2025-05-01 04:48:14,260 - quick_predict - INFO - Added distance_to_police column. Range: 0.01 - 3.73 km
+2025-05-01 04:48:14,260 - quick_predict - INFO - Preparing features for prediction...
+2025-05-01 04:48:14,265 - quick_predict - INFO - Generating predictions...
+2025-05-01 04:48:14,291 - quick_predict - INFO - 
+Sample predictions:
+2025-05-01 04:48:14,293 - quick_predict - INFO -             h3_index      risk
+600  89661836d17ffff  0.155539
+809  896619d92b7ffff  0.150840
+179  896619d900fffff  0.150840
+451  896619d904fffff  0.150532
+890  896619d9003ffff  0.150485
+2025-05-01 04:48:14,336 - werkzeug - WARNING -  * Debugger is active!
+2025-05-01 04:48:14,337 - werkzeug - INFO -  * Debugger PIN: 779-770-115
+2025-05-01 04:48:14,368 - werkzeug - INFO - 127.0.0.1 - - [01/May/2025 04:48:14] "GET /api/routes/2025-4-1/4 HTTP/1.1" 200 -
+2025-05-01 04:48:14,420 - werkzeug - INFO - 127.0.0.1 - - [01/May/2025 04:48:14] "[33mGET /favicon.ico HTTP/1.1[0m" 404 -
+2025-05-01 04:48:32,991 - werkzeug - INFO -  * Detected change in '/home/fer/Documents/upb/2025_1/ticprog/Crime-visualization-prediction-Medellin/backend/database/models.py', reloading
+2025-05-01 04:48:33,444 - werkzeug - INFO -  * Restarting with stat
+2025-05-01 04:48:35,896 - RoutePlanner.prediction.simple_wrapper - INFO - Loading model from crime_model_simple.pkl
+2025-05-01 04:48:35,921 - RoutePlanner.prediction.simple_wrapper - INFO - Model loaded successfully - trained on 2025-04-28 16:31:29
+2025-05-01 04:48:35,921 - quick_predict - INFO - Loading grid data...
+2025-05-01 04:48:38,630 - quick_predict - INFO - Preprocessing grid data...
+2025-05-01 04:48:38,779 - quick_predict - INFO - Added crime_count column. Range: 1 - 1142
+2025-05-01 04:48:38,958 - quick_predict - INFO - Added distance_to_police column. Range: 0.01 - 3.73 km
+2025-05-01 04:48:38,958 - quick_predict - INFO - Preparing features for prediction...
+2025-05-01 04:48:38,963 - quick_predict - INFO - Generating predictions...
+2025-05-01 04:48:38,990 - quick_predict - INFO - 
+Sample predictions:
+2025-05-01 04:48:38,992 - quick_predict - INFO -             h3_index      risk
+600  89661836d17ffff  0.155539
+809  896619d92b7ffff  0.150840
+179  896619d900fffff  0.150840
+451  896619d904fffff  0.150532
+890  896619d9003ffff  0.150485
+2025-05-01 04:48:39,035 - werkzeug - WARNING -  * Debugger is active!
+2025-05-01 04:48:39,037 - werkzeug - INFO -  * Debugger PIN: 779-770-115
+2025-05-01 04:48:39,069 - werkzeug - INFO - 127.0.0.1 - - [01/May/2025 04:48:39] "GET /api/routes/2025-4-1/4 HTTP/1.1" 200 -
+2025-05-01 04:48:39,120 - werkzeug - INFO - 127.0.0.1 - - [01/May/2025 04:48:39] "[33mGET /favicon.ico HTTP/1.1[0m" 404 -
+2025-05-01 04:48:49,027 - werkzeug - INFO - 127.0.0.1 - - [01/May/2025 04:48:49] "GET /api/routes/2025-4-1/4 HTTP/1.1" 200 -
+2025-05-01 04:49:27,245 - werkzeug - INFO - 127.0.0.1 - - [01/May/2025 04:49:27] "GET /api/routes/2025-4-1/4 HTTP/1.1" 200 -
+2025-05-01 04:50:22,514 - werkzeug - INFO - 127.0.0.1 - - [01/May/2025 04:50:22] "[33mGET /api/routes/2025-4-1/0 HTTP/1.1[0m" 404 -
+2025-05-01 04:50:30,991 - werkzeug - INFO - 127.0.0.1 - - [01/May/2025 04:50:30] "GET /api/routes/2025-4-1/4 HTTP/1.1" 200 -
+2025-05-01 04:51:29,730 - werkzeug - INFO - 127.0.0.1 - - [01/May/2025 04:51:29] "GET /api/routes/2025-4-1/4 HTTP/1.1" 200 -
+2025-05-01 04:52:22,691 - werkzeug - INFO - 127.0.0.1 - - [01/May/2025 04:52:22] "[33mGET /api/routes/2025-4-1/5 HTTP/1.1[0m" 404 -
+2025-05-01 04:55:09,010 - werkzeug - INFO -  * Detected change in '/home/fer/Documents/upb/2025_1/ticprog/Crime-visualization-prediction-Medellin/backend/database/models.py', reloading
+2025-05-01 04:55:09,417 - werkzeug - INFO -  * Restarting with stat
+2025-05-01 04:55:11,862 - RoutePlanner.prediction.simple_wrapper - INFO - Loading model from crime_model_simple.pkl
+2025-05-01 04:55:11,886 - RoutePlanner.prediction.simple_wrapper - INFO - Model loaded successfully - trained on 2025-04-28 16:31:29
+2025-05-01 04:55:11,886 - quick_predict - INFO - Loading grid data...
+2025-05-01 04:55:14,545 - quick_predict - INFO - Preprocessing grid data...
+2025-05-01 04:55:14,686 - quick_predict - INFO - Added crime_count column. Range: 1 - 1142
+2025-05-01 04:55:14,851 - quick_predict - INFO - Added distance_to_police column. Range: 0.01 - 3.73 km
+2025-05-01 04:55:14,851 - quick_predict - INFO - Preparing features for prediction...
+2025-05-01 04:55:14,856 - quick_predict - INFO - Generating predictions...
+2025-05-01 04:55:14,883 - quick_predict - INFO - 
+Sample predictions:
+2025-05-01 04:55:14,884 - quick_predict - INFO -             h3_index      risk
+600  89661836d17ffff  0.155539
+809  896619d92b7ffff  0.150840
+179  896619d900fffff  0.150840
+451  896619d904fffff  0.150532
+890  896619d9003ffff  0.150485
+2025-05-01 04:55:14,922 - werkzeug - WARNING -  * Debugger is active!
+2025-05-01 04:55:14,923 - werkzeug - INFO -  * Debugger PIN: 779-770-115
+2025-05-01 04:58:27,760 - werkzeug - INFO - 127.0.0.1 - - [01/May/2025 04:58:27] "[32mGET /apidocs HTTP/1.1[0m" 308 -
+2025-05-01 04:58:27,792 - werkzeug - INFO - 127.0.0.1 - - [01/May/2025 04:58:27] "GET /apidocs/ HTTP/1.1" 200 -
+2025-05-01 04:58:27,836 - werkzeug - INFO - 127.0.0.1 - - [01/May/2025 04:58:27] "GET /flasgger_static/swagger-ui-standalone-preset.js HTTP/1.1" 200 -
+2025-05-01 04:58:27,837 - werkzeug - INFO - 127.0.0.1 - - [01/May/2025 04:58:27] "GET /flasgger_static/swagger-ui.css HTTP/1.1" 200 -
+2025-05-01 04:58:27,838 - werkzeug - INFO - 127.0.0.1 - - [01/May/2025 04:58:27] "GET /flasgger_static/lib/jquery.min.js HTTP/1.1" 200 -
+2025-05-01 04:58:27,839 - werkzeug - INFO - 127.0.0.1 - - [01/May/2025 04:58:27] "GET /flasgger_static/swagger-ui-bundle.js HTTP/1.1" 200 -
+2025-05-01 04:58:28,385 - werkzeug - INFO - 127.0.0.1 - - [01/May/2025 04:58:28] "GET /flasgger_static/favicon-32x32.png HTTP/1.1" 200 -
+2025-05-01 04:58:28,424 - werkzeug - INFO - 127.0.0.1 - - [01/May/2025 04:58:28] "GET /apispec_1.json HTTP/1.1" 200 -
+2025-05-01 04:58:47,226 - werkzeug - INFO -  * Detected change in '/home/fer/Documents/upb/2025_1/ticprog/Crime-visualization-prediction-Medellin/backend/app.py', reloading
+2025-05-01 04:58:47,689 - werkzeug - INFO -  * Restarting with stat
+2025-05-01 04:58:50,189 - RoutePlanner.prediction.simple_wrapper - INFO - Loading model from crime_model_simple.pkl
+2025-05-01 04:58:50,215 - RoutePlanner.prediction.simple_wrapper - INFO - Model loaded successfully - trained on 2025-04-28 16:31:29
+2025-05-01 04:58:50,215 - quick_predict - INFO - Loading grid data...
+2025-05-01 04:58:52,903 - quick_predict - INFO - Preprocessing grid data...
+2025-05-01 04:58:53,047 - quick_predict - INFO - Added crime_count column. Range: 1 - 1142
+2025-05-01 04:58:53,218 - quick_predict - INFO - Added distance_to_police column. Range: 0.01 - 3.73 km
+2025-05-01 04:58:53,218 - quick_predict - INFO - Preparing features for prediction...
+2025-05-01 04:58:53,224 - quick_predict - INFO - Generating predictions...
+2025-05-01 04:58:53,250 - quick_predict - INFO - 
+Sample predictions:
+2025-05-01 04:58:53,252 - quick_predict - INFO -             h3_index      risk
+600  89661836d17ffff  0.155539
+809  896619d92b7ffff  0.150840
+179  896619d900fffff  0.150840
+451  896619d904fffff  0.150532
+890  896619d9003ffff  0.150485
+2025-05-01 04:58:53,293 - werkzeug - WARNING -  * Debugger is active!
+2025-05-01 04:58:53,294 - werkzeug - INFO -  * Debugger PIN: 779-770-115
+2025-05-01 04:58:53,334 - werkzeug - INFO - 127.0.0.1 - - [01/May/2025 04:58:53] "GET /apidocs/ HTTP/1.1" 200 -
+2025-05-01 04:58:53,367 - werkzeug - INFO - 127.0.0.1 - - [01/May/2025 04:58:53] "[36mGET /flasgger_static/swagger-ui-bundle.js HTTP/1.1[0m" 304 -
+2025-05-01 04:58:53,368 - werkzeug - INFO - 127.0.0.1 - - [01/May/2025 04:58:53] "[36mGET /flasgger_static/swagger-ui.css HTTP/1.1[0m" 304 -
+2025-05-01 04:58:53,368 - werkzeug - INFO - 127.0.0.1 - - [01/May/2025 04:58:53] "[36mGET /flasgger_static/swagger-ui-standalone-preset.js HTTP/1.1[0m" 304 -
+2025-05-01 04:58:53,369 - werkzeug - INFO - 127.0.0.1 - - [01/May/2025 04:58:53] "[36mGET /flasgger_static/lib/jquery.min.js HTTP/1.1[0m" 304 -
+2025-05-01 04:58:53,569 - werkzeug - INFO - 127.0.0.1 - - [01/May/2025 04:58:53] "GET /apispec_1.json HTTP/1.1" 200 -
+2025-05-01 04:59:37,552 - werkzeug - INFO - 127.0.0.1 - - [01/May/2025 04:59:37] "GET /apidocs/ HTTP/1.1" 200 -
+2025-05-01 04:59:37,594 - werkzeug - INFO - 127.0.0.1 - - [01/May/2025 04:59:37] "[36mGET /flasgger_static/swagger-ui-bundle.js HTTP/1.1[0m" 304 -
+2025-05-01 04:59:37,594 - werkzeug - INFO - 127.0.0.1 - - [01/May/2025 04:59:37] "[36mGET /flasgger_static/swagger-ui.css HTTP/1.1[0m" 304 -
+2025-05-01 04:59:37,598 - werkzeug - INFO - 127.0.0.1 - - [01/May/2025 04:59:37] "[36mGET /flasgger_static/swagger-ui-standalone-preset.js HTTP/1.1[0m" 304 -
+2025-05-01 04:59:37,599 - werkzeug - INFO - 127.0.0.1 - - [01/May/2025 04:59:37] "[36mGET /flasgger_static/lib/jquery.min.js HTTP/1.1[0m" 304 -
+2025-05-01 04:59:37,805 - werkzeug - INFO - 127.0.0.1 - - [01/May/2025 04:59:37] "GET /apispec_1.json HTTP/1.1" 200 -
+2025-05-01 05:00:13,176 - werkzeug - INFO - 127.0.0.1 - - [01/May/2025 05:00:13] "GET /apidocs/ HTTP/1.1" 200 -
+2025-05-01 05:00:13,211 - werkzeug - INFO - 127.0.0.1 - - [01/May/2025 05:00:13] "[36mGET /flasgger_static/swagger-ui.css HTTP/1.1[0m" 304 -
+2025-05-01 05:00:13,211 - werkzeug - INFO - 127.0.0.1 - - [01/May/2025 05:00:13] "[36mGET /flasgger_static/swagger-ui-bundle.js HTTP/1.1[0m" 304 -
+2025-05-01 05:00:13,215 - werkzeug - INFO - 127.0.0.1 - - [01/May/2025 05:00:13] "[36mGET /flasgger_static/lib/jquery.min.js HTTP/1.1[0m" 304 -
+2025-05-01 05:00:13,215 - werkzeug - INFO - 127.0.0.1 - - [01/May/2025 05:00:13] "[36mGET /flasgger_static/swagger-ui-standalone-preset.js HTTP/1.1[0m" 304 -
+2025-05-01 05:00:13,417 - werkzeug - INFO - 127.0.0.1 - - [01/May/2025 05:00:13] "GET /apispec_1.json HTTP/1.1" 200 -
+2025-05-01 05:01:10,007 - werkzeug - INFO - 127.0.0.1 - - [01/May/2025 05:01:10] "GET /apidocs/ HTTP/1.1" 200 -
+2025-05-01 05:01:10,039 - werkzeug - INFO - 127.0.0.1 - - [01/May/2025 05:01:10] "[36mGET /flasgger_static/swagger-ui.css HTTP/1.1[0m" 304 -
+2025-05-01 05:01:10,041 - werkzeug - INFO - 127.0.0.1 - - [01/May/2025 05:01:10] "[36mGET /flasgger_static/swagger-ui-bundle.js HTTP/1.1[0m" 304 -
+2025-05-01 05:01:10,042 - werkzeug - INFO - 127.0.0.1 - - [01/May/2025 05:01:10] "[36mGET /flasgger_static/swagger-ui-standalone-preset.js HTTP/1.1[0m" 304 -
+2025-05-01 05:01:10,045 - werkzeug - INFO - 127.0.0.1 - - [01/May/2025 05:01:10] "[36mGET /flasgger_static/lib/jquery.min.js HTTP/1.1[0m" 304 -
+2025-05-01 05:01:10,257 - werkzeug - INFO - 127.0.0.1 - - [01/May/2025 05:01:10] "GET /apispec_1.json HTTP/1.1" 200 -
+2025-05-01 05:01:45,555 - werkzeug - INFO - 127.0.0.1 - - [01/May/2025 05:01:45] "GET /apidocs/ HTTP/1.1" 200 -
+2025-05-01 05:01:45,584 - werkzeug - INFO - 127.0.0.1 - - [01/May/2025 05:01:45] "[36mGET /flasgger_static/swagger-ui.css HTTP/1.1[0m" 304 -
+2025-05-01 05:01:45,588 - werkzeug - INFO - 127.0.0.1 - - [01/May/2025 05:01:45] "[36mGET /flasgger_static/swagger-ui-bundle.js HTTP/1.1[0m" 304 -
+2025-05-01 05:01:45,589 - werkzeug - INFO - 127.0.0.1 - - [01/May/2025 05:01:45] "[36mGET /flasgger_static/lib/jquery.min.js HTTP/1.1[0m" 304 -
+2025-05-01 05:01:45,590 - werkzeug - INFO - 127.0.0.1 - - [01/May/2025 05:01:45] "[36mGET /flasgger_static/swagger-ui-standalone-preset.js HTTP/1.1[0m" 304 -
+2025-05-01 05:01:45,794 - werkzeug - INFO - 127.0.0.1 - - [01/May/2025 05:01:45] "GET /apispec_1.json HTTP/1.1" 200 -
+2025-05-01 05:01:55,626 - werkzeug - INFO - 127.0.0.1 - - [01/May/2025 05:01:55] "GET /apidocs/ HTTP/1.1" 200 -
+2025-05-01 05:01:55,654 - werkzeug - INFO - 127.0.0.1 - - [01/May/2025 05:01:55] "[36mGET /flasgger_static/swagger-ui.css HTTP/1.1[0m" 304 -
+2025-05-01 05:01:55,659 - werkzeug - INFO - 127.0.0.1 - - [01/May/2025 05:01:55] "[36mGET /flasgger_static/swagger-ui-standalone-preset.js HTTP/1.1[0m" 304 -
+2025-05-01 05:01:55,660 - werkzeug - INFO - 127.0.0.1 - - [01/May/2025 05:01:55] "[36mGET /flasgger_static/swagger-ui-bundle.js HTTP/1.1[0m" 304 -
+2025-05-01 05:01:55,660 - werkzeug - INFO - 127.0.0.1 - - [01/May/2025 05:01:55] "[36mGET /flasgger_static/lib/jquery.min.js HTTP/1.1[0m" 304 -
+2025-05-01 05:01:55,873 - werkzeug - INFO - 127.0.0.1 - - [01/May/2025 05:01:55] "GET /apispec_1.json HTTP/1.1" 200 -
+2025-05-01 05:03:35,558 - werkzeug - INFO - 127.0.0.1 - - [01/May/2025 05:03:35] "GET /apidocs/ HTTP/1.1" 200 -
+2025-05-01 05:03:35,589 - werkzeug - INFO - 127.0.0.1 - - [01/May/2025 05:03:35] "[36mGET /flasgger_static/swagger-ui.css HTTP/1.1[0m" 304 -
+2025-05-01 05:03:35,589 - werkzeug - INFO - 127.0.0.1 - - [01/May/2025 05:03:35] "[36mGET /flasgger_static/swagger-ui-bundle.js HTTP/1.1[0m" 304 -
+2025-05-01 05:03:35,594 - werkzeug - INFO - 127.0.0.1 - - [01/May/2025 05:03:35] "[36mGET /flasgger_static/lib/jquery.min.js HTTP/1.1[0m" 304 -
+2025-05-01 05:03:35,595 - werkzeug - INFO - 127.0.0.1 - - [01/May/2025 05:03:35] "[36mGET /flasgger_static/swagger-ui-standalone-preset.js HTTP/1.1[0m" 304 -
+2025-05-01 05:03:35,801 - werkzeug - INFO - 127.0.0.1 - - [01/May/2025 05:03:35] "GET /apispec_1.json HTTP/1.1" 200 -
+2025-05-01 05:04:10,407 - werkzeug - INFO - 127.0.0.1 - - [01/May/2025 05:04:10] "GET /apidocs/ HTTP/1.1" 200 -
+2025-05-01 05:04:10,439 - werkzeug - INFO - 127.0.0.1 - - [01/May/2025 05:04:10] "[36mGET /flasgger_static/swagger-ui.css HTTP/1.1[0m" 304 -
+2025-05-01 05:04:10,441 - werkzeug - INFO - 127.0.0.1 - - [01/May/2025 05:04:10] "[36mGET /flasgger_static/swagger-ui-standalone-preset.js HTTP/1.1[0m" 304 -
+2025-05-01 05:04:10,442 - werkzeug - INFO - 127.0.0.1 - - [01/May/2025 05:04:10] "[36mGET /flasgger_static/swagger-ui-bundle.js HTTP/1.1[0m" 304 -
+2025-05-01 05:04:10,445 - werkzeug - INFO - 127.0.0.1 - - [01/May/2025 05:04:10] "[36mGET /flasgger_static/lib/jquery.min.js HTTP/1.1[0m" 304 -
+2025-05-01 05:04:10,667 - werkzeug - INFO - 127.0.0.1 - - [01/May/2025 05:04:10] "GET /apispec_1.json HTTP/1.1" 200 -
+2025-05-01 05:04:40,361 - werkzeug - INFO - 127.0.0.1 - - [01/May/2025 05:04:40] "GET /apidocs/ HTTP/1.1" 200 -
+2025-05-01 05:04:40,397 - werkzeug - INFO - 127.0.0.1 - - [01/May/2025 05:04:40] "[36mGET /flasgger_static/swagger-ui.css HTTP/1.1[0m" 304 -
+2025-05-01 05:04:40,399 - werkzeug - INFO - 127.0.0.1 - - [01/May/2025 05:04:40] "[36mGET /flasgger_static/lib/jquery.min.js HTTP/1.1[0m" 304 -
+2025-05-01 05:04:40,400 - werkzeug - INFO - 127.0.0.1 - - [01/May/2025 05:04:40] "[36mGET /flasgger_static/swagger-ui-bundle.js HTTP/1.1[0m" 304 -
+2025-05-01 05:04:40,401 - werkzeug - INFO - 127.0.0.1 - - [01/May/2025 05:04:40] "[36mGET /flasgger_static/swagger-ui-standalone-preset.js HTTP/1.1[0m" 304 -
+2025-05-01 05:04:40,612 - werkzeug - INFO - 127.0.0.1 - - [01/May/2025 05:04:40] "GET /apispec_1.json HTTP/1.1" 200 -
+2025-05-01 05:05:30,658 - werkzeug - INFO -  * Detected change in '/home/fer/Documents/upb/2025_1/ticprog/Crime-visualization-prediction-Medellin/backend/app.py', reloading
+2025-05-01 05:05:31,078 - werkzeug - INFO -  * Restarting with stat
+2025-05-01 05:05:33,490 - RoutePlanner.prediction.simple_wrapper - INFO - Loading model from crime_model_simple.pkl
+2025-05-01 05:05:33,515 - RoutePlanner.prediction.simple_wrapper - INFO - Model loaded successfully - trained on 2025-04-28 16:31:29
+2025-05-01 05:05:33,515 - quick_predict - INFO - Loading grid data...
+2025-05-01 05:05:36,162 - quick_predict - INFO - Preprocessing grid data...
+2025-05-01 05:05:36,301 - quick_predict - INFO - Added crime_count column. Range: 1 - 1142
+2025-05-01 05:05:36,466 - quick_predict - INFO - Added distance_to_police column. Range: 0.01 - 3.73 km
+2025-05-01 05:05:36,466 - quick_predict - INFO - Preparing features for prediction...
+2025-05-01 05:05:36,471 - quick_predict - INFO - Generating predictions...
+2025-05-01 05:05:36,498 - quick_predict - INFO - 
+Sample predictions:
+2025-05-01 05:05:36,499 - quick_predict - INFO -             h3_index      risk
+600  89661836d17ffff  0.155539
+809  896619d92b7ffff  0.150840
+179  896619d900fffff  0.150840
+451  896619d904fffff  0.150532
+890  896619d9003ffff  0.150485
+2025-05-01 05:05:36,539 - werkzeug - WARNING -  * Debugger is active!
+2025-05-01 05:05:36,540 - werkzeug - INFO -  * Debugger PIN: 779-770-115
+2025-05-01 05:19:19,123 - werkzeug - INFO -  * Detected change in '/home/fer/Documents/upb/2025_1/ticprog/Crime-visualization-prediction-Medellin/backend/app.py', reloading
+2025-05-01 05:19:19,571 - werkzeug - INFO -  * Restarting with stat
+2025-05-01 05:19:22,049 - RoutePlanner.prediction.simple_wrapper - INFO - Loading model from crime_model_simple.pkl
+2025-05-01 05:19:22,080 - RoutePlanner.prediction.simple_wrapper - INFO - Model loaded successfully - trained on 2025-04-28 16:31:29
+2025-05-01 05:19:22,081 - quick_predict - INFO - Loading grid data...
+2025-05-01 05:19:24,821 - quick_predict - INFO - Preprocessing grid data...
+2025-05-01 05:19:24,970 - quick_predict - INFO - Added crime_count column. Range: 1 - 1142
+2025-05-01 05:19:25,175 - quick_predict - INFO - Added distance_to_police column. Range: 0.01 - 3.73 km
+2025-05-01 05:19:25,175 - quick_predict - INFO - Preparing features for prediction...
+2025-05-01 05:19:25,182 - quick_predict - INFO - Generating predictions...
+2025-05-01 05:19:25,209 - quick_predict - INFO - 
+Sample predictions:
+2025-05-01 05:19:25,211 - quick_predict - INFO -             h3_index      risk
+600  89661836d17ffff  0.155539
+809  896619d92b7ffff  0.150840
+179  896619d900fffff  0.150840
+451  896619d904fffff  0.150532
+890  896619d9003ffff  0.150485
+2025-05-01 05:19:25,260 - werkzeug - WARNING -  * Debugger is active!
+2025-05-01 05:19:25,262 - werkzeug - INFO -  * Debugger PIN: 779-770-115
+2025-05-01 05:34:11,493 - werkzeug - INFO -  * Detected change in '/home/fer/Documents/upb/2025_1/ticprog/Crime-visualization-prediction-Medellin/backend/app.py', reloading
+2025-05-01 05:34:11,913 - werkzeug - INFO -  * Restarting with stat
+2025-05-01 05:34:14,318 - RoutePlanner.prediction.simple_wrapper - INFO - Loading model from crime_model_simple.pkl
+2025-05-01 05:34:14,343 - RoutePlanner.prediction.simple_wrapper - INFO - Model loaded successfully - trained on 2025-04-28 16:31:29
+2025-05-01 05:34:14,343 - quick_predict - INFO - Loading grid data...
+2025-05-01 05:34:17,024 - quick_predict - INFO - Preprocessing grid data...
+2025-05-01 05:34:17,165 - quick_predict - INFO - Added crime_count column. Range: 1 - 1142
+2025-05-01 05:34:17,332 - quick_predict - INFO - Added distance_to_police column. Range: 0.01 - 3.73 km
+2025-05-01 05:34:17,332 - quick_predict - INFO - Preparing features for prediction...
+2025-05-01 05:34:17,337 - quick_predict - INFO - Generating predictions...
+2025-05-01 05:34:17,363 - quick_predict - INFO - 
+Sample predictions:
+2025-05-01 05:34:17,365 - quick_predict - INFO -             h3_index      risk
+600  89661836d17ffff  0.155539
+809  896619d92b7ffff  0.150840
+179  896619d900fffff  0.150840
+451  896619d904fffff  0.150532
+890  896619d9003ffff  0.150485
+2025-05-01 05:34:17,404 - werkzeug - WARNING -  * Debugger is active!
+2025-05-01 05:34:17,405 - werkzeug - INFO -  * Debugger PIN: 779-770-115
+2025-05-01 05:44:11,350 - werkzeug - INFO -  * Detected change in '/home/fer/Documents/upb/2025_1/ticprog/Crime-visualization-prediction-Medellin/backend/database/models.py', reloading
+2025-05-01 05:44:11,754 - werkzeug - INFO -  * Restarting with stat
+2025-05-01 05:44:14,153 - RoutePlanner.prediction.simple_wrapper - INFO - Loading model from crime_model_simple.pkl
+2025-05-01 05:44:14,178 - RoutePlanner.prediction.simple_wrapper - INFO - Model loaded successfully - trained on 2025-04-28 16:31:29
+2025-05-01 05:44:14,178 - quick_predict - INFO - Loading grid data...
+2025-05-01 05:44:16,856 - quick_predict - INFO - Preprocessing grid data...
+2025-05-01 05:44:16,999 - quick_predict - INFO - Added crime_count column. Range: 1 - 1142
+2025-05-01 05:44:17,166 - quick_predict - INFO - Added distance_to_police column. Range: 0.01 - 3.73 km
+2025-05-01 05:44:17,166 - quick_predict - INFO - Preparing features for prediction...
+2025-05-01 05:44:17,171 - quick_predict - INFO - Generating predictions...
+2025-05-01 05:44:17,198 - quick_predict - INFO - 
+Sample predictions:
+2025-05-01 05:44:17,200 - quick_predict - INFO -             h3_index      risk
+600  89661836d17ffff  0.155539
+809  896619d92b7ffff  0.150840
+179  896619d900fffff  0.150840
+451  896619d904fffff  0.150532
+890  896619d9003ffff  0.150485
+2025-05-01 05:44:17,239 - werkzeug - WARNING -  * Debugger is active!
+2025-05-01 05:44:17,240 - werkzeug - INFO -  * Debugger PIN: 779-770-115
+2025-05-01 09:42:17,350 - werkzeug - INFO -  * Detected change in '/home/fer/Documents/upb/2025_1/ticprog/Crime-visualization-prediction-Medellin/backend/database/models.py', reloading
+2025-05-01 09:42:17,772 - werkzeug - INFO -  * Restarting with stat
+2025-05-01 09:42:20,197 - RoutePlanner.prediction.simple_wrapper - INFO - Loading model from crime_model_simple.pkl
+2025-05-01 09:42:20,222 - RoutePlanner.prediction.simple_wrapper - INFO - Model loaded successfully - trained on 2025-04-28 16:31:29
+2025-05-01 09:42:20,222 - quick_predict - INFO - Loading grid data...
+2025-05-01 09:42:22,882 - quick_predict - INFO - Preprocessing grid data...
+2025-05-01 09:42:23,021 - quick_predict - INFO - Added crime_count column. Range: 1 - 1142
+2025-05-01 09:42:23,197 - quick_predict - INFO - Added distance_to_police column. Range: 0.01 - 3.73 km
+2025-05-01 09:42:23,197 - quick_predict - INFO - Preparing features for prediction...
+2025-05-01 09:42:23,202 - quick_predict - INFO - Generating predictions...
+2025-05-01 09:42:23,228 - quick_predict - INFO - 
+Sample predictions:
+2025-05-01 09:42:23,230 - quick_predict - INFO -             h3_index      risk
+600  89661836d17ffff  0.147601
+451  896619d904fffff  0.146022
+483  896619d92d7ffff  0.145820
+513  896619d92a7ffff  0.145771
+890  896619d9003ffff  0.145551
+2025-05-01 09:42:23,270 - werkzeug - WARNING -  * Debugger is active!
+2025-05-01 09:42:23,271 - werkzeug - INFO -  * Debugger PIN: 779-770-115
+2025-05-01 09:46:28,367 - werkzeug - INFO -  * Detected change in '/home/fer/Documents/upb/2025_1/ticprog/Crime-visualization-prediction-Medellin/backend/database/models.py', reloading
+2025-05-01 09:46:28,777 - werkzeug - INFO -  * Restarting with stat
+2025-05-01 09:46:31,216 - RoutePlanner.prediction.simple_wrapper - INFO - Loading model from crime_model_simple.pkl
+2025-05-01 09:46:31,242 - RoutePlanner.prediction.simple_wrapper - INFO - Model loaded successfully - trained on 2025-04-28 16:31:29
+2025-05-01 09:46:31,242 - quick_predict - INFO - Loading grid data...
+2025-05-01 09:46:33,917 - quick_predict - INFO - Preprocessing grid data...
+2025-05-01 09:46:34,056 - quick_predict - INFO - Added crime_count column. Range: 1 - 1142
+2025-05-01 09:46:34,225 - quick_predict - INFO - Added distance_to_police column. Range: 0.01 - 3.73 km
+2025-05-01 09:46:34,225 - quick_predict - INFO - Preparing features for prediction...
+2025-05-01 09:46:34,230 - quick_predict - INFO - Generating predictions...
+2025-05-01 09:46:34,256 - quick_predict - INFO - 
+Sample predictions:
+2025-05-01 09:46:34,258 - quick_predict - INFO -             h3_index      risk
+600  89661836d17ffff  0.147601
+451  896619d904fffff  0.146022
+483  896619d92d7ffff  0.145820
+513  896619d92a7ffff  0.145771
+890  896619d9003ffff  0.145551
+2025-05-01 09:46:34,296 - werkzeug - WARNING -  * Debugger is active!
+2025-05-01 09:46:34,297 - werkzeug - INFO -  * Debugger PIN: 779-770-115
+2025-05-01 09:48:02,676 - werkzeug - INFO -  * Detected change in '/home/fer/Documents/upb/2025_1/ticprog/Crime-visualization-prediction-Medellin/backend/app.py', reloading
+2025-05-01 09:48:03,091 - werkzeug - INFO -  * Restarting with stat
+2025-05-01 09:48:05,503 - RoutePlanner.prediction.simple_wrapper - INFO - Loading model from crime_model_simple.pkl
+2025-05-01 09:48:05,528 - RoutePlanner.prediction.simple_wrapper - INFO - Model loaded successfully - trained on 2025-04-28 16:31:29
+2025-05-01 09:48:05,528 - quick_predict - INFO - Loading grid data...
+2025-05-01 09:48:08,226 - quick_predict - INFO - Preprocessing grid data...
+2025-05-01 09:48:08,363 - quick_predict - INFO - Added crime_count column. Range: 1 - 1142
+2025-05-01 09:48:08,527 - quick_predict - INFO - Added distance_to_police column. Range: 0.01 - 3.73 km
+2025-05-01 09:48:08,527 - quick_predict - INFO - Preparing features for prediction...
+2025-05-01 09:48:08,532 - quick_predict - INFO - Generating predictions...
+2025-05-01 09:48:08,558 - quick_predict - INFO - 
+Sample predictions:
+2025-05-01 09:48:08,560 - quick_predict - INFO -             h3_index      risk
+600  89661836d17ffff  0.147601
+451  896619d904fffff  0.146022
+483  896619d92d7ffff  0.145820
+513  896619d92a7ffff  0.145771
+890  896619d9003ffff  0.145551
+2025-05-01 09:48:08,598 - werkzeug - WARNING -  * Debugger is active!
+2025-05-01 09:48:08,599 - werkzeug - INFO -  * Debugger PIN: 779-770-115
+2025-05-01 09:48:55,126 - werkzeug - INFO -  * Detected change in '/home/fer/Documents/upb/2025_1/ticprog/Crime-visualization-prediction-Medellin/backend/database/models.py', reloading
+2025-05-01 09:48:55,536 - werkzeug - INFO -  * Restarting with stat
+2025-05-01 10:23:56,830 - RoutePlanner.prediction.simple_wrapper - INFO - Loading model from crime_model_simple.pkl
+2025-05-01 10:23:56,857 - RoutePlanner.prediction.simple_wrapper - INFO - Model loaded successfully - trained on 2025-04-28 16:31:29
+2025-05-01 10:23:56,857 - quick_predict - INFO - Loading grid data...
+2025-05-01 10:23:59,511 - quick_predict - INFO - Preprocessing grid data...
+2025-05-01 10:23:59,651 - quick_predict - INFO - Added crime_count column. Range: 1 - 1142
+2025-05-01 10:23:59,821 - quick_predict - INFO - Added distance_to_police column. Range: 0.01 - 3.73 km
+2025-05-01 10:23:59,822 - quick_predict - INFO - Preparing features for prediction...
+2025-05-01 10:23:59,827 - quick_predict - INFO - Generating predictions...
+2025-05-01 10:23:59,855 - quick_predict - INFO - 
+Sample predictions:
+2025-05-01 10:23:59,857 - quick_predict - INFO -             h3_index      risk
+600  89661836d17ffff  0.147601
+451  896619d904fffff  0.146022
+483  896619d92d7ffff  0.145820
+513  896619d92a7ffff  0.145771
+890  896619d9003ffff  0.145551
+2025-05-01 10:41:27,019 - dotenv.main - WARNING - python-dotenv could not parse statement starting at line 4
+2025-05-01 10:50:16,441 - werkzeug - INFO - [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on http://127.0.0.1:5000
+2025-05-01 10:50:16,441 - werkzeug - INFO - [33mPress CTRL+C to quit[0m
+2025-05-01 10:50:16,442 - werkzeug - INFO -  * Restarting with stat
+2025-05-01 10:50:18,985 - werkzeug - WARNING -  * Debugger is active!
+2025-05-01 10:50:18,987 - werkzeug - INFO -  * Debugger PIN: 779-770-115
+2025-05-01 10:50:24,703 - werkzeug - INFO - 127.0.0.1 - - [01/May/2025 10:50:24] "GET /apidocs/ HTTP/1.1" 200 -
+2025-05-01 10:50:24,738 - werkzeug - INFO - 127.0.0.1 - - [01/May/2025 10:50:24] "[36mGET /flasgger_static/swagger-ui.css HTTP/1.1[0m" 304 -
+2025-05-01 10:50:24,738 - werkzeug - INFO - 127.0.0.1 - - [01/May/2025 10:50:24] "[36mGET /flasgger_static/swagger-ui-standalone-preset.js HTTP/1.1[0m" 304 -
+2025-05-01 10:50:24,739 - werkzeug - INFO - 127.0.0.1 - - [01/May/2025 10:50:24] "[36mGET /flasgger_static/swagger-ui-bundle.js HTTP/1.1[0m" 304 -
+2025-05-01 10:50:24,742 - werkzeug - INFO - 127.0.0.1 - - [01/May/2025 10:50:24] "[36mGET /flasgger_static/lib/jquery.min.js HTTP/1.1[0m" 304 -
+2025-05-01 10:50:24,960 - werkzeug - INFO - 127.0.0.1 - - [01/May/2025 10:50:24] "GET /apispec_1.json HTTP/1.1" 200 -
+2025-05-01 10:50:48,033 - werkzeug - INFO -  * Detected change in '/home/fer/Documents/upb/2025_1/ticprog/Crime-visualization-prediction-Medellin/backend/app.py', reloading
+2025-05-01 10:50:48,433 - werkzeug - INFO -  * Restarting with stat
+2025-05-01 10:50:50,950 - werkzeug - WARNING -  * Debugger is active!
+2025-05-01 10:50:50,951 - werkzeug - INFO -  * Debugger PIN: 779-770-115
+2025-05-01 10:51:01,305 - werkzeug - INFO - 127.0.0.1 - - [01/May/2025 10:51:01] "[31m[1mPOST /api/admin/login HTTP/1.1[0m" 405 -
+2025-05-01 10:51:15,849 - werkzeug - INFO -  * Detected change in '/home/fer/Documents/upb/2025_1/ticprog/Crime-visualization-prediction-Medellin/backend/app.py', reloading
+2025-05-01 10:51:16,264 - werkzeug - INFO -  * Restarting with stat
+2025-05-01 10:51:19,145 - werkzeug - WARNING -  * Debugger is active!
+2025-05-01 10:51:19,149 - werkzeug - INFO -  * Debugger PIN: 145-205-703
+2025-05-01 10:52:31,446 - werkzeug - INFO -  * Detected change in '/home/fer/Documents/upb/2025_1/ticprog/Crime-visualization-prediction-Medellin/backend/app.py', reloading
+2025-05-01 10:52:31,869 - werkzeug - INFO -  * Restarting with stat
+2025-05-01 10:52:34,459 - werkzeug - WARNING -  * Debugger is active!
+2025-05-01 10:52:34,460 - werkzeug - INFO -  * Debugger PIN: 145-205-703
+2025-05-01 10:52:47,859 - werkzeug - INFO -  * Detected change in '/home/fer/Documents/upb/2025_1/ticprog/Crime-visualization-prediction-Medellin/backend/app.py', reloading
+2025-05-01 10:52:48,282 - werkzeug - INFO -  * Restarting with stat
+2025-05-01 10:52:50,762 - werkzeug - WARNING -  * Debugger is active!
+2025-05-01 10:52:50,763 - werkzeug - INFO -  * Debugger PIN: 779-770-115
+2025-05-01 10:52:56,931 - werkzeug - INFO - 127.0.0.1 - - [01/May/2025 10:52:56] "[31m[1mPOST /api/admin/login HTTP/1.1[0m" 401 -
+2025-05-01 10:53:08,793 - werkzeug - INFO - 127.0.0.1 - - [01/May/2025 10:53:08] "[31m[1mPOST /api/admin/login HTTP/1.1[0m" 401 -
+2025-05-01 10:53:36,203 - werkzeug - INFO -  * Detected change in '/home/fer/Documents/upb/2025_1/ticprog/Crime-visualization-prediction-Medellin/backend/app.py', reloading
+2025-05-01 10:53:36,652 - werkzeug - INFO -  * Restarting with stat
+2025-05-01 10:53:39,270 - werkzeug - WARNING -  * Debugger is active!
+2025-05-01 10:53:39,271 - werkzeug - INFO -  * Debugger PIN: 779-770-115
+2025-05-01 10:53:40,961 - werkzeug - INFO - 127.0.0.1 - - [01/May/2025 10:53:40] "[35m[1mPOST /api/admin/login HTTP/1.1[0m" 500 -
+2025-05-01 10:53:55,796 - werkzeug - INFO -  * Detected change in '/home/fer/Documents/upb/2025_1/ticprog/Crime-visualization-prediction-Medellin/backend/app.py', reloading
+2025-05-01 10:53:56,216 - werkzeug - INFO -  * Restarting with stat
+2025-05-01 10:53:58,678 - werkzeug - WARNING -  * Debugger is active!
+2025-05-01 10:53:58,680 - werkzeug - INFO -  * Debugger PIN: 779-770-115
+2025-05-01 10:54:14,121 - werkzeug - INFO -  * Detected change in '/home/fer/Documents/upb/2025_1/ticprog/Crime-visualization-prediction-Medellin/backend/database/models.py', reloading
+2025-05-01 10:54:14,544 - werkzeug - INFO -  * Restarting with stat
+2025-05-01 10:54:16,974 - werkzeug - WARNING -  * Debugger is active!
+2025-05-01 10:54:16,975 - werkzeug - INFO -  * Debugger PIN: 145-205-703
+2025-05-01 10:54:45,557 - werkzeug - INFO - 127.0.0.1 - - [01/May/2025 10:54:45] "[35m[1mPOST /api/admin/login HTTP/1.1[0m" 500 -
+2025-05-01 10:55:02,388 - werkzeug - INFO -  * Detected change in '/home/fer/Documents/upb/2025_1/ticprog/Crime-visualization-prediction-Medellin/backend/database/models.py', reloading
+2025-05-01 10:55:02,802 - werkzeug - INFO -  * Restarting with stat
+2025-05-01 10:55:05,288 - werkzeug - WARNING -  * Debugger is active!
+2025-05-01 10:55:05,289 - werkzeug - INFO -  * Debugger PIN: 779-770-115
+2025-05-01 10:55:07,759 - werkzeug - INFO - 127.0.0.1 - - [01/May/2025 10:55:07] "[31m[1mPOST /api/admin/login HTTP/1.1[0m" 401 -
+2025-05-01 10:55:41,442 - werkzeug - INFO -  * Detected change in '/home/fer/Documents/upb/2025_1/ticprog/Crime-visualization-prediction-Medellin/backend/app.py', reloading
+2025-05-01 10:55:41,858 - werkzeug - INFO -  * Restarting with stat
+2025-05-01 10:55:44,403 - werkzeug - WARNING -  * Debugger is active!
+2025-05-01 10:55:44,404 - werkzeug - INFO -  * Debugger PIN: 779-770-115
+2025-05-01 10:55:45,741 - werkzeug - INFO - 127.0.0.1 - - [01/May/2025 10:55:45] "[35m[1mPOST /api/admin/login HTTP/1.1[0m" 500 -
+2025-05-01 10:59:35,344 - RoutePlanner.prediction.simple_wrapper - INFO - Loading model from crime_model_simple.pkl
+2025-05-01 10:59:35,374 - RoutePlanner.prediction.simple_wrapper - INFO - Model loaded successfully - trained on 2025-04-28 16:31:29
+2025-05-01 10:59:35,374 - quick_predict - INFO - Loading grid data...
+2025-05-01 10:59:38,428 - quick_predict - INFO - Preprocessing grid data...
+2025-05-01 10:59:38,599 - quick_predict - INFO - Added crime_count column. Range: 1 - 1142
+2025-05-01 10:59:38,788 - quick_predict - INFO - Added distance_to_police column. Range: 0.01 - 3.73 km
+2025-05-01 10:59:38,788 - quick_predict - INFO - Preparing features for prediction...
+2025-05-01 10:59:38,794 - quick_predict - INFO - Generating predictions...
+2025-05-01 10:59:38,821 - quick_predict - INFO - 
+Sample predictions:
+2025-05-01 10:59:38,823 - quick_predict - INFO -             h3_index      risk
+600  89661836d17ffff  0.147601
+451  896619d904fffff  0.146022
+483  896619d92d7ffff  0.145820
+513  896619d92a7ffff  0.145771
+890  896619d9003ffff  0.145551
+2025-05-01 10:59:40,187 - werkzeug - INFO - 127.0.0.1 - - [01/May/2025 10:59:40] "GET /api/routes?cai=3&n=1&profile=driving-car&threshold=0 HTTP/1.1" 200 -
+2025-05-01 11:04:01,800 - werkzeug - INFO -  * Detected change in '/home/fer/Documents/upb/2025_1/ticprog/Crime-visualization-prediction-Medellin/backend/app.py', reloading
+2025-05-01 11:04:02,201 - werkzeug - INFO -  * Restarting with stat
+2025-05-01 11:04:14,701 - werkzeug - INFO -  * Restarting with stat
+2025-05-01 11:04:27,204 - werkzeug - INFO -  * Restarting with stat
+2025-05-01 11:04:33,660 - werkzeug - INFO -  * Restarting with stat
+2025-05-01 11:04:44,153 - werkzeug - INFO -  * Restarting with stat
+2025-05-01 11:05:06,715 - werkzeug - INFO -  * Restarting with stat
+2025-05-01 11:05:09,169 - werkzeug - WARNING -  * Debugger is active!
+2025-05-01 11:05:09,170 - werkzeug - INFO -  * Debugger PIN: 145-205-703
+2025-05-01 11:06:32,271 - werkzeug - INFO -  * Detected change in '/home/fer/Documents/upb/2025_1/ticprog/Crime-visualization-prediction-Medellin/backend/app.py', reloading
+2025-05-01 11:06:32,696 - werkzeug - INFO -  * Restarting with stat
+2025-05-01 11:06:35,235 - RoutePlanner.prediction.simple_wrapper - INFO - Loading model from crime_model_simple.pkl
+2025-05-01 11:06:35,262 - RoutePlanner.prediction.simple_wrapper - INFO - Model loaded successfully - trained on 2025-04-28 16:31:29
+2025-05-01 11:06:35,262 - quick_predict - INFO - Loading grid data...
+2025-05-01 11:06:37,952 - quick_predict - INFO - Preprocessing grid data...
+2025-05-01 11:06:38,093 - quick_predict - INFO - Added crime_count column. Range: 1 - 1142
+2025-05-01 11:06:38,260 - quick_predict - INFO - Added distance_to_police column. Range: 0.01 - 3.73 km
+2025-05-01 11:06:38,261 - quick_predict - INFO - Preparing features for prediction...
+2025-05-01 11:06:38,266 - quick_predict - INFO - Generating predictions...
+2025-05-01 11:06:38,294 - quick_predict - INFO - 
+Sample predictions:
+2025-05-01 11:06:38,295 - quick_predict - INFO -             h3_index      risk
+600  89661836d17ffff  0.137959
+451  896619d904fffff  0.136379
+483  896619d92d7ffff  0.136177
+513  896619d92a7ffff  0.136128
+890  896619d9003ffff  0.135909
+2025-05-01 11:06:38,336 - werkzeug - WARNING -  * Debugger is active!
+2025-05-01 11:06:38,337 - werkzeug - INFO -  * Debugger PIN: 779-770-115
+2025-05-01 11:06:44,545 - werkzeug - INFO -  * Detected change in '/home/fer/Documents/upb/2025_1/ticprog/Crime-visualization-prediction-Medellin/backend/app.py', reloading
+2025-05-01 11:06:44,959 - werkzeug - INFO -  * Restarting with stat
+2025-05-01 11:06:47,457 - RoutePlanner.prediction.simple_wrapper - INFO - Loading model from crime_model_simple.pkl
+2025-05-01 11:06:47,483 - RoutePlanner.prediction.simple_wrapper - INFO - Model loaded successfully - trained on 2025-04-28 16:31:29
+2025-05-01 11:06:47,483 - quick_predict - INFO - Loading grid data...
+2025-05-01 11:06:50,115 - quick_predict - INFO - Preprocessing grid data...
+2025-05-01 11:06:50,257 - quick_predict - INFO - Added crime_count column. Range: 1 - 1142
+2025-05-01 11:06:50,422 - quick_predict - INFO - Added distance_to_police column. Range: 0.01 - 3.73 km
+2025-05-01 11:06:50,422 - quick_predict - INFO - Preparing features for prediction...
+2025-05-01 11:06:50,427 - quick_predict - INFO - Generating predictions...
+2025-05-01 11:06:50,455 - quick_predict - INFO - 
+Sample predictions:
+2025-05-01 11:06:50,457 - quick_predict - INFO -             h3_index      risk
+600  89661836d17ffff  0.137959
+451  896619d904fffff  0.136379
+483  896619d92d7ffff  0.136177
+513  896619d92a7ffff  0.136128
+890  896619d9003ffff  0.135909
+2025-05-01 11:06:50,498 - werkzeug - WARNING -  * Debugger is active!
+2025-05-01 11:06:50,499 - werkzeug - INFO -  * Debugger PIN: 779-770-115
+2025-05-01 11:07:23,848 - RoutePlanner.prediction.simple_wrapper - INFO - Loading model from crime_model_simple.pkl
+2025-05-01 11:07:23,875 - RoutePlanner.prediction.simple_wrapper - INFO - Model loaded successfully - trained on 2025-04-28 16:31:29
+2025-05-01 11:07:23,876 - quick_predict - INFO - Loading grid data...
+2025-05-01 11:07:26,556 - quick_predict - INFO - Preprocessing grid data...
+2025-05-01 11:07:26,698 - quick_predict - INFO - Added crime_count column. Range: 1 - 1142
+2025-05-01 11:07:26,872 - quick_predict - INFO - Added distance_to_police column. Range: 0.01 - 3.73 km
+2025-05-01 11:07:26,872 - quick_predict - INFO - Preparing features for prediction...
+2025-05-01 11:07:26,878 - quick_predict - INFO - Generating predictions...
+2025-05-01 11:07:26,907 - quick_predict - INFO - 
+Sample predictions:
+2025-05-01 11:07:26,911 - quick_predict - INFO -             h3_index      risk
+600  89661836d17ffff  0.137959
+451  896619d904fffff  0.136379
+483  896619d92d7ffff  0.136177
+513  896619d92a7ffff  0.136128
+890  896619d9003ffff  0.135909
+2025-05-01 11:07:26,961 - werkzeug - INFO - [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on http://127.0.0.1:5000
+2025-05-01 11:07:26,961 - werkzeug - INFO - [33mPress CTRL+C to quit[0m
+2025-05-01 11:07:26,962 - werkzeug - INFO -  * Restarting with stat
+2025-05-01 11:07:29,506 - RoutePlanner.prediction.simple_wrapper - INFO - Loading model from crime_model_simple.pkl
+2025-05-01 11:07:29,547 - RoutePlanner.prediction.simple_wrapper - INFO - Model loaded successfully - trained on 2025-04-28 16:31:29
+2025-05-01 11:07:29,548 - quick_predict - INFO - Loading grid data...
+2025-05-01 11:07:32,242 - quick_predict - INFO - Preprocessing grid data...
+2025-05-01 11:07:32,385 - quick_predict - INFO - Added crime_count column. Range: 1 - 1142
+2025-05-01 11:07:32,562 - quick_predict - INFO - Added distance_to_police column. Range: 0.01 - 3.73 km
+2025-05-01 11:07:32,562 - quick_predict - INFO - Preparing features for prediction...
+2025-05-01 11:07:32,568 - quick_predict - INFO - Generating predictions...
+2025-05-01 11:07:32,598 - quick_predict - INFO - 
+Sample predictions:
+2025-05-01 11:07:32,600 - quick_predict - INFO -             h3_index      risk
+600  89661836d17ffff  0.137959
+451  896619d904fffff  0.136379
+483  896619d92d7ffff  0.136177
+513  896619d92a7ffff  0.136128
+890  896619d9003ffff  0.135909
+2025-05-01 11:07:32,649 - werkzeug - WARNING -  * Debugger is active!
+2025-05-01 11:07:32,650 - werkzeug - INFO -  * Debugger PIN: 779-770-115
+2025-05-01 11:07:55,398 - werkzeug - INFO - 127.0.0.1 - - [01/May/2025 11:07:55] "GET /api/routes?cai=3&n=1&profile=driving-car&threshold=0 HTTP/1.1" 200 -
+2025-05-01 11:11:45,457 - werkzeug - INFO -  * Detected change in '/home/fer/Documents/upb/2025_1/ticprog/Crime-visualization-prediction-Medellin/backend/database/models.py', reloading
+2025-05-01 11:11:45,875 - werkzeug - INFO -  * Restarting with stat
+2025-05-01 11:11:48,319 - werkzeug - WARNING -  * Debugger is active!
+2025-05-01 11:11:48,320 - werkzeug - INFO -  * Debugger PIN: 145-205-703
+2025-05-01 11:12:47,800 - werkzeug - INFO -  * Detected change in '/home/fer/Documents/upb/2025_1/ticprog/Crime-visualization-prediction-Medellin/backend/database/models.py', reloading
+2025-05-01 11:12:48,205 - werkzeug - INFO -  * Restarting with stat
+2025-05-01 11:12:50,662 - RoutePlanner.prediction.simple_wrapper - INFO - Loading model from crime_model_simple.pkl
+2025-05-01 11:12:50,688 - RoutePlanner.prediction.simple_wrapper - INFO - Model loaded successfully - trained on 2025-04-28 16:31:29
+2025-05-01 11:12:50,689 - quick_predict - INFO - Loading grid data...
+2025-05-01 11:12:53,332 - quick_predict - INFO - Preprocessing grid data...
+2025-05-01 11:12:53,472 - quick_predict - INFO - Added crime_count column. Range: 1 - 1142
+2025-05-01 11:12:53,638 - quick_predict - INFO - Added distance_to_police column. Range: 0.01 - 3.73 km
+2025-05-01 11:12:53,638 - quick_predict - INFO - Preparing features for prediction...
+2025-05-01 11:12:53,643 - quick_predict - INFO - Generating predictions...
+2025-05-01 11:12:53,669 - quick_predict - INFO - 
+Sample predictions:
+2025-05-01 11:12:53,671 - quick_predict - INFO -             h3_index      risk
+600  89661836d17ffff  0.137959
+451  896619d904fffff  0.136379
+483  896619d92d7ffff  0.136177
+513  896619d92a7ffff  0.136128
+890  896619d9003ffff  0.135909
+2025-05-01 11:12:53,712 - werkzeug - WARNING -  * Debugger is active!
+2025-05-01 11:12:53,713 - werkzeug - INFO -  * Debugger PIN: 779-770-115
+2025-05-01 11:13:09,217 - werkzeug - INFO -  * Detected change in '/home/fer/Documents/upb/2025_1/ticprog/Crime-visualization-prediction-Medellin/backend/database/models.py', reloading
+2025-05-01 11:13:09,623 - werkzeug - INFO -  * Restarting with stat
+2025-05-01 11:13:12,066 - RoutePlanner.prediction.simple_wrapper - INFO - Loading model from crime_model_simple.pkl
+2025-05-01 11:13:12,094 - RoutePlanner.prediction.simple_wrapper - INFO - Model loaded successfully - trained on 2025-04-28 16:31:29
+2025-05-01 11:13:12,094 - quick_predict - INFO - Loading grid data...
+2025-05-01 11:13:14,741 - quick_predict - INFO - Preprocessing grid data...
+2025-05-01 11:13:14,878 - quick_predict - INFO - Added crime_count column. Range: 1 - 1142
+2025-05-01 11:13:15,043 - quick_predict - INFO - Added distance_to_police column. Range: 0.01 - 3.73 km
+2025-05-01 11:13:15,043 - quick_predict - INFO - Preparing features for prediction...
+2025-05-01 11:13:15,048 - quick_predict - INFO - Generating predictions...
+2025-05-01 11:13:15,077 - quick_predict - INFO - 
+Sample predictions:
+2025-05-01 11:13:15,079 - quick_predict - INFO -             h3_index      risk
+600  89661836d17ffff  0.137959
+451  896619d904fffff  0.136379
+483  896619d92d7ffff  0.136177
+513  896619d92a7ffff  0.136128
+890  896619d9003ffff  0.135909
+2025-05-01 11:13:15,120 - werkzeug - WARNING -  * Debugger is active!
+2025-05-01 11:13:15,121 - werkzeug - INFO -  * Debugger PIN: 779-770-115
+2025-05-01 11:13:22,364 - werkzeug - INFO -  * Detected change in '/home/fer/Documents/upb/2025_1/ticprog/Crime-visualization-prediction-Medellin/backend/app.py', reloading
+2025-05-01 11:13:22,785 - werkzeug - INFO -  * Restarting with stat
+2025-05-01 11:13:25,234 - RoutePlanner.prediction.simple_wrapper - INFO - Loading model from crime_model_simple.pkl
+2025-05-01 11:13:25,260 - RoutePlanner.prediction.simple_wrapper - INFO - Model loaded successfully - trained on 2025-04-28 16:31:29
+2025-05-01 11:13:25,261 - quick_predict - INFO - Loading grid data...
+2025-05-01 11:13:27,914 - quick_predict - INFO - Preprocessing grid data...
+2025-05-01 11:13:28,053 - quick_predict - INFO - Added crime_count column. Range: 1 - 1142
+2025-05-01 11:13:28,219 - quick_predict - INFO - Added distance_to_police column. Range: 0.01 - 3.73 km
+2025-05-01 11:13:28,219 - quick_predict - INFO - Preparing features for prediction...
+2025-05-01 11:13:28,224 - quick_predict - INFO - Generating predictions...
+2025-05-01 11:13:28,252 - quick_predict - INFO - 
+Sample predictions:
+2025-05-01 11:13:28,254 - quick_predict - INFO -             h3_index      risk
+600  89661836d17ffff  0.137959
+451  896619d904fffff  0.136379
+483  896619d92d7ffff  0.136177
+513  896619d92a7ffff  0.136128
+890  896619d9003ffff  0.135909
+2025-05-01 11:13:28,297 - werkzeug - WARNING -  * Debugger is active!
+2025-05-01 11:13:28,298 - werkzeug - INFO -  * Debugger PIN: 145-205-703
+2025-05-01 11:13:30,401 - werkzeug - INFO -  * Detected change in '/home/fer/Documents/upb/2025_1/ticprog/Crime-visualization-prediction-Medellin/backend/app.py', reloading
+2025-05-01 11:13:30,812 - werkzeug - INFO -  * Restarting with stat
+2025-05-01 11:13:33,265 - RoutePlanner.prediction.simple_wrapper - INFO - Loading model from crime_model_simple.pkl
+2025-05-01 11:13:33,292 - RoutePlanner.prediction.simple_wrapper - INFO - Model loaded successfully - trained on 2025-04-28 16:31:29
+2025-05-01 11:13:33,292 - quick_predict - INFO - Loading grid data...
+2025-05-01 11:13:35,950 - quick_predict - INFO - Preprocessing grid data...
+2025-05-01 11:13:36,090 - quick_predict - INFO - Added crime_count column. Range: 1 - 1142
+2025-05-01 11:13:36,253 - quick_predict - INFO - Added distance_to_police column. Range: 0.01 - 3.73 km
+2025-05-01 11:13:36,253 - quick_predict - INFO - Preparing features for prediction...
+2025-05-01 11:13:36,259 - quick_predict - INFO - Generating predictions...
+2025-05-01 11:13:36,286 - quick_predict - INFO - 
+Sample predictions:
+2025-05-01 11:13:36,288 - quick_predict - INFO -             h3_index      risk
+600  89661836d17ffff  0.137959
+451  896619d904fffff  0.136379
+483  896619d92d7ffff  0.136177
+513  896619d92a7ffff  0.136128
+890  896619d9003ffff  0.135909
+2025-05-01 11:13:36,329 - werkzeug - WARNING -  * Debugger is active!
+2025-05-01 11:13:36,330 - werkzeug - INFO -  * Debugger PIN: 145-205-703
+2025-05-01 11:13:41,497 - werkzeug - INFO -  * Detected change in '/home/fer/Documents/upb/2025_1/ticprog/Crime-visualization-prediction-Medellin/backend/database/models.py', reloading
+2025-05-01 11:13:41,930 - werkzeug - INFO -  * Restarting with stat
+2025-05-01 11:13:44,382 - RoutePlanner.prediction.simple_wrapper - INFO - Loading model from crime_model_simple.pkl
+2025-05-01 11:13:44,408 - RoutePlanner.prediction.simple_wrapper - INFO - Model loaded successfully - trained on 2025-04-28 16:31:29
+2025-05-01 11:13:44,409 - quick_predict - INFO - Loading grid data...
+2025-05-01 11:13:47,076 - quick_predict - INFO - Preprocessing grid data...
+2025-05-01 11:13:47,215 - quick_predict - INFO - Added crime_count column. Range: 1 - 1142
+2025-05-01 11:13:47,380 - quick_predict - INFO - Added distance_to_police column. Range: 0.01 - 3.73 km
+2025-05-01 11:13:47,380 - quick_predict - INFO - Preparing features for prediction...
+2025-05-01 11:13:47,385 - quick_predict - INFO - Generating predictions...
+2025-05-01 11:13:47,411 - quick_predict - INFO - 
+Sample predictions:
+2025-05-01 11:13:47,413 - quick_predict - INFO -             h3_index      risk
+600  89661836d17ffff  0.137959
+451  896619d904fffff  0.136379
+483  896619d92d7ffff  0.136177
+513  896619d92a7ffff  0.136128
+890  896619d9003ffff  0.135909
+2025-05-01 11:13:47,456 - werkzeug - WARNING -  * Debugger is active!
+2025-05-01 11:13:47,457 - werkzeug - INFO -  * Debugger PIN: 145-205-703
+2025-05-01 11:13:52,607 - werkzeug - INFO -  * Detected change in '/home/fer/Documents/upb/2025_1/ticprog/Crime-visualization-prediction-Medellin/backend/app.py', reloading
+2025-05-01 11:13:53,020 - werkzeug - INFO -  * Restarting with stat
+2025-05-01 11:13:55,480 - RoutePlanner.prediction.simple_wrapper - INFO - Loading model from crime_model_simple.pkl
+2025-05-01 11:13:55,506 - RoutePlanner.prediction.simple_wrapper - INFO - Model loaded successfully - trained on 2025-04-28 16:31:29
+2025-05-01 11:13:55,506 - quick_predict - INFO - Loading grid data...
+2025-05-01 11:13:58,163 - quick_predict - INFO - Preprocessing grid data...
+2025-05-01 11:13:58,307 - quick_predict - INFO - Added crime_count column. Range: 1 - 1142
+2025-05-01 11:13:58,474 - quick_predict - INFO - Added distance_to_police column. Range: 0.01 - 3.73 km
+2025-05-01 11:13:58,474 - quick_predict - INFO - Preparing features for prediction...
+2025-05-01 11:13:58,479 - quick_predict - INFO - Generating predictions...
+2025-05-01 11:13:58,507 - quick_predict - INFO - 
+Sample predictions:
+2025-05-01 11:13:58,509 - quick_predict - INFO -             h3_index      risk
+600  89661836d17ffff  0.137959
+451  896619d904fffff  0.136379
+483  896619d92d7ffff  0.136177
+513  896619d92a7ffff  0.136128
+890  896619d9003ffff  0.135909
+2025-05-01 11:13:58,552 - werkzeug - WARNING -  * Debugger is active!
+2025-05-01 11:13:58,553 - werkzeug - INFO -  * Debugger PIN: 145-205-703
+2025-05-01 11:14:21,122 - werkzeug - INFO -  * Detected change in '/home/fer/Documents/upb/2025_1/ticprog/Crime-visualization-prediction-Medellin/backend/app.py', reloading
+2025-05-01 11:14:21,559 - werkzeug - INFO -  * Restarting with stat
+2025-05-01 11:14:24,017 - werkzeug - WARNING -  * Debugger is active!
+2025-05-01 11:14:24,019 - werkzeug - INFO -  * Debugger PIN: 145-205-703
+2025-05-01 11:14:46,635 - werkzeug - INFO -  * Detected change in '/home/fer/Documents/upb/2025_1/ticprog/Crime-visualization-prediction-Medellin/backend/database/models.py', reloading
+2025-05-01 11:14:47,052 - werkzeug - INFO -  * Restarting with stat
+2025-05-01 11:14:49,461 - werkzeug - WARNING -  * Debugger is active!
+2025-05-01 11:14:49,462 - werkzeug - INFO -  * Debugger PIN: 145-205-703
+2025-05-01 11:14:51,565 - werkzeug - INFO -  * Detected change in '/home/fer/Documents/upb/2025_1/ticprog/Crime-visualization-prediction-Medellin/backend/database/models.py', reloading
+2025-05-01 11:14:51,964 - werkzeug - INFO -  * Restarting with stat
+2025-05-01 11:14:54,409 - werkzeug - WARNING -  * Debugger is active!
+2025-05-01 11:14:54,410 - werkzeug - INFO -  * Debugger PIN: 145-205-703
+2025-05-01 11:15:19,029 - RoutePlanner.prediction.simple_wrapper - INFO - Loading model from crime_model_simple.pkl
+2025-05-01 11:15:19,056 - RoutePlanner.prediction.simple_wrapper - INFO - Model loaded successfully - trained on 2025-04-28 16:31:29
+2025-05-01 11:15:19,056 - quick_predict - INFO - Loading grid data...
+2025-05-01 11:15:21,706 - quick_predict - INFO - Preprocessing grid data...
+2025-05-01 11:15:21,848 - quick_predict - INFO - Added crime_count column. Range: 1 - 1142
+2025-05-01 11:15:22,018 - quick_predict - INFO - Added distance_to_police column. Range: 0.01 - 3.73 km
+2025-05-01 11:15:22,018 - quick_predict - INFO - Preparing features for prediction...
+2025-05-01 11:15:22,024 - quick_predict - INFO - Generating predictions...
+2025-05-01 11:15:22,052 - quick_predict - INFO - 
+Sample predictions:
+2025-05-01 11:15:22,054 - quick_predict - INFO -             h3_index      risk
+600  89661836d17ffff  0.137959
+451  896619d904fffff  0.136379
+483  896619d92d7ffff  0.136177
+513  896619d92a7ffff  0.136128
+890  896619d9003ffff  0.135909
+2025-05-01 11:16:07,943 - RoutePlanner.prediction.simple_wrapper - INFO - Loading model from crime_model_simple.pkl
+2025-05-01 11:16:07,970 - RoutePlanner.prediction.simple_wrapper - INFO - Model loaded successfully - trained on 2025-04-28 16:31:29
+2025-05-01 11:16:07,970 - quick_predict - INFO - Loading grid data...
+2025-05-01 11:16:10,640 - quick_predict - INFO - Preprocessing grid data...
+2025-05-01 11:16:10,833 - quick_predict - INFO - Added crime_count column. Range: 1 - 1142
+2025-05-01 11:16:11,026 - quick_predict - INFO - Added distance_to_police column. Range: 0.01 - 3.73 km
+2025-05-01 11:16:11,026 - quick_predict - INFO - Preparing features for prediction...
+2025-05-01 11:16:11,032 - quick_predict - INFO - Generating predictions...
+2025-05-01 11:16:11,062 - quick_predict - INFO - 
+Sample predictions:
+2025-05-01 11:16:11,064 - quick_predict - INFO -             h3_index      risk
+600  89661836d17ffff  0.137959
+451  896619d904fffff  0.136379
+483  896619d92d7ffff  0.136177
+513  896619d92a7ffff  0.136128
+890  896619d9003ffff  0.135909
+2025-05-01 11:16:23,959 - RoutePlanner.prediction.simple_wrapper - INFO - Loading model from crime_model_simple.pkl
+2025-05-01 11:16:23,986 - RoutePlanner.prediction.simple_wrapper - INFO - Model loaded successfully - trained on 2025-04-28 16:31:29
+2025-05-01 11:16:23,986 - quick_predict - INFO - Loading grid data...
+2025-05-01 11:16:26,632 - quick_predict - INFO - Preprocessing grid data...
+2025-05-01 11:16:26,775 - quick_predict - INFO - Added crime_count column. Range: 1 - 1142
+2025-05-01 11:16:26,946 - quick_predict - INFO - Added distance_to_police column. Range: 0.01 - 3.73 km
+2025-05-01 11:16:26,946 - quick_predict - INFO - Preparing features for prediction...
+2025-05-01 11:16:26,952 - quick_predict - INFO - Generating predictions...
+2025-05-01 11:16:26,980 - quick_predict - INFO - 
+Sample predictions:
+2025-05-01 11:16:26,982 - quick_predict - INFO -             h3_index      risk
+600  89661836d17ffff  0.137959
+451  896619d904fffff  0.136379
+483  896619d92d7ffff  0.136177
+513  896619d92a7ffff  0.136128
+890  896619d9003ffff  0.135909
+2025-05-01 11:16:27,030 - werkzeug - INFO - [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on http://127.0.0.1:5000
+2025-05-01 11:16:27,031 - werkzeug - INFO - [33mPress CTRL+C to quit[0m
+2025-05-01 11:16:27,031 - werkzeug - INFO -  * Restarting with stat
+2025-05-01 11:16:29,482 - RoutePlanner.prediction.simple_wrapper - INFO - Loading model from crime_model_simple.pkl
+2025-05-01 11:16:29,508 - RoutePlanner.prediction.simple_wrapper - INFO - Model loaded successfully - trained on 2025-04-28 16:31:29
+2025-05-01 11:16:29,508 - quick_predict - INFO - Loading grid data...
+2025-05-01 11:16:32,232 - quick_predict - INFO - Preprocessing grid data...
+2025-05-01 11:16:32,388 - quick_predict - INFO - Added crime_count column. Range: 1 - 1142
+2025-05-01 11:16:32,557 - quick_predict - INFO - Added distance_to_police column. Range: 0.01 - 3.73 km
+2025-05-01 11:16:32,557 - quick_predict - INFO - Preparing features for prediction...
+2025-05-01 11:16:32,562 - quick_predict - INFO - Generating predictions...
+2025-05-01 11:16:32,590 - quick_predict - INFO - 
+Sample predictions:
+2025-05-01 11:16:32,592 - quick_predict - INFO -             h3_index      risk
+600  89661836d17ffff  0.137959
+451  896619d904fffff  0.136379
+483  896619d92d7ffff  0.136177
+513  896619d92a7ffff  0.136128
+890  896619d9003ffff  0.135909
+2025-05-01 11:16:32,634 - werkzeug - WARNING -  * Debugger is active!
+2025-05-01 11:16:32,636 - werkzeug - INFO -  * Debugger PIN: 779-770-115
+2025-05-01 11:16:32,676 - werkzeug - INFO - 127.0.0.1 - - [01/May/2025 11:16:32] "GET /apidocs/ HTTP/1.1" 200 -
+2025-05-01 11:16:32,705 - werkzeug - INFO - 127.0.0.1 - - [01/May/2025 11:16:32] "[36mGET /flasgger_static/swagger-ui-bundle.js HTTP/1.1[0m" 304 -
+2025-05-01 11:16:32,705 - werkzeug - INFO - 127.0.0.1 - - [01/May/2025 11:16:32] "[36mGET /flasgger_static/swagger-ui.css HTTP/1.1[0m" 304 -
+2025-05-01 11:16:32,707 - werkzeug - INFO - 127.0.0.1 - - [01/May/2025 11:16:32] "[36mGET /flasgger_static/swagger-ui-standalone-preset.js HTTP/1.1[0m" 304 -
+2025-05-01 11:16:32,708 - werkzeug - INFO - 127.0.0.1 - - [01/May/2025 11:16:32] "[36mGET /flasgger_static/lib/jquery.min.js HTTP/1.1[0m" 304 -
+2025-05-01 11:16:32,907 - werkzeug - INFO - 127.0.0.1 - - [01/May/2025 11:16:32] "GET /apispec_1.json HTTP/1.1" 200 -
+2025-05-01 11:16:42,282 - werkzeug - INFO - 127.0.0.1 - - [01/May/2025 11:16:42] "[35m[1mPOST /api/admin/login HTTP/1.1[0m" 500 -
+2025-05-01 11:16:59,493 - werkzeug - INFO -  * Detected change in '/home/fer/Documents/upb/2025_1/ticprog/Crime-visualization-prediction-Medellin/backend/app.py', reloading
+2025-05-01 11:16:59,903 - werkzeug - INFO -  * Restarting with stat
+2025-05-01 11:17:02,363 - RoutePlanner.prediction.simple_wrapper - INFO - Loading model from crime_model_simple.pkl
+2025-05-01 11:17:02,389 - RoutePlanner.prediction.simple_wrapper - INFO - Model loaded successfully - trained on 2025-04-28 16:31:29
+2025-05-01 11:17:02,389 - quick_predict - INFO - Loading grid data...
+2025-05-01 11:17:05,084 - quick_predict - INFO - Preprocessing grid data...
+2025-05-01 11:17:05,250 - quick_predict - INFO - Added crime_count column. Range: 1 - 1142
+2025-05-01 11:17:05,442 - quick_predict - INFO - Added distance_to_police column. Range: 0.01 - 3.73 km
+2025-05-01 11:17:05,442 - quick_predict - INFO - Preparing features for prediction...
+2025-05-01 11:17:05,449 - quick_predict - INFO - Generating predictions...
+2025-05-01 11:17:05,478 - quick_predict - INFO - 
+Sample predictions:
+2025-05-01 11:17:05,481 - quick_predict - INFO -             h3_index      risk
+600  89661836d17ffff  0.137959
+451  896619d904fffff  0.136379
+483  896619d92d7ffff  0.136177
+513  896619d92a7ffff  0.136128
+890  896619d9003ffff  0.135909
+2025-05-01 11:17:05,530 - werkzeug - WARNING -  * Debugger is active!
+2025-05-01 11:17:05,531 - werkzeug - INFO -  * Debugger PIN: 779-770-115
+2025-05-01 11:17:07,969 - werkzeug - INFO - 127.0.0.1 - - [01/May/2025 11:17:07] "POST /api/admin/login HTTP/1.1" 200 -
+2025-05-01 11:17:50,548 - werkzeug - INFO - 127.0.0.1 - - [01/May/2025 11:17:50] "POST /api/admin/login HTTP/1.1" 200 -
+2025-05-01 11:18:00,633 - werkzeug - INFO - 127.0.0.1 - - [01/May/2025 11:18:00] "GET /api/routes?cai=2&n=3 HTTP/1.1" 200 -
+2025-05-01 11:18:36,331 - werkzeug - INFO -  * Detected change in '/home/fer/Documents/upb/2025_1/ticprog/Crime-visualization-prediction-Medellin/backend/app.py', reloading
+2025-05-01 11:18:36,741 - werkzeug - INFO -  * Restarting with stat
+2025-05-01 11:18:39,198 - RoutePlanner.prediction.simple_wrapper - INFO - Loading model from crime_model_simple.pkl
+2025-05-01 11:18:39,223 - RoutePlanner.prediction.simple_wrapper - INFO - Model loaded successfully - trained on 2025-04-28 16:31:29
+2025-05-01 11:18:39,224 - quick_predict - INFO - Loading grid data...
+2025-05-01 11:18:41,898 - quick_predict - INFO - Preprocessing grid data...
+2025-05-01 11:18:42,036 - quick_predict - INFO - Added crime_count column. Range: 1 - 1142
+2025-05-01 11:18:42,203 - quick_predict - INFO - Added distance_to_police column. Range: 0.01 - 3.73 km
+2025-05-01 11:18:42,203 - quick_predict - INFO - Preparing features for prediction...
+2025-05-01 11:18:42,208 - quick_predict - INFO - Generating predictions...
+2025-05-01 11:18:42,236 - quick_predict - INFO - 
+Sample predictions:
+2025-05-01 11:18:42,238 - quick_predict - INFO -             h3_index      risk
+600  89661836d17ffff  0.137959
+451  896619d904fffff  0.136379
+483  896619d92d7ffff  0.136177
+513  896619d92a7ffff  0.136128
+890  896619d9003ffff  0.135909
+2025-05-01 11:18:42,279 - werkzeug - WARNING -  * Debugger is active!
+2025-05-01 11:18:42,280 - werkzeug - INFO -  * Debugger PIN: 779-770-115
+2025-05-01 11:18:57,723 - werkzeug - INFO -  * Detected change in '/home/fer/Documents/upb/2025_1/ticprog/Crime-visualization-prediction-Medellin/backend/config_dev.py', reloading
+2025-05-01 11:18:58,146 - werkzeug - INFO -  * Restarting with stat
+2025-05-01 11:19:00,596 - RoutePlanner.prediction.simple_wrapper - INFO - Loading model from crime_model_simple.pkl
+2025-05-01 11:19:00,622 - RoutePlanner.prediction.simple_wrapper - INFO - Model loaded successfully - trained on 2025-04-28 16:31:29
+2025-05-01 11:19:00,622 - quick_predict - INFO - Loading grid data...
+2025-05-01 11:19:03,259 - quick_predict - INFO - Preprocessing grid data...
+2025-05-01 11:19:03,398 - quick_predict - INFO - Added crime_count column. Range: 1 - 1142
+2025-05-01 11:19:03,562 - quick_predict - INFO - Added distance_to_police column. Range: 0.01 - 3.73 km
+2025-05-01 11:19:03,562 - quick_predict - INFO - Preparing features for prediction...
+2025-05-01 11:19:03,568 - quick_predict - INFO - Generating predictions...
+2025-05-01 11:19:03,596 - quick_predict - INFO - 
+Sample predictions:
+2025-05-01 11:19:03,598 - quick_predict - INFO -             h3_index      risk
+600  89661836d17ffff  0.137959
+451  896619d904fffff  0.136379
+483  896619d92d7ffff  0.136177
+513  896619d92a7ffff  0.136128
+890  896619d9003ffff  0.135909
+2025-05-01 11:19:03,639 - werkzeug - WARNING -  * Debugger is active!
+2025-05-01 11:19:03,640 - werkzeug - INFO -  * Debugger PIN: 779-770-115
+2025-05-01 11:25:18,981 - werkzeug - INFO -  * Detected change in '/home/fer/Documents/upb/2025_1/ticprog/Crime-visualization-prediction-Medellin/backend/database/models.py', reloading
+2025-05-01 11:25:19,401 - werkzeug - INFO -  * Restarting with stat
+2025-05-01 11:25:21,960 - RoutePlanner.prediction.simple_wrapper - INFO - Loading model from crime_model_simple.pkl
+2025-05-01 11:25:21,986 - RoutePlanner.prediction.simple_wrapper - INFO - Model loaded successfully - trained on 2025-04-28 16:31:29
+2025-05-01 11:25:21,986 - quick_predict - INFO - Loading grid data...
+2025-05-01 11:25:24,644 - quick_predict - INFO - Preprocessing grid data...
+2025-05-01 11:25:24,781 - quick_predict - INFO - Added crime_count column. Range: 1 - 1142
+2025-05-01 11:25:24,945 - quick_predict - INFO - Added distance_to_police column. Range: 0.01 - 3.73 km
+2025-05-01 11:25:24,945 - quick_predict - INFO - Preparing features for prediction...
+2025-05-01 11:25:24,951 - quick_predict - INFO - Generating predictions...
+2025-05-01 11:25:24,978 - quick_predict - INFO - 
+Sample predictions:
+2025-05-01 11:25:24,980 - quick_predict - INFO -             h3_index      risk
+600  89661836d17ffff  0.137959
+451  896619d904fffff  0.136379
+483  896619d92d7ffff  0.136177
+513  896619d92a7ffff  0.136128
+890  896619d9003ffff  0.135909
+2025-05-01 11:25:25,021 - werkzeug - WARNING -  * Debugger is active!
+2025-05-01 11:25:25,022 - werkzeug - INFO -  * Debugger PIN: 779-770-115
+2025-05-01 11:25:42,586 - werkzeug - INFO -  * Detected change in '/home/fer/Documents/upb/2025_1/ticprog/Crime-visualization-prediction-Medellin/backend/app.py', reloading
+2025-05-01 11:25:42,999 - werkzeug - INFO -  * Restarting with stat
+2025-05-01 11:25:45,443 - RoutePlanner.prediction.simple_wrapper - INFO - Loading model from crime_model_simple.pkl
+2025-05-01 11:25:45,469 - RoutePlanner.prediction.simple_wrapper - INFO - Model loaded successfully - trained on 2025-04-28 16:31:29
+2025-05-01 11:25:45,469 - quick_predict - INFO - Loading grid data...
+2025-05-01 11:25:48,107 - quick_predict - INFO - Preprocessing grid data...
+2025-05-01 11:25:48,246 - quick_predict - INFO - Added crime_count column. Range: 1 - 1142
+2025-05-01 11:25:48,412 - quick_predict - INFO - Added distance_to_police column. Range: 0.01 - 3.73 km
+2025-05-01 11:25:48,412 - quick_predict - INFO - Preparing features for prediction...
+2025-05-01 11:25:48,417 - quick_predict - INFO - Generating predictions...
+2025-05-01 11:25:48,445 - quick_predict - INFO - 
+Sample predictions:
+2025-05-01 11:25:48,447 - quick_predict - INFO -             h3_index      risk
+600  89661836d17ffff  0.137959
+451  896619d904fffff  0.136379
+483  896619d92d7ffff  0.136177
+513  896619d92a7ffff  0.136128
+890  896619d9003ffff  0.135909
+2025-05-01 11:25:48,487 - werkzeug - WARNING -  * Debugger is active!
+2025-05-01 11:25:48,488 - werkzeug - INFO -  * Debugger PIN: 779-770-115
+2025-05-01 11:26:14,333 - werkzeug - INFO -  * Detected change in '/home/fer/Documents/upb/2025_1/ticprog/Crime-visualization-prediction-Medellin/backend/app.py', reloading
+2025-05-01 11:26:14,760 - werkzeug - INFO -  * Restarting with stat
+2025-05-01 11:26:17,218 - RoutePlanner.prediction.simple_wrapper - INFO - Loading model from crime_model_simple.pkl
+2025-05-01 11:26:17,244 - RoutePlanner.prediction.simple_wrapper - INFO - Model loaded successfully - trained on 2025-04-28 16:31:29
+2025-05-01 11:26:17,244 - quick_predict - INFO - Loading grid data...
+2025-05-01 11:26:19,905 - quick_predict - INFO - Preprocessing grid data...
+2025-05-01 11:26:20,043 - quick_predict - INFO - Added crime_count column. Range: 1 - 1142
+2025-05-01 11:26:20,210 - quick_predict - INFO - Added distance_to_police column. Range: 0.01 - 3.73 km
+2025-05-01 11:26:20,210 - quick_predict - INFO - Preparing features for prediction...
+2025-05-01 11:26:20,215 - quick_predict - INFO - Generating predictions...
+2025-05-01 11:26:20,243 - quick_predict - INFO - 
+Sample predictions:
+2025-05-01 11:26:20,245 - quick_predict - INFO -             h3_index      risk
+600  89661836d17ffff  0.137959
+451  896619d904fffff  0.136379
+483  896619d92d7ffff  0.136177
+513  896619d92a7ffff  0.136128
+890  896619d9003ffff  0.135909
+2025-05-01 11:26:20,286 - werkzeug - WARNING -  * Debugger is active!
+2025-05-01 11:26:20,287 - werkzeug - INFO -  * Debugger PIN: 779-770-115
+2025-05-01 11:26:57,419 - werkzeug - INFO -  * Detected change in '/home/fer/Documents/upb/2025_1/ticprog/Crime-visualization-prediction-Medellin/backend/app.py', reloading
+2025-05-01 11:26:57,824 - werkzeug - INFO -  * Restarting with stat
+2025-05-01 11:27:00,462 - RoutePlanner.prediction.simple_wrapper - INFO - Loading model from crime_model_simple.pkl
+2025-05-01 11:27:00,488 - RoutePlanner.prediction.simple_wrapper - INFO - Model loaded successfully - trained on 2025-04-28 16:31:29
+2025-05-01 11:27:00,488 - quick_predict - INFO - Loading grid data...
+2025-05-01 11:27:03,199 - quick_predict - INFO - Preprocessing grid data...
+2025-05-01 11:27:03,369 - quick_predict - INFO - Added crime_count column. Range: 1 - 1142
+2025-05-01 11:27:03,556 - quick_predict - INFO - Added distance_to_police column. Range: 0.01 - 3.73 km
+2025-05-01 11:27:03,556 - quick_predict - INFO - Preparing features for prediction...
+2025-05-01 11:27:03,562 - quick_predict - INFO - Generating predictions...
+2025-05-01 11:27:03,592 - quick_predict - INFO - 
+Sample predictions:
+2025-05-01 11:27:03,594 - quick_predict - INFO -             h3_index      risk
+600  89661836d17ffff  0.137959
+451  896619d904fffff  0.136379
+483  896619d92d7ffff  0.136177
+513  896619d92a7ffff  0.136128
+890  896619d9003ffff  0.135909
+2025-05-01 11:27:03,648 - werkzeug - WARNING -  * Debugger is active!
+2025-05-01 11:27:03,650 - werkzeug - INFO -  * Debugger PIN: 779-770-115
+2025-05-01 11:27:41,887 - werkzeug - INFO -  * Detected change in '/home/fer/Documents/upb/2025_1/ticprog/Crime-visualization-prediction-Medellin/backend/app.py', reloading
+2025-05-01 11:27:42,303 - werkzeug - INFO -  * Restarting with stat
+2025-05-01 11:27:44,750 - RoutePlanner.prediction.simple_wrapper - INFO - Loading model from crime_model_simple.pkl
+2025-05-01 11:27:44,776 - RoutePlanner.prediction.simple_wrapper - INFO - Model loaded successfully - trained on 2025-04-28 16:31:29
+2025-05-01 11:27:44,776 - quick_predict - INFO - Loading grid data...
+2025-05-01 11:27:47,417 - quick_predict - INFO - Preprocessing grid data...
+2025-05-01 11:27:47,556 - quick_predict - INFO - Added crime_count column. Range: 1 - 1142
+2025-05-01 11:27:47,721 - quick_predict - INFO - Added distance_to_police column. Range: 0.01 - 3.73 km
+2025-05-01 11:27:47,721 - quick_predict - INFO - Preparing features for prediction...
+2025-05-01 11:27:47,726 - quick_predict - INFO - Generating predictions...
+2025-05-01 11:27:47,754 - quick_predict - INFO - 
+Sample predictions:
+2025-05-01 11:27:47,755 - quick_predict - INFO -             h3_index      risk
+600  89661836d17ffff  0.137959
+451  896619d904fffff  0.136379
+483  896619d92d7ffff  0.136177
+513  896619d92a7ffff  0.136128
+890  896619d9003ffff  0.135909
+2025-05-01 11:27:47,797 - werkzeug - WARNING -  * Debugger is active!
+2025-05-01 11:27:47,798 - werkzeug - INFO -  * Debugger PIN: 779-770-115
+2025-05-01 11:28:02,296 - werkzeug - INFO -  * Detected change in '/home/fer/Documents/upb/2025_1/ticprog/Crime-visualization-prediction-Medellin/backend/RoutePlanner/HotspotQuerier.py', reloading
+2025-05-01 11:28:02,710 - werkzeug - INFO -  * Restarting with stat
+2025-05-01 11:28:05,183 - RoutePlanner.prediction.simple_wrapper - INFO - Loading model from crime_model_simple.pkl
+2025-05-01 11:28:05,209 - RoutePlanner.prediction.simple_wrapper - INFO - Model loaded successfully - trained on 2025-04-28 16:31:29
+2025-05-01 11:28:05,209 - quick_predict - INFO - Loading grid data...
+2025-05-01 11:28:07,856 - quick_predict - INFO - Preprocessing grid data...
+2025-05-01 11:28:07,995 - quick_predict - INFO - Added crime_count column. Range: 1 - 1142
+2025-05-01 11:28:08,159 - quick_predict - INFO - Added distance_to_police column. Range: 0.01 - 3.73 km
+2025-05-01 11:28:08,160 - quick_predict - INFO - Preparing features for prediction...
+2025-05-01 11:28:08,165 - quick_predict - INFO - Generating predictions...
+2025-05-01 11:28:08,192 - quick_predict - INFO - 
+Sample predictions:
+2025-05-01 11:28:08,194 - quick_predict - INFO -             h3_index      risk
+600  89661836d17ffff  0.137959
+451  896619d904fffff  0.136379
+483  896619d92d7ffff  0.136177
+513  896619d92a7ffff  0.136128
+890  896619d9003ffff  0.135909
+2025-05-01 11:28:08,236 - werkzeug - WARNING -  * Debugger is active!
+2025-05-01 11:28:08,237 - werkzeug - INFO -  * Debugger PIN: 779-770-115
+2025-05-01 11:28:29,904 - werkzeug - INFO -  * Detected change in '/home/fer/Documents/upb/2025_1/ticprog/Crime-visualization-prediction-Medellin/backend/RoutePlanner/tests.py', reloading
+2025-05-01 11:28:30,320 - werkzeug - INFO -  * Restarting with stat
+2025-05-01 11:28:32,766 - RoutePlanner.prediction.simple_wrapper - INFO - Loading model from crime_model_simple.pkl
+2025-05-01 11:28:32,792 - RoutePlanner.prediction.simple_wrapper - INFO - Model loaded successfully - trained on 2025-04-28 16:31:29
+2025-05-01 11:28:32,792 - quick_predict - INFO - Loading grid data...
+2025-05-01 11:28:35,477 - quick_predict - INFO - Preprocessing grid data...
+2025-05-01 11:28:35,617 - quick_predict - INFO - Added crime_count column. Range: 1 - 1142
+2025-05-01 11:28:35,782 - quick_predict - INFO - Added distance_to_police column. Range: 0.01 - 3.73 km
+2025-05-01 11:28:35,782 - quick_predict - INFO - Preparing features for prediction...
+2025-05-01 11:28:35,787 - quick_predict - INFO - Generating predictions...
+2025-05-01 11:28:35,815 - quick_predict - INFO - 
+Sample predictions:
+2025-05-01 11:28:35,817 - quick_predict - INFO -             h3_index      risk
+600  89661836d17ffff  0.137959
+451  896619d904fffff  0.136379
+483  896619d92d7ffff  0.136177
+513  896619d92a7ffff  0.136128
+890  896619d9003ffff  0.135909
+2025-05-01 11:28:35,858 - werkzeug - WARNING -  * Debugger is active!
+2025-05-01 11:28:35,859 - werkzeug - INFO -  * Debugger PIN: 779-770-115
+2025-05-01 11:28:49,328 - werkzeug - INFO -  * Detected change in '/home/fer/Documents/upb/2025_1/ticprog/Crime-visualization-prediction-Medellin/backend/RoutePlanner/default_router.py', reloading
+2025-05-01 11:28:49,735 - werkzeug - INFO -  * Restarting with stat
+2025-05-01 11:28:52,187 - RoutePlanner.prediction.simple_wrapper - INFO - Loading model from crime_model_simple.pkl
+2025-05-01 11:28:52,213 - RoutePlanner.prediction.simple_wrapper - INFO - Model loaded successfully - trained on 2025-04-28 16:31:29
+2025-05-01 11:28:52,213 - quick_predict - INFO - Loading grid data...
+2025-05-01 11:28:54,876 - quick_predict - INFO - Preprocessing grid data...
+2025-05-01 11:28:55,014 - quick_predict - INFO - Added crime_count column. Range: 1 - 1142
+2025-05-01 11:28:55,179 - quick_predict - INFO - Added distance_to_police column. Range: 0.01 - 3.73 km
+2025-05-01 11:28:55,179 - quick_predict - INFO - Preparing features for prediction...
+2025-05-01 11:28:55,184 - quick_predict - INFO - Generating predictions...
+2025-05-01 11:28:55,210 - quick_predict - INFO - 
+Sample predictions:
+2025-05-01 11:28:55,212 - quick_predict - INFO -             h3_index      risk
+600  89661836d17ffff  0.137959
+451  896619d904fffff  0.136379
+483  896619d92d7ffff  0.136177
+513  896619d92a7ffff  0.136128
+890  896619d9003ffff  0.135909
+2025-05-01 11:28:55,253 - werkzeug - WARNING -  * Debugger is active!
+2025-05-01 11:28:55,254 - werkzeug - INFO -  * Debugger PIN: 779-770-115
+2025-05-01 11:28:56,314 - werkzeug - INFO -  * Detected change in '/home/fer/Documents/upb/2025_1/ticprog/Crime-visualization-prediction-Medellin/backend/RoutePlanner/default_router.py', reloading
+2025-05-01 11:28:56,713 - werkzeug - INFO -  * Restarting with stat
+2025-05-01 11:28:59,171 - RoutePlanner.prediction.simple_wrapper - INFO - Loading model from crime_model_simple.pkl
+2025-05-01 11:28:59,197 - RoutePlanner.prediction.simple_wrapper - INFO - Model loaded successfully - trained on 2025-04-28 16:31:29
+2025-05-01 11:28:59,197 - quick_predict - INFO - Loading grid data...
+2025-05-01 11:29:01,827 - quick_predict - INFO - Preprocessing grid data...
+2025-05-01 11:29:01,965 - quick_predict - INFO - Added crime_count column. Range: 1 - 1142
+2025-05-01 11:29:02,130 - quick_predict - INFO - Added distance_to_police column. Range: 0.01 - 3.73 km
+2025-05-01 11:29:02,130 - quick_predict - INFO - Preparing features for prediction...
+2025-05-01 11:29:02,135 - quick_predict - INFO - Generating predictions...
+2025-05-01 11:29:02,161 - quick_predict - INFO - 
+Sample predictions:
+2025-05-01 11:29:02,163 - quick_predict - INFO -             h3_index      risk
+600  89661836d17ffff  0.137959
+451  896619d904fffff  0.136379
+483  896619d92d7ffff  0.136177
+513  896619d92a7ffff  0.136128
+890  896619d9003ffff  0.135909
+2025-05-01 11:29:02,204 - werkzeug - WARNING -  * Debugger is active!
+2025-05-01 11:29:02,205 - werkzeug - INFO -  * Debugger PIN: 779-770-115
+2025-05-01 11:29:23,771 - werkzeug - INFO -  * Detected change in '/home/fer/Documents/upb/2025_1/ticprog/Crime-visualization-prediction-Medellin/backend/RoutePlanner/prediction/wrapper_interface.py', reloading
+2025-05-01 11:29:24,186 - werkzeug - INFO -  * Restarting with stat
+2025-05-01 11:29:26,640 - RoutePlanner.prediction.simple_wrapper - INFO - Loading model from crime_model_simple.pkl
+2025-05-01 11:29:26,666 - RoutePlanner.prediction.simple_wrapper - INFO - Model loaded successfully - trained on 2025-04-28 16:31:29
+2025-05-01 11:29:26,666 - quick_predict - INFO - Loading grid data...
+2025-05-01 11:29:29,411 - quick_predict - INFO - Preprocessing grid data...
+2025-05-01 11:29:29,553 - quick_predict - INFO - Added crime_count column. Range: 1 - 1142
+2025-05-01 11:29:29,717 - quick_predict - INFO - Added distance_to_police column. Range: 0.01 - 3.73 km
+2025-05-01 11:29:29,717 - quick_predict - INFO - Preparing features for prediction...
+2025-05-01 11:29:29,722 - quick_predict - INFO - Generating predictions...
+2025-05-01 11:29:29,748 - quick_predict - INFO - 
+Sample predictions:
+2025-05-01 11:29:29,750 - quick_predict - INFO -             h3_index      risk
+600  89661836d17ffff  0.137959
+451  896619d904fffff  0.136379
+483  896619d92d7ffff  0.136177
+513  896619d92a7ffff  0.136128
+890  896619d9003ffff  0.135909
+2025-05-01 11:29:29,791 - werkzeug - WARNING -  * Debugger is active!
+2025-05-01 11:29:29,792 - werkzeug - INFO -  * Debugger PIN: 779-770-115
+2025-05-01 11:30:32,761 - RoutePlanner.prediction.simple_wrapper - INFO - Loading model from crime_model_simple.pkl
+2025-05-01 11:30:32,793 - RoutePlanner.prediction.simple_wrapper - INFO - Model loaded successfully - trained on 2025-04-28 16:31:29
+2025-05-01 11:30:32,793 - quick_predict - INFO - Loading grid data...
+2025-05-01 11:30:35,638 - quick_predict - INFO - Preprocessing grid data...
+2025-05-01 11:30:35,808 - quick_predict - INFO - Added crime_count column. Range: 1 - 1142
+2025-05-01 11:30:36,000 - quick_predict - INFO - Added distance_to_police column. Range: 0.01 - 3.73 km
+2025-05-01 11:30:36,000 - quick_predict - INFO - Preparing features for prediction...
+2025-05-01 11:30:36,006 - quick_predict - INFO - Generating predictions...
+2025-05-01 11:30:36,032 - quick_predict - INFO - 
+Sample predictions:
+2025-05-01 11:30:36,035 - quick_predict - INFO -             h3_index      risk
+600  89661836d17ffff  0.137959
+451  896619d904fffff  0.136379
+483  896619d92d7ffff  0.136177
+513  896619d92a7ffff  0.136128
+890  896619d9003ffff  0.135909
+2025-05-01 11:30:36,085 - werkzeug - INFO - [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on http://127.0.0.1:5000
+2025-05-01 11:30:36,085 - werkzeug - INFO - [33mPress CTRL+C to quit[0m
+2025-05-01 11:30:36,086 - werkzeug - INFO -  * Restarting with stat
+2025-05-01 11:30:38,632 - RoutePlanner.prediction.simple_wrapper - INFO - Loading model from crime_model_simple.pkl
+2025-05-01 11:30:38,658 - RoutePlanner.prediction.simple_wrapper - INFO - Model loaded successfully - trained on 2025-04-28 16:31:29
+2025-05-01 11:30:38,658 - quick_predict - INFO - Loading grid data...
+2025-05-01 11:30:41,437 - quick_predict - INFO - Preprocessing grid data...
+2025-05-01 11:30:41,583 - quick_predict - INFO - Added crime_count column. Range: 1 - 1142
+2025-05-01 11:30:41,766 - quick_predict - INFO - Added distance_to_police column. Range: 0.01 - 3.73 km
+2025-05-01 11:30:41,766 - quick_predict - INFO - Preparing features for prediction...
+2025-05-01 11:30:41,772 - quick_predict - INFO - Generating predictions...
+2025-05-01 11:30:41,798 - quick_predict - INFO - 
+Sample predictions:
+2025-05-01 11:30:41,801 - quick_predict - INFO -             h3_index      risk
+600  89661836d17ffff  0.137959
+451  896619d904fffff  0.136379
+483  896619d92d7ffff  0.136177
+513  896619d92a7ffff  0.136128
+890  896619d9003ffff  0.135909
+2025-05-01 11:30:41,848 - werkzeug - WARNING -  * Debugger is active!
+2025-05-01 11:30:41,850 - werkzeug - INFO -  * Debugger PIN: 779-770-115
+2025-05-01 11:33:03,223 - werkzeug - INFO -  * Detected change in '/home/fer/Documents/upb/2025_1/ticprog/Crime-visualization-prediction-Medellin/backend/RoutePlanner/prediction/simple_wrapper.py', reloading
+2025-05-01 11:33:03,637 - werkzeug - INFO -  * Restarting with stat
+2025-05-01 11:33:06,116 - RoutePlanner.prediction.simple_wrapper - INFO - Loading model from crime_model_simple.pkl
+2025-05-01 11:33:06,142 - RoutePlanner.prediction.simple_wrapper - INFO - Model loaded successfully - trained on 2025-04-28 16:31:29
+2025-05-01 11:33:06,143 - quick_predict - INFO - Loading grid data...
+2025-05-01 11:33:08,811 - quick_predict - INFO - Preprocessing grid data...
+2025-05-01 11:33:08,949 - quick_predict - INFO - Added crime_count column. Range: 1 - 1142
+2025-05-01 11:33:09,114 - quick_predict - INFO - Added distance_to_police column. Range: 0.01 - 3.73 km
+2025-05-01 11:33:09,114 - quick_predict - INFO - Preparing features for prediction...
+2025-05-01 11:33:09,119 - quick_predict - INFO - Generating predictions...
+2025-05-01 11:33:09,145 - quick_predict - INFO - 
+Sample predictions:
+2025-05-01 11:33:09,147 - quick_predict - INFO -             h3_index      risk
+600  89661836d17ffff  0.137959
+451  896619d904fffff  0.136379
+483  896619d92d7ffff  0.136177
+513  896619d92a7ffff  0.136128
+890  896619d9003ffff  0.135909
+2025-05-01 11:33:09,189 - werkzeug - WARNING -  * Debugger is active!
+2025-05-01 11:33:09,190 - werkzeug - INFO -  * Debugger PIN: 779-770-115
+2025-05-01 11:33:12,323 - werkzeug - INFO -  * Detected change in '/home/fer/Documents/upb/2025_1/ticprog/Crime-visualization-prediction-Medellin/backend/RoutePlanner/prediction/simple_wrapper.py', reloading
+2025-05-01 11:33:12,742 - werkzeug - INFO -  * Restarting with stat
+2025-05-01 11:33:15,186 - RoutePlanner.prediction.simple_wrapper - INFO - Loading model from crime_model_simple.pkl
+2025-05-01 11:33:15,212 - RoutePlanner.prediction.simple_wrapper - INFO - Model loaded successfully - trained on 2025-04-28 16:31:29
+2025-05-01 11:33:15,213 - quick_predict - INFO - Loading grid data...
+2025-05-01 11:33:17,861 - quick_predict - INFO - Preprocessing grid data...
+2025-05-01 11:33:18,000 - quick_predict - INFO - Added crime_count column. Range: 1 - 1142
+2025-05-01 11:33:18,163 - quick_predict - INFO - Added distance_to_police column. Range: 0.01 - 3.73 km
+2025-05-01 11:33:18,163 - quick_predict - INFO - Preparing features for prediction...
+2025-05-01 11:33:18,168 - quick_predict - INFO - Generating predictions...
+2025-05-01 11:33:18,195 - quick_predict - INFO - 
+Sample predictions:
+2025-05-01 11:33:18,196 - quick_predict - INFO -             h3_index      risk
+600  89661836d17ffff  0.137959
+451  896619d904fffff  0.136379
+483  896619d92d7ffff  0.136177
+513  896619d92a7ffff  0.136128
+890  896619d9003ffff  0.135909
+2025-05-01 11:33:18,238 - werkzeug - WARNING -  * Debugger is active!
+2025-05-01 11:33:18,239 - werkzeug - INFO -  * Debugger PIN: 779-770-115
+2025-05-01 11:33:23,387 - werkzeug - INFO -  * Detected change in '/home/fer/Documents/upb/2025_1/ticprog/Crime-visualization-prediction-Medellin/backend/RoutePlanner/prediction/simple_wrapper.py', reloading
+2025-05-01 11:33:23,808 - werkzeug - INFO -  * Restarting with stat
+2025-05-01 11:33:26,270 - RoutePlanner.prediction.simple_wrapper - INFO - Loading model from crime_model_simple.pkl
+2025-05-01 11:33:26,297 - RoutePlanner.prediction.simple_wrapper - INFO - Model loaded successfully - trained on 2025-04-28 16:31:29
+2025-05-01 11:33:26,297 - quick_predict - INFO - Loading grid data...
+2025-05-01 11:33:28,958 - quick_predict - INFO - Preprocessing grid data...
+2025-05-01 11:33:29,098 - quick_predict - INFO - Added crime_count column. Range: 1 - 1142
+2025-05-01 11:33:29,264 - quick_predict - INFO - Added distance_to_police column. Range: 0.01 - 3.73 km
+2025-05-01 11:33:29,264 - quick_predict - INFO - Preparing features for prediction...
+2025-05-01 11:33:29,269 - quick_predict - INFO - Generating predictions...
+2025-05-01 11:33:29,296 - quick_predict - INFO - 
+Sample predictions:
+2025-05-01 11:33:29,297 - quick_predict - INFO -             h3_index      risk
+600  89661836d17ffff  0.137959
+451  896619d904fffff  0.136379
+483  896619d92d7ffff  0.136177
+513  896619d92a7ffff  0.136128
+890  896619d9003ffff  0.135909
+2025-05-01 11:33:29,339 - werkzeug - WARNING -  * Debugger is active!
+2025-05-01 11:33:29,340 - werkzeug - INFO -  * Debugger PIN: 779-770-115
+2025-05-01 11:33:35,564 - werkzeug - INFO -  * Detected change in '/home/fer/Documents/upb/2025_1/ticprog/Crime-visualization-prediction-Medellin/backend/RoutePlanner/prediction/simple_wrapper.py', reloading
+2025-05-01 11:33:35,988 - werkzeug - INFO -  * Restarting with stat
+2025-05-01 11:33:38,435 - RoutePlanner.prediction.simple_wrapper - INFO - Loading model from crime_model_simple.pkl
+2025-05-01 11:33:38,461 - RoutePlanner.prediction.simple_wrapper - INFO - Model loaded successfully - trained on 2025-04-28 16:31:29
+2025-05-01 11:33:38,461 - quick_predict - INFO - Loading grid data...
+2025-05-01 11:33:41,094 - quick_predict - INFO - Preprocessing grid data...
+2025-05-01 11:33:41,235 - quick_predict - INFO - Added crime_count column. Range: 1 - 1142
+2025-05-01 11:33:41,397 - quick_predict - INFO - Added distance_to_police column. Range: 0.01 - 3.73 km
+2025-05-01 11:33:41,397 - quick_predict - INFO - Preparing features for prediction...
+2025-05-01 11:33:41,402 - quick_predict - INFO - Generating predictions...
+2025-05-01 11:33:41,428 - quick_predict - INFO - 
+Sample predictions:
+2025-05-01 11:33:41,430 - quick_predict - INFO -             h3_index      risk
+600  89661836d17ffff  0.137959
+451  896619d904fffff  0.136379
+483  896619d92d7ffff  0.136177
+513  896619d92a7ffff  0.136128
+890  896619d9003ffff  0.135909
+2025-05-01 11:33:41,472 - werkzeug - WARNING -  * Debugger is active!
+2025-05-01 11:33:41,473 - werkzeug - INFO -  * Debugger PIN: 779-770-115
+2025-05-01 11:33:45,655 - werkzeug - INFO -  * Detected change in '/home/fer/Documents/upb/2025_1/ticprog/Crime-visualization-prediction-Medellin/backend/RoutePlanner/prediction/simple_wrapper.py', reloading
+2025-05-01 11:33:46,071 - werkzeug - INFO -  * Restarting with stat
+2025-05-01 11:33:48,382 - RoutePlanner.prediction.simple_wrapper - INFO - Loading model from crime_model_simple.pkl
+2025-05-01 11:33:48,558 - RoutePlanner.prediction.simple_wrapper - INFO - Model loaded successfully - trained on 2025-04-28 16:31:29
+2025-05-01 11:33:48,558 - quick_predict - INFO - Loading grid data...
+2025-05-01 11:33:51,220 - quick_predict - INFO - Preprocessing grid data...
+2025-05-01 11:33:51,360 - quick_predict - INFO - Added crime_count column. Range: 1 - 1142
+2025-05-01 11:33:51,525 - quick_predict - INFO - Added distance_to_police column. Range: 0.01 - 3.73 km
+2025-05-01 11:33:51,526 - quick_predict - INFO - Preparing features for prediction...
+2025-05-01 11:33:51,531 - quick_predict - INFO - Generating predictions...
+2025-05-01 11:33:51,557 - quick_predict - INFO - 
+Sample predictions:
+2025-05-01 11:33:51,559 - quick_predict - INFO -             h3_index      risk
+600  89661836d17ffff  0.137959
+451  896619d904fffff  0.136379
+483  896619d92d7ffff  0.136177
+513  896619d92a7ffff  0.136128
+890  896619d9003ffff  0.135909
+2025-05-01 11:33:51,600 - werkzeug - WARNING -  * Debugger is active!
+2025-05-01 11:33:51,601 - werkzeug - INFO -  * Debugger PIN: 779-770-115
+2025-05-01 11:34:03,025 - werkzeug - INFO -  * Detected change in '/home/fer/Documents/upb/2025_1/ticprog/Crime-visualization-prediction-Medellin/backend/RoutePlanner/prediction/simple_wrapper.py', reloading
+2025-05-01 11:34:03,432 - werkzeug - INFO -  * Restarting with stat
+2025-05-01 11:34:05,750 - RoutePlanner.prediction.simple_wrapper - INFO - Loading model from crime_model_simple.pkl
+2025-05-01 11:34:05,927 - RoutePlanner.prediction.simple_wrapper - INFO - Model loaded successfully - trained on 2025-04-28 16:31:29
+2025-05-01 11:34:05,927 - quick_predict - INFO - Loading grid data...
+2025-05-01 11:34:08,572 - quick_predict - INFO - Preprocessing grid data...
+2025-05-01 11:34:08,712 - quick_predict - INFO - Added crime_count column. Range: 1 - 1142
+2025-05-01 11:34:08,879 - quick_predict - INFO - Added distance_to_police column. Range: 0.01 - 3.73 km
+2025-05-01 11:34:08,879 - quick_predict - INFO - Preparing features for prediction...
+2025-05-01 11:34:08,885 - quick_predict - INFO - Generating predictions...
+2025-05-01 11:34:08,911 - quick_predict - INFO - 
+Sample predictions:
+2025-05-01 11:34:08,913 - quick_predict - INFO -             h3_index      risk
+600  89661836d17ffff  0.137959
+451  896619d904fffff  0.136379
+483  896619d92d7ffff  0.136177
+513  896619d92a7ffff  0.136128
+890  896619d9003ffff  0.135909
+2025-05-01 11:34:08,954 - werkzeug - WARNING -  * Debugger is active!
+2025-05-01 11:34:08,955 - werkzeug - INFO -  * Debugger PIN: 779-770-115
+2025-05-01 11:36:43,657 - werkzeug - INFO -  * Detected change in '/home/fer/Documents/upb/2025_1/ticprog/Crime-visualization-prediction-Medellin/backend/config_test.py', reloading
+2025-05-01 11:36:44,056 - werkzeug - INFO -  * Restarting with stat
+2025-05-01 11:36:46,371 - RoutePlanner.prediction.simple_wrapper - INFO - Loading model from crime_model_simple.pkl
+2025-05-01 11:36:46,545 - RoutePlanner.prediction.simple_wrapper - INFO - Model loaded successfully - trained on 2025-04-28 16:31:29
+2025-05-01 11:36:46,545 - quick_predict - INFO - Loading grid data...
+2025-05-01 11:36:49,192 - quick_predict - INFO - Preprocessing grid data...
+2025-05-01 11:36:49,331 - quick_predict - INFO - Added crime_count column. Range: 1 - 1142
+2025-05-01 11:36:49,497 - quick_predict - INFO - Added distance_to_police column. Range: 0.01 - 3.73 km
+2025-05-01 11:36:49,498 - quick_predict - INFO - Preparing features for prediction...
+2025-05-01 11:36:49,503 - quick_predict - INFO - Generating predictions...
+2025-05-01 11:36:49,529 - quick_predict - INFO - 
+Sample predictions:
+2025-05-01 11:36:49,531 - quick_predict - INFO -             h3_index      risk
+600  89661836d17ffff  0.137959
+451  896619d904fffff  0.136379
+483  896619d92d7ffff  0.136177
+513  896619d92a7ffff  0.136128
+890  896619d9003ffff  0.135909
+2025-05-01 11:36:49,572 - werkzeug - WARNING -  * Debugger is active!
+2025-05-01 11:36:49,573 - werkzeug - INFO -  * Debugger PIN: 779-770-115
+2025-05-01 11:36:51,676 - werkzeug - INFO -  * Detected change in '/home/fer/Documents/upb/2025_1/ticprog/Crime-visualization-prediction-Medellin/backend/config_test.py', reloading
+2025-05-01 11:36:52,084 - werkzeug - INFO -  * Restarting with stat
+2025-05-01 11:36:54,385 - RoutePlanner.prediction.simple_wrapper - INFO - Loading model from crime_model_simple.pkl
+2025-05-01 11:36:54,559 - RoutePlanner.prediction.simple_wrapper - INFO - Model loaded successfully - trained on 2025-04-28 16:31:29
+2025-05-01 11:36:54,559 - quick_predict - INFO - Loading grid data...
+2025-05-01 11:36:57,227 - quick_predict - INFO - Preprocessing grid data...
+2025-05-01 11:36:57,367 - quick_predict - INFO - Added crime_count column. Range: 1 - 1142
+2025-05-01 11:36:57,535 - quick_predict - INFO - Added distance_to_police column. Range: 0.01 - 3.73 km
+2025-05-01 11:36:57,535 - quick_predict - INFO - Preparing features for prediction...
+2025-05-01 11:36:57,541 - quick_predict - INFO - Generating predictions...
+2025-05-01 11:36:57,567 - quick_predict - INFO - 
+Sample predictions:
+2025-05-01 11:36:57,569 - quick_predict - INFO -             h3_index      risk
+600  89661836d17ffff  0.137959
+451  896619d904fffff  0.136379
+483  896619d92d7ffff  0.136177
+513  896619d92a7ffff  0.136128
+890  896619d9003ffff  0.135909
+2025-05-01 11:36:57,612 - werkzeug - WARNING -  * Debugger is active!
+2025-05-01 11:36:57,613 - werkzeug - INFO -  * Debugger PIN: 779-770-115
+2025-05-01 11:36:58,675 - werkzeug - INFO -  * Detected change in '/home/fer/Documents/upb/2025_1/ticprog/Crime-visualization-prediction-Medellin/backend/config_test.py', reloading
+2025-05-01 11:36:59,083 - werkzeug - INFO -  * Restarting with stat
+2025-05-01 11:37:01,379 - RoutePlanner.prediction.simple_wrapper - INFO - Loading model from crime_model_simple.pkl
+2025-05-01 11:37:01,552 - RoutePlanner.prediction.simple_wrapper - INFO - Model loaded successfully - trained on 2025-04-28 16:31:29
+2025-05-01 11:37:01,552 - quick_predict - INFO - Loading grid data...
+2025-05-01 11:37:04,190 - quick_predict - INFO - Preprocessing grid data...
+2025-05-01 11:37:04,329 - quick_predict - INFO - Added crime_count column. Range: 1 - 1142
+2025-05-01 11:37:04,492 - quick_predict - INFO - Added distance_to_police column. Range: 0.01 - 3.73 km
+2025-05-01 11:37:04,492 - quick_predict - INFO - Preparing features for prediction...
+2025-05-01 11:37:04,498 - quick_predict - INFO - Generating predictions...
+2025-05-01 11:37:04,524 - quick_predict - INFO - 
+Sample predictions:
+2025-05-01 11:37:04,525 - quick_predict - INFO -             h3_index      risk
+600  89661836d17ffff  0.137959
+451  896619d904fffff  0.136379
+483  896619d92d7ffff  0.136177
+513  896619d92a7ffff  0.136128
+890  896619d9003ffff  0.135909
+2025-05-01 11:37:04,566 - werkzeug - WARNING -  * Debugger is active!
+2025-05-01 11:37:04,567 - werkzeug - INFO -  * Debugger PIN: 779-770-115
+2025-05-01 11:41:45,687 - werkzeug - INFO -  * Detected change in '/home/fer/Documents/upb/2025_1/ticprog/Crime-visualization-prediction-Medellin/backend/config_test.py', reloading
+2025-05-01 11:41:46,093 - werkzeug - INFO -  * Restarting with stat
+2025-05-01 11:41:48,413 - RoutePlanner.prediction.simple_wrapper - INFO - Loading model from crime_model_simple.pkl
+2025-05-01 11:41:48,588 - RoutePlanner.prediction.simple_wrapper - INFO - Model loaded successfully - trained on 2025-04-28 16:31:29
+2025-05-01 11:41:48,588 - quick_predict - INFO - Loading grid data...
+2025-05-01 11:41:51,244 - quick_predict - INFO - Preprocessing grid data...
+2025-05-01 11:41:51,382 - quick_predict - INFO - Added crime_count column. Range: 1 - 1142
+2025-05-01 11:41:51,548 - quick_predict - INFO - Added distance_to_police column. Range: 0.01 - 3.73 km
+2025-05-01 11:41:51,548 - quick_predict - INFO - Preparing features for prediction...
+2025-05-01 11:41:51,553 - quick_predict - INFO - Generating predictions...
+2025-05-01 11:41:51,579 - quick_predict - INFO - 
+Sample predictions:
+2025-05-01 11:41:51,581 - quick_predict - INFO -             h3_index      risk
+600  89661836d17ffff  0.137959
+451  896619d904fffff  0.136379
+483  896619d92d7ffff  0.136177
+513  896619d92a7ffff  0.136128
+890  896619d9003ffff  0.135909
+2025-05-01 11:41:51,623 - werkzeug - WARNING -  * Debugger is active!
+2025-05-01 11:41:51,624 - werkzeug - INFO -  * Debugger PIN: 779-770-115
+2025-05-01 11:56:52,387 - werkzeug - INFO -  * Detected change in '/home/fer/Documents/upb/2025_1/ticprog/Crime-visualization-prediction-Medellin/backend/config_test.py', reloading
+2025-05-01 11:56:52,796 - werkzeug - INFO -  * Restarting with stat
+2025-05-01 11:56:55,102 - RoutePlanner.prediction.simple_wrapper - INFO - Loading model from crime_model_simple.pkl
+2025-05-01 11:56:55,275 - RoutePlanner.prediction.simple_wrapper - INFO - Model loaded successfully - trained on 2025-04-28 16:31:29
+2025-05-01 11:56:55,275 - quick_predict - INFO - Loading grid data...
+2025-05-01 11:56:57,914 - quick_predict - INFO - Preprocessing grid data...
+2025-05-01 11:56:58,052 - quick_predict - INFO - Added crime_count column. Range: 1 - 1142
+2025-05-01 11:56:58,216 - quick_predict - INFO - Added distance_to_police column. Range: 0.01 - 3.73 km
+2025-05-01 11:56:58,216 - quick_predict - INFO - Preparing features for prediction...
+2025-05-01 11:56:58,221 - quick_predict - INFO - Generating predictions...
+2025-05-01 11:56:58,248 - quick_predict - INFO - 
+Sample predictions:
+2025-05-01 11:56:58,250 - quick_predict - INFO -             h3_index      risk
+600  89661836d17ffff  0.137959
+451  896619d904fffff  0.136379
+483  896619d92d7ffff  0.136177
+513  896619d92a7ffff  0.136128
+890  896619d9003ffff  0.135909
+2025-05-01 11:56:58,291 - werkzeug - WARNING -  * Debugger is active!
+2025-05-01 11:56:58,292 - werkzeug - INFO -  * Debugger PIN: 779-770-115
+2025-05-01 12:01:53,282 - werkzeug - INFO -  * Detected change in '/home/fer/Documents/upb/2025_1/ticprog/Crime-visualization-prediction-Medellin/backend/config_test.py', reloading
+2025-05-01 12:01:53,682 - werkzeug - INFO -  * Restarting with stat
+2025-05-01 12:01:55,981 - RoutePlanner.prediction.simple_wrapper - INFO - Loading model from crime_model_simple.pkl
+2025-05-01 12:01:56,153 - RoutePlanner.prediction.simple_wrapper - INFO - Model loaded successfully - trained on 2025-04-28 16:31:29
+2025-05-01 12:01:56,154 - quick_predict - INFO - Loading grid data...
+2025-05-01 12:01:58,817 - quick_predict - INFO - Preprocessing grid data...
+2025-05-01 12:01:58,953 - quick_predict - INFO - Added crime_count column. Range: 1 - 1142
+2025-05-01 12:01:59,118 - quick_predict - INFO - Added distance_to_police column. Range: 0.01 - 3.73 km
+2025-05-01 12:01:59,118 - quick_predict - INFO - Preparing features for prediction...
+2025-05-01 12:01:59,123 - quick_predict - INFO - Generating predictions...
+2025-05-01 12:01:59,149 - quick_predict - INFO - 
+Sample predictions:
+2025-05-01 12:01:59,151 - quick_predict - INFO -             h3_index      risk
+600  89661836d17ffff  0.144477
+451  896619d904fffff  0.143354
+483  896619d92d7ffff  0.143152
+513  896619d92a7ffff  0.143103
+605  896619d9057ffff  0.142526
+2025-05-01 12:01:59,192 - werkzeug - WARNING -  * Debugger is active!
+2025-05-01 12:01:59,194 - werkzeug - INFO -  * Debugger PIN: 779-770-115
+2025-05-01 12:03:55,787 - werkzeug - INFO -  * Detected change in '/home/fer/Documents/upb/2025_1/ticprog/Crime-visualization-prediction-Medellin/backend/tests.py', reloading
+2025-05-01 12:03:56,201 - werkzeug - INFO -  * Restarting with stat
+2025-05-01 12:03:58,507 - RoutePlanner.prediction.simple_wrapper - INFO - Loading model from crime_model_simple.pkl
+2025-05-01 12:03:58,682 - RoutePlanner.prediction.simple_wrapper - INFO - Model loaded successfully - trained on 2025-04-28 16:31:29
+2025-05-01 12:03:58,682 - quick_predict - INFO - Loading grid data...
+2025-05-01 12:04:01,318 - quick_predict - INFO - Preprocessing grid data...
+2025-05-01 12:04:01,457 - quick_predict - INFO - Added crime_count column. Range: 1 - 1142
+2025-05-01 12:04:01,624 - quick_predict - INFO - Added distance_to_police column. Range: 0.01 - 3.73 km
+2025-05-01 12:04:01,624 - quick_predict - INFO - Preparing features for prediction...
+2025-05-01 12:04:01,629 - quick_predict - INFO - Generating predictions...
+2025-05-01 12:04:01,656 - quick_predict - INFO - 
+Sample predictions:
+2025-05-01 12:04:01,658 - quick_predict - INFO -             h3_index      risk
+600  89661836d17ffff  0.144477
+451  896619d904fffff  0.143354
+483  896619d92d7ffff  0.143152
+513  896619d92a7ffff  0.143103
+605  896619d9057ffff  0.142526
+2025-05-01 12:04:01,700 - werkzeug - WARNING -  * Debugger is active!
+2025-05-01 12:04:01,701 - werkzeug - INFO -  * Debugger PIN: 779-770-115
+2025-05-01 12:04:06,941 - werkzeug - INFO -  * Detected change in '/home/fer/Documents/upb/2025_1/ticprog/Crime-visualization-prediction-Medellin/backend/tests.py', reloading
+2025-05-01 12:04:07,359 - werkzeug - INFO -  * Restarting with stat
+2025-05-01 12:04:09,666 - RoutePlanner.prediction.simple_wrapper - INFO - Loading model from crime_model_simple.pkl
+2025-05-01 12:04:09,839 - RoutePlanner.prediction.simple_wrapper - INFO - Model loaded successfully - trained on 2025-04-28 16:31:29
+2025-05-01 12:04:09,839 - quick_predict - INFO - Loading grid data...
+2025-05-01 12:04:12,484 - quick_predict - INFO - Preprocessing grid data...
+2025-05-01 12:04:12,624 - quick_predict - INFO - Added crime_count column. Range: 1 - 1142
+2025-05-01 12:04:12,793 - quick_predict - INFO - Added distance_to_police column. Range: 0.01 - 3.73 km
+2025-05-01 12:04:12,793 - quick_predict - INFO - Preparing features for prediction...
+2025-05-01 12:04:12,798 - quick_predict - INFO - Generating predictions...
+2025-05-01 12:04:12,824 - quick_predict - INFO - 
+Sample predictions:
+2025-05-01 12:04:12,826 - quick_predict - INFO -             h3_index      risk
+600  89661836d17ffff  0.144477
+451  896619d904fffff  0.143354
+483  896619d92d7ffff  0.143152
+513  896619d92a7ffff  0.143103
+605  896619d9057ffff  0.142526
+2025-05-01 12:04:12,867 - werkzeug - WARNING -  * Debugger is active!
+2025-05-01 12:04:12,868 - werkzeug - INFO -  * Debugger PIN: 779-770-115
+2025-05-01 12:06:13,478 - werkzeug - INFO -  * Detected change in '/home/fer/Documents/upb/2025_1/ticprog/Crime-visualization-prediction-Medellin/backend/tests.py', reloading
+2025-05-01 12:06:13,891 - werkzeug - INFO -  * Restarting with stat
+2025-05-01 12:06:16,200 - RoutePlanner.prediction.simple_wrapper - INFO - Loading model from crime_model_simple.pkl
+2025-05-01 12:06:16,374 - RoutePlanner.prediction.simple_wrapper - INFO - Model loaded successfully - trained on 2025-04-28 16:31:29
+2025-05-01 12:06:16,374 - quick_predict - INFO - Loading grid data...
+2025-05-01 12:06:19,000 - quick_predict - INFO - Preprocessing grid data...
+2025-05-01 12:06:19,137 - quick_predict - INFO - Added crime_count column. Range: 1 - 1142
+2025-05-01 12:06:19,300 - quick_predict - INFO - Added distance_to_police column. Range: 0.01 - 3.73 km
+2025-05-01 12:06:19,300 - quick_predict - INFO - Preparing features for prediction...
+2025-05-01 12:06:19,306 - quick_predict - INFO - Generating predictions...
+2025-05-01 12:06:19,332 - quick_predict - INFO - 
+Sample predictions:
+2025-05-01 12:06:19,334 - quick_predict - INFO -             h3_index      risk
+600  89661836d17ffff  0.144477
+451  896619d904fffff  0.143354
+483  896619d92d7ffff  0.143152
+513  896619d92a7ffff  0.143103
+605  896619d9057ffff  0.142526
+2025-05-01 12:06:19,374 - werkzeug - WARNING -  * Debugger is active!
+2025-05-01 12:06:19,376 - werkzeug - INFO -  * Debugger PIN: 779-770-115
+2025-05-01 12:09:59,935 - werkzeug - INFO -  * Detected change in '/home/fer/Documents/upb/2025_1/ticprog/Crime-visualization-prediction-Medellin/backend/app.py', reloading
+2025-05-01 12:10:00,344 - werkzeug - INFO -  * Restarting with stat
+2025-05-01 12:10:02,660 - RoutePlanner.prediction.simple_wrapper - INFO - Loading model from crime_model_simple.pkl
+2025-05-01 12:10:02,832 - RoutePlanner.prediction.simple_wrapper - INFO - Model loaded successfully - trained on 2025-04-28 16:31:29
+2025-05-01 12:10:02,832 - quick_predict - INFO - Loading grid data...
+2025-05-01 12:10:05,479 - quick_predict - INFO - Preprocessing grid data...
+2025-05-01 12:10:05,619 - quick_predict - INFO - Added crime_count column. Range: 1 - 1142
+2025-05-01 12:10:05,784 - quick_predict - INFO - Added distance_to_police column. Range: 0.01 - 3.73 km
+2025-05-01 12:10:05,785 - quick_predict - INFO - Preparing features for prediction...
+2025-05-01 12:10:05,790 - quick_predict - INFO - Generating predictions...
+2025-05-01 12:10:05,816 - quick_predict - INFO - 
+Sample predictions:
+2025-05-01 12:10:05,818 - quick_predict - INFO -             h3_index      risk
+600  89661836d17ffff  0.144477
+451  896619d904fffff  0.143354
+483  896619d92d7ffff  0.143152
+513  896619d92a7ffff  0.143103
+605  896619d9057ffff  0.142526
+2025-05-01 12:10:05,860 - werkzeug - WARNING -  * Debugger is active!
+2025-05-01 12:10:05,861 - werkzeug - INFO -  * Debugger PIN: 145-205-703
+2025-05-01 12:10:34,662 - werkzeug - INFO -  * Detected change in '/home/fer/Documents/upb/2025_1/ticprog/Crime-visualization-prediction-Medellin/backend/database/models.py', reloading
+2025-05-01 12:10:35,069 - werkzeug - INFO -  * Restarting with stat
+2025-05-01 12:10:37,404 - RoutePlanner.prediction.simple_wrapper - INFO - Loading model from crime_model_simple.pkl
+2025-05-01 12:10:37,580 - RoutePlanner.prediction.simple_wrapper - INFO - Model loaded successfully - trained on 2025-04-28 16:31:29
+2025-05-01 12:10:37,580 - quick_predict - INFO - Loading grid data...
+2025-05-01 12:10:40,213 - quick_predict - INFO - Preprocessing grid data...
+2025-05-01 12:10:40,353 - quick_predict - INFO - Added crime_count column. Range: 1 - 1142
+2025-05-01 12:10:40,518 - quick_predict - INFO - Added distance_to_police column. Range: 0.01 - 3.73 km
+2025-05-01 12:10:40,518 - quick_predict - INFO - Preparing features for prediction...
+2025-05-01 12:10:40,523 - quick_predict - INFO - Generating predictions...
+2025-05-01 12:10:40,550 - quick_predict - INFO - 
+Sample predictions:
+2025-05-01 12:10:40,551 - quick_predict - INFO -             h3_index      risk
+600  89661836d17ffff  0.144477
+451  896619d904fffff  0.143354
+483  896619d92d7ffff  0.143152
+513  896619d92a7ffff  0.143103
+605  896619d9057ffff  0.142526
+2025-05-01 12:10:40,595 - werkzeug - WARNING -  * Debugger is active!
+2025-05-01 12:10:40,596 - werkzeug - INFO -  * Debugger PIN: 145-205-703
+2025-05-01 12:10:43,768 - werkzeug - INFO -  * Detected change in '/home/fer/Documents/upb/2025_1/ticprog/Crime-visualization-prediction-Medellin/backend/database/models.py', reloading
+2025-05-01 12:10:44,181 - werkzeug - INFO -  * Restarting with stat
+2025-05-01 12:10:46,477 - RoutePlanner.prediction.simple_wrapper - INFO - Loading model from crime_model_simple.pkl
+2025-05-01 12:10:46,651 - RoutePlanner.prediction.simple_wrapper - INFO - Model loaded successfully - trained on 2025-04-28 16:31:29
+2025-05-01 12:10:46,651 - quick_predict - INFO - Loading grid data...
+2025-05-01 12:10:49,306 - quick_predict - INFO - Preprocessing grid data...
+2025-05-01 12:10:49,444 - quick_predict - INFO - Added crime_count column. Range: 1 - 1142
+2025-05-01 12:10:49,611 - quick_predict - INFO - Added distance_to_police column. Range: 0.01 - 3.73 km
+2025-05-01 12:10:49,611 - quick_predict - INFO - Preparing features for prediction...
+2025-05-01 12:10:49,617 - quick_predict - INFO - Generating predictions...
+2025-05-01 12:10:49,643 - quick_predict - INFO - 
+Sample predictions:
+2025-05-01 12:10:49,645 - quick_predict - INFO -             h3_index      risk
+600  89661836d17ffff  0.144477
+451  896619d904fffff  0.143354
+483  896619d92d7ffff  0.143152
+513  896619d92a7ffff  0.143103
+605  896619d9057ffff  0.142526
+2025-05-01 12:10:49,688 - werkzeug - WARNING -  * Debugger is active!
+2025-05-01 12:10:49,689 - werkzeug - INFO -  * Debugger PIN: 145-205-703
+2025-05-01 12:11:02,017 - werkzeug - INFO -  * Detected change in '/home/fer/Documents/upb/2025_1/ticprog/Crime-visualization-prediction-Medellin/backend/app.py', reloading
+2025-05-01 12:11:02,423 - werkzeug - INFO -  * Restarting with stat
+2025-05-01 12:11:04,733 - RoutePlanner.prediction.simple_wrapper - INFO - Loading model from crime_model_simple.pkl
+2025-05-01 12:11:04,905 - RoutePlanner.prediction.simple_wrapper - INFO - Model loaded successfully - trained on 2025-04-28 16:31:29
+2025-05-01 12:11:04,905 - quick_predict - INFO - Loading grid data...
+2025-05-01 12:11:07,538 - quick_predict - INFO - Preprocessing grid data...
+2025-05-01 12:11:07,676 - quick_predict - INFO - Added crime_count column. Range: 1 - 1142
+2025-05-01 12:11:07,842 - quick_predict - INFO - Added distance_to_police column. Range: 0.01 - 3.73 km
+2025-05-01 12:11:07,842 - quick_predict - INFO - Preparing features for prediction...
+2025-05-01 12:11:07,848 - quick_predict - INFO - Generating predictions...
+2025-05-01 12:11:07,873 - quick_predict - INFO - 
+Sample predictions:
+2025-05-01 12:11:07,875 - quick_predict - INFO -             h3_index      risk
+600  89661836d17ffff  0.144477
+451  896619d904fffff  0.143354
+483  896619d92d7ffff  0.143152
+513  896619d92a7ffff  0.143103
+605  896619d9057ffff  0.142526
+2025-05-01 12:11:07,916 - werkzeug - WARNING -  * Debugger is active!
+2025-05-01 12:11:07,917 - werkzeug - INFO -  * Debugger PIN: 145-205-703
+2025-05-01 12:11:11,016 - werkzeug - INFO -  * Detected change in '/home/fer/Documents/upb/2025_1/ticprog/Crime-visualization-prediction-Medellin/backend/app.py', reloading
+2025-05-01 12:11:11,420 - werkzeug - INFO -  * Restarting with stat
+2025-05-01 12:11:13,723 - RoutePlanner.prediction.simple_wrapper - INFO - Loading model from crime_model_simple.pkl
+2025-05-01 12:11:13,897 - RoutePlanner.prediction.simple_wrapper - INFO - Model loaded successfully - trained on 2025-04-28 16:31:29
+2025-05-01 12:11:13,897 - quick_predict - INFO - Loading grid data...
+2025-05-01 12:11:16,537 - quick_predict - INFO - Preprocessing grid data...
+2025-05-01 12:11:16,675 - quick_predict - INFO - Added crime_count column. Range: 1 - 1142
+2025-05-01 12:11:16,842 - quick_predict - INFO - Added distance_to_police column. Range: 0.01 - 3.73 km
+2025-05-01 12:11:16,842 - quick_predict - INFO - Preparing features for prediction...
+2025-05-01 12:11:16,848 - quick_predict - INFO - Generating predictions...
+2025-05-01 12:11:16,875 - quick_predict - INFO - 
+Sample predictions:
+2025-05-01 12:11:16,877 - quick_predict - INFO -             h3_index      risk
+600  89661836d17ffff  0.144477
+451  896619d904fffff  0.143354
+483  896619d92d7ffff  0.143152
+513  896619d92a7ffff  0.143103
+605  896619d9057ffff  0.142526
+2025-05-01 12:11:16,925 - werkzeug - WARNING -  * Debugger is active!
+2025-05-01 12:11:16,926 - werkzeug - INFO -  * Debugger PIN: 145-205-703
+2025-05-01 12:11:29,275 - werkzeug - INFO -  * Detected change in '/home/fer/Documents/upb/2025_1/ticprog/Crime-visualization-prediction-Medellin/backend/app.py', reloading
+2025-05-01 12:11:29,701 - werkzeug - INFO -  * Restarting with stat
+2025-05-01 12:11:32,016 - RoutePlanner.prediction.simple_wrapper - INFO - Loading model from crime_model_simple.pkl
+2025-05-01 12:11:32,191 - RoutePlanner.prediction.simple_wrapper - INFO - Model loaded successfully - trained on 2025-04-28 16:31:29
+2025-05-01 12:11:32,191 - quick_predict - INFO - Loading grid data...
+2025-05-01 12:11:34,846 - quick_predict - INFO - Preprocessing grid data...
+2025-05-01 12:11:34,985 - quick_predict - INFO - Added crime_count column. Range: 1 - 1142
+2025-05-01 12:11:35,152 - quick_predict - INFO - Added distance_to_police column. Range: 0.01 - 3.73 km
+2025-05-01 12:11:35,152 - quick_predict - INFO - Preparing features for prediction...
+2025-05-01 12:11:35,157 - quick_predict - INFO - Generating predictions...
+2025-05-01 12:11:35,183 - quick_predict - INFO - 
+Sample predictions:
+2025-05-01 12:11:35,185 - quick_predict - INFO -             h3_index      risk
+600  89661836d17ffff  0.144477
+451  896619d904fffff  0.143354
+483  896619d92d7ffff  0.143152
+513  896619d92a7ffff  0.143103
+605  896619d9057ffff  0.142526
+2025-05-01 12:11:35,226 - werkzeug - WARNING -  * Debugger is active!
+2025-05-01 12:11:35,227 - werkzeug - INFO -  * Debugger PIN: 779-770-115
+2025-05-01 12:11:42,429 - werkzeug - INFO -  * Detected change in '/home/fer/Documents/upb/2025_1/ticprog/Crime-visualization-prediction-Medellin/backend/tests.py', reloading
+2025-05-01 12:11:42,866 - werkzeug - INFO -  * Restarting with stat
+2025-05-01 12:11:45,291 - RoutePlanner.prediction.simple_wrapper - INFO - Loading model from crime_model_simple.pkl
+2025-05-01 12:11:45,493 - RoutePlanner.prediction.simple_wrapper - INFO - Model loaded successfully - trained on 2025-04-28 16:31:29
+2025-05-01 12:11:45,493 - quick_predict - INFO - Loading grid data...
+2025-05-01 12:11:48,220 - quick_predict - INFO - Preprocessing grid data...
+2025-05-01 12:11:48,363 - quick_predict - INFO - Added crime_count column. Range: 1 - 1142
+2025-05-01 12:11:48,534 - quick_predict - INFO - Added distance_to_police column. Range: 0.01 - 3.73 km
+2025-05-01 12:11:48,534 - quick_predict - INFO - Preparing features for prediction...
+2025-05-01 12:11:48,539 - quick_predict - INFO - Generating predictions...
+2025-05-01 12:11:48,566 - quick_predict - INFO - 
+Sample predictions:
+2025-05-01 12:11:48,568 - quick_predict - INFO -             h3_index      risk
+600  89661836d17ffff  0.144477
+451  896619d904fffff  0.143354
+483  896619d92d7ffff  0.143152
+513  896619d92a7ffff  0.143103
+605  896619d9057ffff  0.142526
+2025-05-01 12:11:48,615 - werkzeug - WARNING -  * Debugger is active!
+2025-05-01 12:11:48,616 - werkzeug - INFO -  * Debugger PIN: 779-770-115
+2025-05-01 12:12:19,461 - werkzeug - INFO -  * Detected change in '/home/fer/Documents/upb/2025_1/ticprog/Crime-visualization-prediction-Medellin/backend/tests.py', reloading
+2025-05-01 12:12:19,869 - werkzeug - INFO -  * Restarting with stat
+2025-05-01 12:12:22,172 - RoutePlanner.prediction.simple_wrapper - INFO - Loading model from crime_model_simple.pkl
+2025-05-01 12:12:22,347 - RoutePlanner.prediction.simple_wrapper - INFO - Model loaded successfully - trained on 2025-04-28 16:31:29
+2025-05-01 12:12:22,347 - quick_predict - INFO - Loading grid data...
+2025-05-01 12:12:24,995 - quick_predict - INFO - Preprocessing grid data...
+2025-05-01 12:12:25,133 - quick_predict - INFO - Added crime_count column. Range: 1 - 1142
+2025-05-01 12:12:25,303 - quick_predict - INFO - Added distance_to_police column. Range: 0.01 - 3.73 km
+2025-05-01 12:12:25,303 - quick_predict - INFO - Preparing features for prediction...
+2025-05-01 12:12:25,308 - quick_predict - INFO - Generating predictions...
+2025-05-01 12:12:25,334 - quick_predict - INFO - 
+Sample predictions:
+2025-05-01 12:12:25,336 - quick_predict - INFO -             h3_index      risk
+600  89661836d17ffff  0.144477
+451  896619d904fffff  0.143354
+483  896619d92d7ffff  0.143152
+513  896619d92a7ffff  0.143103
+605  896619d9057ffff  0.142526
+2025-05-01 12:12:25,377 - werkzeug - WARNING -  * Debugger is active!
+2025-05-01 12:12:25,378 - werkzeug - INFO -  * Debugger PIN: 779-770-115
+2025-05-01 12:12:35,708 - werkzeug - INFO -  * Detected change in '/home/fer/Documents/upb/2025_1/ticprog/Crime-visualization-prediction-Medellin/backend/tests.py', reloading
+2025-05-01 12:12:36,122 - werkzeug - INFO -  * Restarting with stat
+2025-05-01 12:12:38,421 - RoutePlanner.prediction.simple_wrapper - INFO - Loading model from crime_model_simple.pkl
+2025-05-01 12:12:38,596 - RoutePlanner.prediction.simple_wrapper - INFO - Model loaded successfully - trained on 2025-04-28 16:31:29
+2025-05-01 12:12:38,596 - quick_predict - INFO - Loading grid data...
+2025-05-01 12:12:41,245 - quick_predict - INFO - Preprocessing grid data...
+2025-05-01 12:12:41,385 - quick_predict - INFO - Added crime_count column. Range: 1 - 1142
+2025-05-01 12:12:41,552 - quick_predict - INFO - Added distance_to_police column. Range: 0.01 - 3.73 km
+2025-05-01 12:12:41,552 - quick_predict - INFO - Preparing features for prediction...
+2025-05-01 12:12:41,557 - quick_predict - INFO - Generating predictions...
+2025-05-01 12:12:41,584 - quick_predict - INFO - 
+Sample predictions:
+2025-05-01 12:12:41,586 - quick_predict - INFO -             h3_index      risk
+600  89661836d17ffff  0.144477
+451  896619d904fffff  0.143354
+483  896619d92d7ffff  0.143152
+513  896619d92a7ffff  0.143103
+605  896619d9057ffff  0.142526
+2025-05-01 12:12:41,627 - werkzeug - WARNING -  * Debugger is active!
+2025-05-01 12:12:41,628 - werkzeug - INFO -  * Debugger PIN: 779-770-115
+2025-05-01 12:13:25,143 - werkzeug - INFO -  * Detected change in '/home/fer/Documents/upb/2025_1/ticprog/Crime-visualization-prediction-Medellin/backend/tests.py', reloading
+2025-05-01 12:13:25,559 - werkzeug - INFO -  * Restarting with stat
+2025-05-01 12:13:27,971 - RoutePlanner.prediction.simple_wrapper - INFO - Loading model from crime_model_simple.pkl
+2025-05-01 12:13:28,162 - RoutePlanner.prediction.simple_wrapper - INFO - Model loaded successfully - trained on 2025-04-28 16:31:29
+2025-05-01 12:13:28,162 - quick_predict - INFO - Loading grid data...
+2025-05-01 12:13:30,862 - quick_predict - INFO - Preprocessing grid data...
+2025-05-01 12:13:31,005 - quick_predict - INFO - Added crime_count column. Range: 1 - 1142
+2025-05-01 12:13:31,173 - quick_predict - INFO - Added distance_to_police column. Range: 0.01 - 3.73 km
+2025-05-01 12:13:31,173 - quick_predict - INFO - Preparing features for prediction...
+2025-05-01 12:13:31,178 - quick_predict - INFO - Generating predictions...
+2025-05-01 12:13:31,205 - quick_predict - INFO - 
+Sample predictions:
+2025-05-01 12:13:31,207 - quick_predict - INFO -             h3_index      risk
+600  89661836d17ffff  0.144477
+451  896619d904fffff  0.143354
+483  896619d92d7ffff  0.143152
+513  896619d92a7ffff  0.143103
+605  896619d9057ffff  0.142526
+2025-05-01 12:13:31,249 - werkzeug - WARNING -  * Debugger is active!
+2025-05-01 12:13:31,250 - werkzeug - INFO -  * Debugger PIN: 779-770-115

@@ -3,6 +3,12 @@ from playhouse.postgres_ext import *
 from playhouse.shortcuts import model_to_dict
 from flask_login import UserMixin
 
+def init_db(app):
+    return PostgresqlExtDatabase(app.config['DB_NAME']
+                        , host=app.config['DB_HOST']
+                        , user=app.config['DB_USER']
+                        , password=app.config['DB_PASSWORD'])
+
 class BaseModel(Model):
     EXCLUDED_FIELDS = []
 
@@ -10,11 +16,8 @@ class BaseModel(Model):
         return model_to_dict(self, exclude=self.EXCLUDED_FIELDS)
 
     @classmethod
-    def setDatabase(cls, app):
-        cls._meta.database = PostgresqlExtDatabase(app.config['DB_NAME']
-                            , host=app.config['DB_HOST']
-                            , user=app.config['DB_USER']
-                            , password=app.config['DB_PASSWORD'])
+    def setDatabase(cls, db):
+        cls._meta.database = db
 
 class Manager(BaseModel, UserMixin):
     cedula = CharField()

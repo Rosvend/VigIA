@@ -1,6 +1,6 @@
 from RoutePlanner.default_router import PoliceRouter, ORS_PROFILES, DEFAULT_ORS_PROFILE
 from RoutePlanner.prediction.simple_wrapper import SimpleModelWrapper
-from database.models import Manager, Route as DBRoute
+from database.models import init_db, Manager, Route as DBRoute
 from flasgger import Swagger, swag_from
 from flask import Flask, request, current_app
 from flask_cors import CORS
@@ -161,8 +161,10 @@ def create_app(config_filename='config_dev.py'):
         doc_template = yaml.safe_load(stream)
     swagger = Swagger(app, template=doc_template)
 
-    Manager.setDatabase(app)
-    DBRoute.setDatabase(app)
+    app.config['DATABASE'] = init_db(app)
+
+    Manager.setDatabase(app.config['DATABASE'])
+    DBRoute.setDatabase(app.config['DATABASE'])
 
     login_manager.init_app(app)
     api.add_resource(Route,
