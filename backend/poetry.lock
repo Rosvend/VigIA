@@ -1484,6 +1484,21 @@ openapi = ["openapi-core (>=0.18.0,<0.19.0)", "ruamel-yaml"]
 test = ["hatch", "ipykernel", "openapi-core (>=0.18.0,<0.19.0)", "openapi-spec-validator (>=0.6.0,<0.8.0)", "pytest (>=7.0,<8)", "pytest-console-scripts", "pytest-cov", "pytest-jupyter[server] (>=0.6.2)", "pytest-timeout", "requests-mock", "ruamel-yaml", "sphinxcontrib-spelling", "strict-rfc3339", "werkzeug"]
 
 [[package]]
+name = "jupyterlab-vim"
+version = "4.1.4"
+description = "Code cell vim bindings"
+optional = false
+python-versions = ">=3.8"
+groups = ["dev"]
+files = [
+    {file = "jupyterlab_vim-4.1.4-py3-none-any.whl", hash = "sha256:13c29ff1fd385fddf33eb85a8b16441be69c62032870bb97a3054b2cf00ab135"},
+    {file = "jupyterlab_vim-4.1.4.tar.gz", hash = "sha256:abf2891aafb32f0cb94ad98321ae7ebcbe0cabe523d38d80d569c0a50b85225a"},
+]
+
+[package.dependencies]
+jupyterlab = ">=4.2.0,<5"
+
+[[package]]
 name = "jupyterlab-widgets"
 version = "3.0.13"
 description = "Jupyter interactive widgets for JupyterLab"
@@ -3842,4 +3857,4 @@ viz = ["cartopy", "matplotlib", "nc-time-axis", "seaborn"]
 [metadata]
 lock-version = "2.1"
 python-versions = ">=3.12,<4.0"
-content-hash = "d832bcbc1454f8257ec1d5a94c79703aed1ee84fe6e893b22e1a793110678caf"
+content-hash = "80d108b287ee80f1973ca4e4cbeae3571676097f6698e7253e4fa087e2fcf325"
