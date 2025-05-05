@@ -11,6 +11,7 @@ MAX_STATIONS = 4
 MAX_ROUTES = 4
 ROUTE_LENGTH_WEIGHT = -0.1
 ROUTE_LENGTHVAR_WEIGHT = -0.02
+SCALER = 1000
 
 def mark_emptyroutes(points: list):
     if len(points) > 1:
@@ -23,11 +24,12 @@ def evaluate_routes(result: dict):
     routes = [mark_emptyroutes(route) for route in result["routes"]]
     route_lengths = [route.length if route is not None else 0 for route in routes]
     length_cv = np.std(route_lengths) / np.mean(route_lengths)
-    print(length_cv * ROUTE_LENGTHVAR_WEIGHT)
-    return 100 * (ROUTE_LENGTHVAR_WEIGHT * length_cv**2 + (sum(
+
+    return SCALER * (ROUTE_LENGTHVAR_WEIGHT * length_cv**2 + (sum(
         ((areas.intersection(route).length * areas["probability"]).sum()
         / route.length
-        + ROUTE_LENGTH_WEIGHT * route.length) for route in routes if route is not None
+        + ROUTE_LENGTH_WEIGHT * route.length)
+        for route in routes if route is not None
     ) / len(routes)))
 
 def evaluate_router(router: PoliceRouter, **kwargs):
