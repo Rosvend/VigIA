@@ -1,4 +1,5 @@
 from RoutePlanner.default_router import PoliceRouter, ORS_PROFILES, DEFAULT_ORS_PROFILE
+from RoutePlanner.evaluate import evaluate_routes
 from RoutePlanner.prediction.simple_wrapper import SimpleModelWrapper
 from database.models import init_db, Manager, Route as DBRoute
 from flasgger import Swagger, swag_from
@@ -6,6 +7,7 @@ from flask import Flask, request, current_app
 from flask_cors import CORS
 from flask_restful import Resource, Api
 from flask_restful.reqparse import RequestParser
+from logging.config import dictConfig
 from markupsafe import escape
 from werkzeug.security import check_password_hash as check_pw
 import datetime
@@ -65,7 +67,7 @@ class RouteSuggestions(Resource):
         requested_spots = json.loads(args['requested_spots']) \
             if args['requested_spots'] is not None \
             else []
-        return self.route_computer.compute_routes(
+        result = self.route_computer.compute_routes(
             args['cai'],
             args['n'] if args['n'] is not None else 1,
             args['profile'] if args['profile'] is not None
@@ -74,8 +76,9 @@ class RouteSuggestions(Resource):
             args['threshold'] if args['threshold'] is not None
                 else 0.0,
             args['hotspots'] is not None,
-            requested_spots
-        )
+            requested_spots)
+        current_app.logger.info("Score for the routes: %7.2f", evaluate_routes(result))
+        return result
 
 class Route(Resource):
     @staticmethod
@@ -150,6 +153,7 @@ def create_app(config_filename='config_dev.py'):
     api = Api(app)
     # app.config.from_prefixed_env(prefix="APP_")
     app.config.from_pyfile(config_filename)
+    dictConfig(app.config["LOGGING_CONFIG"])
     app.config['POLICE_ROUTER'] = PoliceRouter(
         ors_key=app.config['ORS_KEY'],
         model_wrapper=SimpleModelWrapper(
