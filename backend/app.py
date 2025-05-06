@@ -23,9 +23,11 @@ login_manager = flask_login.LoginManager()
 
 @login_manager.request_loader
 def request_loader(request):
+    if request.authorization is None:
+        return None
     try:
         payload = jwt.decode(request.authorization.token,
-                             app.secret_key,
+                             current_app.secret_key,
                              algorithms=[ALGORITHM])
         return Manager.get(Manager.cedula == payload.get("sub"))
     except:
