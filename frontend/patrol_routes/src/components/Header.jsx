@@ -14,6 +14,7 @@ function Header({ activeRole, onRoleChange }) {
         setShowLoginModal(true);
       }
     } else {
+      logOut();
       onRoleChange("policia");
     }
   };

@@ -1,0 +1,42 @@
+Retornar todas las rutas asignadas para un cai en un día
+---
+parameters:
+  - name: date
+    in: path
+    type: string
+    description: Fecha (en formato YYYY-MM-DD) para la que se asignó la ruta.
+    example: "2025-04-06"
+  - name: cai_id
+    in: path
+    type: integer
+    description: Id del cai para el que se aplica la ruta.
+    example: 12
+responses:
+  "200":
+    description: Rutas del día para el cai
+    schema:
+      type: array
+      items:
+        type: object
+        properties:
+          geometry:
+            type: array
+            description: Puntos por los que pasa la ruta.
+            items: 
+              type: array
+              description: Punto por el que pasa una ruta.
+              example: [5.1, 6.4]
+              items:
+                type: float
+                minItems: 2
+                maxItems: 2
+            example: [[5.1, 6.4], [-4.2, 1.0]]
+          assigned_to:
+            type: integer
+            description: id de la cuadrilla a la cual la ruta ha sido asignada.
+            example: 4
+
+  "400":
+    description: Parámetros incorrectos.
+  "404":
+    description: Ruta no encontrada

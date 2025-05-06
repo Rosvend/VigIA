@@ -36,6 +36,8 @@ class Route(BaseModel):
     assigned_to = IntegerField()
     assigned_by = ForeignKeyField(Manager, backref='issued_routes')
 
+    EXCLUDED_FIELDS = [date, assigned_by]
+
     class Meta:
         primary_key = CompositeKey('date', 'cai_id', 'assigned_to')
 
