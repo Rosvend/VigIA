@@ -70,12 +70,6 @@ function MapCont({ marginLeft, routeInfo, setRouteInfo }) {
           attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
           url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
         />
-        {routeInfo && 
-          <GeoJSON
-            key={JSON.stringify(routeInfo.hotareas)}
-            data={routeInfo.hotareas}
-            style={paint_cell}
-            onEachFeature={probabilityTooltip}/>}
         {routeInfo &&
           routeInfo.routes.map((route, i) => (
             <Polyline
@@ -91,6 +85,12 @@ function MapCont({ marginLeft, routeInfo, setRouteInfo }) {
               </Tooltip>}
             </Polyline>
           ))}
+        {routeInfo && 
+          <GeoJSON
+            key={JSON.stringify(routeInfo.hotareas)}
+            data={routeInfo.hotareas}
+            style={paint_cell}
+            onEachFeature={probabilityTooltip}/>}
       </MapContainer>
     </div>
   );
