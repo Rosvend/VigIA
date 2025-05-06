@@ -63,7 +63,7 @@ function MapCont({ marginLeft, routeInfo }) {
         />
         {routeInfo && 
           <GeoJSON
-            key="hotareas"
+            key={JSON.stringify(routeInfo.hotareas)}
             data={routeInfo.hotareas}
             style={paint_cell}
             onEachFeature={probabilityTooltip}/>}
