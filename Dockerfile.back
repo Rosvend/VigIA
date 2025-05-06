@@ -1,0 +1,20 @@
+# syntax=docker/dockerfile:1-labs
+FROM python:3.12-alpine
+WORKDIR /usr/local/app
+RUN pip install poetry==2.0.1
+RUN apk add --no-cache gdal-dev geos-dev proj-dev gcc g++ libc-dev
+
+# Only building backend here
+COPY --exclude=frontend . ./
+
+RUN poetry -P backend/ install --without dev --no-root
+RUN poetry -P backend/ run python ml/quick_predict.py --output backend/crime_model_simple.pkl
+WORKDIR /usr/local/app/backend
+# Generate a secret key
+RUN python >> config.py <<EOF
+import os
+print('SECRET_KEY="%x"' % int.from_bytes(os.urandom(32)))
+EOF
+EXPOSE 5000:5000
+ENV ENVIRONMENT="PRODUCTION"
+CMD ["poetry", "run", "waitress-serve", "--port", "5000", "--call", "app:create_app"]
