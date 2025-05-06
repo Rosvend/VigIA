@@ -1,7 +1,6 @@
 from .default_router import PoliceRouter
 from .prediction.simple_wrapper import SimpleModelWrapper
 from argparse import ArgumentParser
-from config_test import ORS_KEY, MODEL_PATH
 from datetime import datetime
 from operator import itemgetter
 from os.path import exists
@@ -48,6 +47,8 @@ def evaluate_router(router: PoliceRouter, **kwargs):
     return scores
 
 if __name__ == "__main__":
+    from config_test import ORS_KEY, MODEL_PATH
+
     parser = ArgumentParser(
         prog='evaluate.py',
         description='Evaluate the performance of the routing algorithm'

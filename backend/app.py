@@ -14,6 +14,7 @@ import datetime
 import flask_login
 import json
 import jwt
+import os
 import yaml
 
 TOKEN_EXPIRE_MINUTES = 30
@@ -152,8 +153,15 @@ def create_app(config_filename='config_dev.py'):
     CORS(app)
     api = Api(app)
     # app.config.from_prefixed_env(prefix="APP_")
-    app.config.from_pyfile(config_filename)
-    dictConfig(app.config["LOGGING_CONFIG"])
+    if os.getenv("ENVIRONMENT") == "PRODUCTION":
+        app.config.from_pyfile("config.py")
+    else:
+        app.config.from_pyfile(config_filename)
+    try:
+        dictConfig(app.config["LOGGING_CONFIG"])
+    except KeyError:
+        pass
+        
     app.config['POLICE_ROUTER'] = PoliceRouter(
         ors_key=app.config['ORS_KEY'],
         model_wrapper=SimpleModelWrapper(
