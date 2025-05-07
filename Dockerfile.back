@@ -1,14 +1,27 @@
 # syntax=docker/dockerfile:1-labs
 FROM python:3.12-alpine
 WORKDIR /usr/local/app
+
+# Build backend & ml dependencies
 RUN pip install poetry==2.0.1
+
+ENV POETRY_NO_INTERACTION=1 \
+    POETRY_VIRTUALENVS_IN_PROJECT=1 \
+    POETRY_VIRTUALENVS_CREATE=1 \
+    POETRY_CACHE_DIR=/tmp/poetry_cache
+
 RUN apk add --no-cache gdal-dev geos-dev proj-dev gcc g++ libc-dev
+RUN mkdir ./backend
+COPY backend/pyproject.toml backend/poetry.lock ./backend
+RUN poetry -P backend/ install --without dev --no-root && rm -rf $POETRY_CACHE_DIR
 
-# Only building backend here
-COPY --exclude=frontend . ./
-
-RUN poetry -P backend/ install --without dev --no-root
+# Train the model
+COPY ml ml/
 RUN poetry -P backend/ run python ml/quick_predict.py --output backend/crime_model_simple.pkl
+
+COPY geodata geodata/
+COPY backend backend/
+
 WORKDIR /usr/local/app/backend
 # Generate a secret key
 RUN python >> config.py <<EOF
