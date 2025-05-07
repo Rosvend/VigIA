@@ -1,9 +1,7 @@
-from models import psql_db, Manager
 from werkzeug.security import generate_password_hash as hash_pw
 
-if __name__ == "__main__":
-    print("Creating some sample registers in manager table")
-    managers = [
+init_data = {
+    'manager': [
         {
             'cedula': "111111",
             'password_hash': hash_pw("111111"),
@@ -25,6 +23,12 @@ if __name__ == "__main__":
             'cai_id': 4
         },
     ]
+}
+
+if __name__ == "__main__":
+    from models import psql_db, Manager
+
+    print("Creating some sample registers in manager table")
     with psql_db.atomic():
-        Manager.insert_many(managers).execute()
+        Manager.insert_many(init_data['managers']).execute()
 

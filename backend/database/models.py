@@ -1,13 +1,25 @@
 #!/usr/bin/env python3
 from playhouse.postgres_ext import *
 from playhouse.shortcuts import model_to_dict
+from .populate import init_data
 from flask_login import UserMixin
 
-def init_db(app):
-    return PostgresqlExtDatabase(app.config['DB_NAME']
-                        , host=app.config['DB_HOST']
-                        , user=app.config['DB_USER']
-                        , password=app.config['DB_PASSWORD'])
+def init_db(app, *models):
+    app.config['DATABASE'] = PostgresqlExtDatabase(
+        app.config['DB_NAME'],
+        host=app.config['DB_HOST'],
+        user=app.config['DB_USER'],
+        password=app.config['DB_PASSWORD'])
+    
+    for model in models:
+        model.setDatabase(app.config['DATABASE'])
+        if not model.table_exists():
+            model.create_table()
+            if (app.config['DB_AUTOPOPULATE']
+               and model._meta.table_name in init_data):
+                app.logger.info('Populating table ' + model._meta.table_name)
+                model.insert_many(init_data[model._meta.table_name]).execute()
+                    
 
 class BaseModel(Model):
     EXCLUDED_FIELDS = []
