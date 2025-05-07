@@ -40,8 +40,11 @@ const paint_cell = (feature) => {
   return {color: color}
 }
 
-function MapCont({ marginLeft, routeInfo }) {
-  console.log(routeInfo);
+const assignRoute = (routes, index, to) => routes.map((route, i) => (
+  i == index ? {...route, assigned_to: to} : route
+));
+
+function MapCont({ marginLeft, routeInfo, setRouteInfo }) {
   const probabilityTooltip = (feature, layer) => {
     layer.on({
       'mouseover': e => {
@@ -54,6 +57,12 @@ function MapCont({ marginLeft, routeInfo }) {
       }
     })
   }
+
+  const setRouteAssigns = (i) => setRouteInfo({...routeInfo,
+    routes: assignRoute(routeInfo.routes, i,
+                        parseInt(prompt("¿A cuál patrulla asignar ruta?")))});
+  console.log(routeInfo);
+
   return (
     <div style={{ marginLeft }}>
       <MapContainer className="map-container" center={initial_center} zoom={13}>
@@ -61,20 +70,27 @@ function MapCont({ marginLeft, routeInfo }) {
           attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
           url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
         />
+        {routeInfo &&
+          routeInfo.routes.map((route, i) => (
+            <Polyline
+              pathOptions={{ color: colors[i % colors.length] }}
+              key={"r" + i}
+              positions={route.geometry.map((pos) => rev(pos))}
+              eventHandlers={{
+                click: () => setRouteAssigns(i),
+              }}
+            >
+              {route.assigned_to && <Tooltip permanent>
+                {"Asignado a: " + route.assigned_to}
+              </Tooltip>}
+            </Polyline>
+          ))}
         {routeInfo && 
           <GeoJSON
             key={JSON.stringify(routeInfo.hotareas)}
             data={routeInfo.hotareas}
             style={paint_cell}
             onEachFeature={probabilityTooltip}/>}
-        {routeInfo &&
-          routeInfo.routes.map((route, i) => (
-            <Polyline
-              pathOptions={{ color: colors[i % colors.length] }}
-              key={"r" + i}
-              positions={route.map((pos) => rev(pos))}
-            />
-          ))}
       </MapContainer>
     </div>
   );

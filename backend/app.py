@@ -25,9 +25,11 @@ login_manager = flask_login.LoginManager()
 
 @login_manager.request_loader
 def request_loader(request):
+    if request.authorization is None:
+        return None
     try:
         payload = jwt.decode(request.authorization.token,
-                             app.secret_key,
+                             current_app.secret_key,
                              algorithms=[ALGORITHM])
         return Manager.get(Manager.cedula == payload.get("sub"))
     except:
@@ -107,7 +109,7 @@ class Route(Resource):
     @swag_from("doc/Route_put.yml")
     def put(self, date, cai_id, assigned_to):
         if cai_id != flask_login.current_user.cai_id:
-            return {"error": "Current manager is unauthorized to assign routes for %d." % cai_id}
+            return {"error": "Current manager is unauthorized to assign routes for %d." % cai_id}, 401
         route = request.get_json()
         route_id = (DBRoute
                         .insert(
@@ -125,6 +127,26 @@ class Route(Resource):
                         )
                         .execute())
         return {"info": "route stored successfully."}
+
+class Routes(Resource):
+    @staticmethod
+    def _get_routes(date, cai_id):
+        return DBRoute\
+            .select()\
+            .where((DBRoute.date == date)
+               & (DBRoute.cai_id == cai_id))
+
+    @swag_from("doc/Routes_get.yml")
+    def get(self, date, cai_id):
+        try:
+            date = datetime.datetime.strptime(date, '%Y-%m-%d')
+        except ValueError:
+            return {"error": "Value %s is not of the YYYY-MM-DD date format." % date}, 400
+        routes = self._get_routes(date, cai_id)
+        if len(routes) == 0:
+            return {"error": "No routes found for given date."}, 404
+        return [route.toDict() for route in routes]
+        
 
 @swag_from("doc/login.yml")
 def admin_login():

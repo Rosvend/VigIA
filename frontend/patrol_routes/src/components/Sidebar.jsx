@@ -7,8 +7,8 @@ import { useAuth } from "../Auth";
 import { features as comunas } from "../../../../geodata/comunas.json";
 import { features as stations } from "../../../../geodata/police.json";
 
-function Sidebar({ active, setRouteInfo }) {
-  const { user } = useAuth();
+function Sidebar({ active, routeInfo, setRouteInfo }) {
+  const { token, user } = useAuth();
   const [selComuna, setSelComuna] = useState(0);
   const [selCai, setSelCai] = useState(0);
   const [routeCounter, setRouteCounter] = useState(1);
@@ -16,7 +16,65 @@ function Sidebar({ active, setRouteInfo }) {
   const [showDeleteConfirm, setShowDeleteConfirm] = useState(false);
   const isSupervisor = user !== null;
 
-  const fetchRouteInfo = async (cai, n_routes) => {
+  const assignRoute = async (cai, singleRouteGeom, id) => {
+    const currentDate = new Date();
+    const year = currentDate.getFullYear();
+    const month = currentDate.getMonth();
+    const day = currentDate.getDate();
+
+    try {
+      const response = await fetch(`${API_URL}/routes/${year}-${month}-${day}/${cai}/${id}`, {
+        method: "PUT",
+        mode: "cors",
+        headers: {
+          "Content-type": "application/json",
+          "Authorization": "Bearer " + token
+        },
+        body: JSON.stringify(singleRouteGeom)
+      });
+      
+
+      // TODO: Insert fancy popup here.
+      if (response.ok)
+        return false
+    } catch (err) {
+      // TODO: Error message
+      console.log(err)
+    }
+  };
+
+  const assignRoutes = async (cai, routeInfo) => {
+    routeInfo.routes.forEach(async route => {
+      console.log(cai);
+      console.log(route.geometry);
+      console.log(route.assigned_to);
+      await assignRoute(cai, route.geometry, route.assigned_to)
+    });
+  }
+
+  const fetchRoute = async (cai, id) => {
+    const currentDate = new Date();
+    const year = currentDate.getFullYear();
+    const month = currentDate.getMonth();
+    const day = currentDate.getDate();
+
+    const url = isNaN(id)
+      ? `${API_URL}/routes/${year}-${month}-${day}/${cai}`
+      : `${API_URL}/routes/${year}-${month}-${day}/${cai}/${id}`;
+
+    try {
+      const response = await fetch(url);
+      if (response.ok){
+        const jsonResponse = await response.json();
+        setRouteInfo(isNaN(id) ? {routes: jsonResponse} : {routes: [jsonResponse]});
+      }
+    } catch (err) {
+      // TODO: show error message properly
+      console.log(err)
+    }
+  };
+
+  const generateRoutes = async (cai, n_routes) => {
     const params = new URLSearchParams();
     params.append("cai", cai);
     params.append("n", n_routes);
@@ -25,7 +83,16 @@ function Sidebar({ active, setRouteInfo }) {
 
     try {
       const response = await fetch(`${API_URL}/routes?${params}`);
-      if (response.ok) setRouteInfo(await response.json());
+      if (response.ok){
+        const jsonResponse = await response.json();
+        setRouteInfo({
+          hotareas: jsonResponse.hotareas,
+          routes: jsonResponse.routes.map(route => ({
+            assigned_to: null,
+            geometry: route
+          }))
+        })
+      }
     } catch (e) {
       console.log(e);
     }
@@ -136,16 +203,32 @@ function Sidebar({ active, setRouteInfo }) {
           </div>
         </div>
       )}
-      {isSupervisor && (
+      {isSupervisor ? (
+        <>
+          <button
+            className="btn"
+            onClick={() => generateRoutes(selCai, routeCounter)}
+          >
+            Generar rutas
+          </button>
+          <button
+            className="btn"
+            onClick={() => assignRoutes(selCai, routeInfo)}
+          >
+            Asignar rutas
+          </button>
+        </>
+      ): (
+      <>
         <button
           className="btn"
-          onClick={() => fetchRouteInfo(selCai, routeCounter)}
+          onClick={() => fetchRoute(selCai)}
         >
-          Generar rutas
+          Mostrar rutas
         </button>
+      </>
       )}
-    </>
-  );
+    </>);
 
   // Legend section content
   const legendContent = (
