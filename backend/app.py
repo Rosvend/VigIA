@@ -154,7 +154,10 @@ def admin_login():
     cedula = request.form['username']
     password = request.form['password']
 
-    manager = Manager.get(Manager.cedula == cedula)
+    try:
+        manager = Manager.get(Manager.cedula == cedula)
+    except Manager.DoesNotExist:
+        return {"error": "Wrong credentials"}, 401
     if check_pw(manager.password_hash, password):
         expires_at = datetime.datetime.now(datetime.timezone.utc) \
             + datetime.timedelta(minutes=TOKEN_EXPIRE_MINUTES)
@@ -208,9 +211,7 @@ def create_app(config_filename='config_dev.py'):
     swagger = Swagger(app, template=doc_template)
 
     # Database initialization
-    app.config['DATABASE'] = init_db(app)
-    Manager.setDatabase(app.config['DATABASE'])
-    DBRoute.setDatabase(app.config['DATABASE'])
+    init_db(app, Manager, DBRoute)
 
     login_manager.init_app(app)
     
