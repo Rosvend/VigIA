@@ -1,0 +1,10 @@
+version: '3'
+services:
+  back:
+    build:
+      dockerfile: Dockerfile.back
+  front:
+    build:
+      dockerfile: Dockerfile.front
+    ports:
+      - "80:80"
