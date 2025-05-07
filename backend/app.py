@@ -10,6 +10,7 @@ from flask_restful.reqparse import RequestParser
 from logging.config import dictConfig
 from markupsafe import escape
 from werkzeug.security import check_password_hash as check_pw
+from werkzeug.middleware.proxy_fix import ProxyFix
 import datetime
 import flask_login
 import json
@@ -153,15 +154,25 @@ def create_app(config_filename='config_dev.py'):
     CORS(app)
     api = Api(app)
     # app.config.from_prefixed_env(prefix="APP_")
+
+    # Source the app config according to the environment
     if os.getenv("ENVIRONMENT") == "PRODUCTION":
         app.config.from_pyfile("config.py")
+        # Tell the app it is behind one proxy
+        app.wsgi_app = ProxyFix(
+            app.wsgi_app, x_for=1, x_proto=1, x_host=1, x_prefix=1
+        )
     else:
         app.config.from_pyfile(config_filename)
+    
+    # Logging configuration optional
     try:
         dictConfig(app.config["LOGGING_CONFIG"])
     except KeyError:
         pass
         
+    # Embed the router in the app itself (so it isn't re-created on
+    # every request)
     app.config['POLICE_ROUTER'] = PoliceRouter(
         ors_key=app.config['ORS_KEY'],
         model_wrapper=SimpleModelWrapper(
@@ -169,16 +180,19 @@ def create_app(config_filename='config_dev.py'):
         )
     )
 
+    # Source swagger endpoint documentation
     with open('doc/global.yml') as stream:
         doc_template = yaml.safe_load(stream)
     swagger = Swagger(app, template=doc_template)
 
+    # Database initialization
     app.config['DATABASE'] = init_db(app)
-
     Manager.setDatabase(app.config['DATABASE'])
     DBRoute.setDatabase(app.config['DATABASE'])
 
     login_manager.init_app(app)
+    
+    # Register endpoints
     api.add_resource(Route,
         '/api/routes/<string:date>/<int:cai_id>/<int:assigned_to>')
     api.add_resource(RouteSuggestions, '/api/routes')
