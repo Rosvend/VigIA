@@ -1,7 +1,8 @@
 # syntax=docker/dockerfile:1-labs
 FROM node:22-alpine AS builder
 WORKDIR /app
-COPY --exclude=backend --exclude=ml . .
+ENV VITE_API_URL="http://localhost/api"
+COPY --exclude=frontend/patrol_routes/.env* --exclude=backend --exclude=ml . .
 WORKDIR /app/frontend/patrol_routes
 RUN npm install
 RUN npm run build
