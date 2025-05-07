@@ -3,8 +3,20 @@ services:
   back:
     build:
       dockerfile: Dockerfile.back
+    environment:
+      DB_PASSWORD: samplepassword
+    depends_on:
+      - db
   front:
     build:
       dockerfile: Dockerfile.front
     ports:
       - "80:80"
+    depends_on:
+      - back
+  db:
+    image: postgres:17-alpine
+    environment:
+      POSTGRES_PASSWORD: samplepassword
+      POSTGRES_USER: postgres
+      POSTGRES_DB: route_patrol
