@@ -18,7 +18,6 @@ function App() {
     setActiveRole(role);
   };
 
-
   return (
     <AuthProvider>
       <div className="app">
