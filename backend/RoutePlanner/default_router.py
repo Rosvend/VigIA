@@ -6,6 +6,7 @@ from shapely import Polygon, Point
 import geopandas as gpd
 import math
 import openrouteservice
+from openrouteservice.optimization import Job, Vehicle
 
 AREA = 'Medellín, Colombia'
 POLICE_STATIONS_FILE = '../geodata/police.geojson'
@@ -78,8 +79,7 @@ class PoliceRouter:
         self._ors_key = ors_key
     
     def query_route(self, station, points, profile, include_station):
-        return openrouteservice.convert.decode_polyline(
-            self._route_client.directions(
+        result = self._route_client.directions(
                 [pt2tup(point) for point in
                     ([station, *filter_most_likely(points, True), station]
                         if include_station
@@ -88,8 +88,26 @@ class PoliceRouter:
                 profile=profile,
                 radiuses=-1,
                 optimize_waypoints=True
-            )['routes'][0]['geometry']
+            )
+        return openrouteservice.convert.decode_polyline(
+            results['routes'][0]['geometry']
         )['coordinates']
+
+    def query_routes(self, n, station, points, profile, include_station):
+        result = self._route_client.optimization(
+            jobs=[Job(id=idx,
+                      location=pt2tup(point),
+                      amount=[1])
+
+                  for idx, point in enumerate(points)],
+            vehicles=[Vehicle(id=i,
+                              start=(pt2tup(station) if include_station else None),
+                              end=(pt2tup(station) if include_station else None),
+                              capacity=[round(len(points) / n)])
+                      for i in range(n)],
+            geometry=True)
+        return [openrouteservice.convert.decode_polyline(route['geometry'])['coordinates']
+                for route in result['routes']]
 
     def compute_routes(self,
                       cai_id: int,
@@ -108,8 +126,9 @@ class PoliceRouter:
         hotspot_areas = classify_points(hotspots, n, station)
         result = {
             'hotareas': areas.to_geo_dict(),
-            'routes': [self.query_route(station, area, profile, include_station)
-                for area in hotspot_areas]
+            'routes': self.query_routes(n, station, filter_most_likely(hotspots, include_station),
+                                        profile, include_station)
+                
         }
         if include_hotspots:
             result['hotspots'] = [hotspot.toDict() for hotspot in hotspots]
