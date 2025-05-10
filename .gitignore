@@ -5,7 +5,6 @@ backend/config_*
 *secrets.*
 geodata/crime_heatmap.html
 geodata/mapa_puntos.html
-.env
 .DS_Store
 *.log
 *.csv
