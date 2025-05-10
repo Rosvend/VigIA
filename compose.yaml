@@ -2,13 +2,16 @@ version: '3'
 services:
   back:
     build:
+      context: .
       dockerfile: Dockerfile.back
     environment:
       DB_PASSWORD: samplepassword
+      ORS_KEY: "${ORS_KEY}"
     depends_on:
       - db
   front:
     build:
+      context: .
       dockerfile: Dockerfile.front
     ports:
       - "80:80"
