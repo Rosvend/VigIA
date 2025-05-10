@@ -37,3 +37,11 @@ Based on these predictions, the system generates optimized patrol routes from po
   - Google Maps **JavaScript API** (for interactive maps)  
   - Google Maps **Directions API** (for patrol route optimization)  
 - **Visualization:** Google Maps JavaScript API  
+
+## How to run
+
+1. Clone the repository.
+2. Get an [OpenRouteService](https://openrouteservice.org/) API key.
+3. Make sure docker and docker compose is installed on your machine.
+4. Run `ORS_KEY=YOUR_API_KEY docker compose up`.
+5. Wait for the images to be built and ran.
