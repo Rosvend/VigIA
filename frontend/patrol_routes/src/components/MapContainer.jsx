@@ -39,7 +39,8 @@ const fmt_probability = (probability) => (probability*100).toPrecision(3) + " %"
 const paint_cell = (feature) => ({
   color: probability_colors[Math.round(
     Math.pow(feature.properties.probability, 1/COLOR_SCALER)
-    * NUM_P_COLORS)]
+    * NUM_P_COLORS)],
+  "z-index": -1
 })
 
 const assignRoute = (routes, index, to) => routes.map((route, i) => (
@@ -72,10 +73,16 @@ function MapCont({ marginLeft, routeInfo, setRouteInfo }) {
           attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
           url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
         />
+        {routeInfo && 
+          <GeoJSON
+            key={JSON.stringify(routeInfo.hotareas)}
+            data={routeInfo.hotareas}
+            style={(feature) => ({...paint_cell(feature)})}
+            onEachFeature={probabilityTooltip}/>}
         {routeInfo &&
           routeInfo.routes.map((route, i) => (
             <Polyline
-              pathOptions={{ color: colors[i % colors.length] }}
+              pathOptions={{ color: colors[i % colors.length]}}
               key={"r" + i}
               positions={route.geometry.map((pos) => rev(pos))}
               eventHandlers={{
@@ -87,12 +94,6 @@ function MapCont({ marginLeft, routeInfo, setRouteInfo }) {
               </Tooltip>}
             </Polyline>
           ))}
-        {routeInfo && 
-          <GeoJSON
-            key={JSON.stringify(routeInfo.hotareas)}
-            data={routeInfo.hotareas}
-            style={paint_cell}
-            onEachFeature={probabilityTooltip}/>}
       </MapContainer>
     </div>
   );
