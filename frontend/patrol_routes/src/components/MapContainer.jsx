@@ -15,6 +15,7 @@ import "leaflet/dist/leaflet.css";
 import colormap from 'colormap'
 
 const NUM_P_COLORS = 20
+const COLOR_SCALER = 3
 
 const initial_center = [6.24938, -75.56];
 const rev = (pos) => [pos[1], pos[0]];
@@ -35,10 +36,11 @@ const colors = ["blue", "red", "green", "yellow", "orange", "magenta"];
 
 const fmt_probability = (probability) => (probability*100).toPrecision(3) + " %"
 
-const paint_cell = (feature) => {
-  const color = probability_colors[Math.round(feature.properties.probability*NUM_P_COLORS)]
-  return {color: color}
-}
+const paint_cell = (feature) => ({
+  color: probability_colors[Math.round(
+    Math.pow(feature.properties.probability, 1/COLOR_SCALER)
+    * NUM_P_COLORS)]
+})
 
 const assignRoute = (routes, index, to) => routes.map((route, i) => (
   i == index ? {...route, assigned_to: to} : route
