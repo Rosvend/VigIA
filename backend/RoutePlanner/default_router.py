@@ -120,13 +120,13 @@ class PoliceRouter:
         
         station = self._stations.iloc[[cai_id]].geometry.union_all()
         area = get_operation_area(station)
-        hotspots, areas = gen_hotspots_and_areas(self._model_wrapper, area, threshold)
-        hotspots += [Hotspot(None, *pt) for pt in requested_spots]
+        hotspots, areas = gen_hotspots_and_areas(self._model_wrapper, area, threshold, MAX_POINTS_PER_ROUTE - len(requested_spots))
+        hotspots = [Hotspot(None, *pt) for pt in requested_spots] + hotspots
         # TODO: ensure the number of hotspots is non-zero
-        hotspot_areas = classify_points(hotspots, n, station)
+        # hotspot_areas = classify_points(hotspots, n, station)
         result = {
             'hotareas': areas.to_geo_dict(),
-            'routes': self.query_routes(n, station, filter_most_likely(hotspots, include_station),
+            'routes': self.query_routes(n, station, hotspots,
                                         profile, include_station)
                 
         }
