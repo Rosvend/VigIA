@@ -3,6 +3,7 @@ import SidebarSection from "./SidebarSection";
 import GeoSelect from "./GeoSelect";
 import { API_URL } from "../api";
 import { useAuth } from "../Auth";
+import * as turf from "turf";
 
 import { features as comunas } from "../../../../geodata/comunas.json";
 import { features as stations } from "../../../../geodata/police.json";
@@ -120,6 +121,9 @@ function Sidebar({ active, routeInfo, setRouteInfo }) {
     setShowDeleteConfirm(false);
   };
 
+  const filterCai = () => stations.filter(cai => turf.inside(cai, comunas[selComuna]));
+
+
   // Filter section content
   const filterContent = (
     <>
@@ -138,7 +142,7 @@ function Sidebar({ active, routeInfo, setRouteInfo }) {
         </select>
       </div>
       <GeoSelect
-        features={stations}
+        features={filterCai()}
         selIndex={selCai}
         setSelIndex={setSelCai}
         name="Cai"
