@@ -14,7 +14,8 @@ import L from "leaflet";
 import "leaflet/dist/leaflet.css";
 import colormap from "colormap";
 
-const NUM_P_COLORS = 20;
+const NUM_P_COLORS = 20
+const COLOR_SCALER = 3
 
 const initial_center = [6.24938, -75.56];
 const rev = (pos) => [pos[1], pos[0]];
@@ -51,7 +52,7 @@ const fmt_probability = (probability) =>
   (probability * 100).toPrecision(3) + " %";
 
 const paint_cell = (feature) => {
-  const probability = feature.properties.probability;
+  const probability = Math.pow(feature.properties.probability, 1/COLOR_SCALER);
   const color =
     probability_colors[Math.floor(probability * (NUM_P_COLORS - 1))];
   return {
@@ -99,10 +100,16 @@ function MapCont({ marginLeft, routeInfo, setRouteInfo }) {
           attribution='&copy; <a href="https://www.maptiler.com/copyright/">MapTiler</a> &copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
           url="https://api.maptiler.com/maps/streets/{z}/{x}/{y}.png?key=0QXa7JOFYu3UV34Ew0Vx"
         />
+        {routeInfo && 
+          <GeoJSON
+            key={JSON.stringify(routeInfo.hotareas)}
+            data={routeInfo.hotareas}
+            style={(feature) => ({...paint_cell(feature)})}
+            onEachFeature={probabilityTooltip}/>}
         {routeInfo &&
           routeInfo.routes.map((route, i) => (
             <Polyline
-              pathOptions={{ color: colors[i % colors.length] }}
+              pathOptions={{ color: colors[i % colors.length]}}
               key={"r" + i}
               positions={route.geometry.map((pos) => rev(pos))}
               eventHandlers={{
@@ -116,14 +123,6 @@ function MapCont({ marginLeft, routeInfo, setRouteInfo }) {
               )}
             </Polyline>
           ))}
-        {routeInfo && (
-          <GeoJSON
-            key={JSON.stringify(routeInfo.hotareas)}
-            data={routeInfo.hotareas}
-            style={paint_cell}
-            onEachFeature={probabilityTooltip}
-          />
-        )}
       </MapContainer>
     </div>
   );
