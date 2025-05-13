@@ -2,7 +2,7 @@ import { useState } from "react";
 import { useAuth } from "../Auth";
 import LoginModal from "./LoginModal";
 
-function Header({ activeRole, onRoleChange }) {
+function Header({ activeRole, onRoleChange, sidebarActive, toggleSidebar }) {
   const { user, logIn, logOut } = useAuth();
   const [showLoginModal, setShowLoginModal] = useState(false);
 
@@ -33,7 +33,17 @@ function Header({ activeRole, onRoleChange }) {
   return (
     <header>
       <div className="header-content">
-        <h1>Patrol Routes</h1>
+        <div className="header-left">
+          <button
+            className={`burger-menu ${sidebarActive ? "active" : ""}`}
+            onClick={toggleSidebar}
+          >
+            <div className="burger-line"></div>
+            <div className="burger-line"></div>
+            <div className="burger-line"></div>
+          </button>
+          <h1>Patrol Routes</h1>
+        </div>
         <div className="role-toggle" onClick={toggleRole}>
           <span className="role-label">Rol:</span>
           <span className="role-value">

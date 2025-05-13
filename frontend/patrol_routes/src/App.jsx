@@ -18,28 +18,23 @@ function App() {
     setActiveRole(role);
   };
 
-
   return (
     <AuthProvider>
       <div className="app">
-        <Header activeRole={activeRole} onRoleChange={handleRoleChange} />
+        <Header
+          activeRole={activeRole}
+          onRoleChange={handleRoleChange}
+          sidebarActive={sidebarActive}
+          toggleSidebar={toggleSidebar}
+        />
         <div className="container">
-          <button
-            className={`burger-menu ${sidebarActive ? "active" : ""}`}
-            onClick={toggleSidebar}
-          >
-            <div className="burger-line"></div>
-            <div className="burger-line"></div>
-            <div className="burger-line"></div>
-          </button>
-
           <Sidebar
             routeInfo={routeInfo}
             setRouteInfo={setRouteInfo}
             active={sidebarActive}
           />
           <MapCont
-            marginLeft={sidebarActive ? "300px" : "30px"}
+            marginLeft={sidebarActive ? "300px" : "0"}
             activeRole={activeRole}
             routeInfo={routeInfo}
             setRouteInfo={setRouteInfo}
