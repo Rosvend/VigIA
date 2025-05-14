@@ -9,7 +9,7 @@ import itertools
 # TODO: find the ideal value for this variable
 SCALE_FACTOR = 0.0002
 MAX_DISTANCE = 0.05
-LUMPING_FACTOR = 10
+LUMPING_FACTOR = 20
 
 grid = gpd.GeoDataFrame.from_file("../geodata/hex_grid.gpkg").to_crs(crs="EPSG:4326")
 
