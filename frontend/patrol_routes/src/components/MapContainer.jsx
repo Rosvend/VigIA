@@ -4,6 +4,7 @@ import {
   Popup,
   Polyline,
   Marker,
+  Circle,
   TileLayer,
   Tooltip,
   MapContainer,
@@ -124,7 +125,7 @@ function MapCont({ marginLeft, routeInfo, setRouteInfo }) {
             </Polyline>
           ))}
         {routeInfo && routeInfo.hotspots.map((spot, index) => 
-          <Marker key={"p-" + index} position={rev(spot.coordinates)}/>
+          <Circle key={"p-" + index} center={rev(spot.coordinates)} fillOpacity={1} color={probability_colors[-1]}/>
         )}
       </MapContainer>
     </div>
