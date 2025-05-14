@@ -123,6 +123,9 @@ function MapCont({ marginLeft, routeInfo, setRouteInfo }) {
               )}
             </Polyline>
           ))}
+        {routeInfo && routeInfo.hotspots.map((spot, index) => 
+          <Marker key={"p-" + index} position={rev(spot.coordinates)}/>
+        )}
       </MapContainer>
     </div>
   );

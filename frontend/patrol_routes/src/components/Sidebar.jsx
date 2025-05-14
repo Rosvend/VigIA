@@ -79,6 +79,7 @@ function Sidebar({ active, routeInfo, setRouteInfo }) {
     const params = new URLSearchParams();
     params.append("cai", cai);
     params.append("n", n_routes);
+    params.append("hotspots", true);
     // TODO: add the requested spots feature (already implemented in backend)
     // params.append("requested_spots", JSON.stringify([[lat, lon]]));
 
@@ -88,6 +89,7 @@ function Sidebar({ active, routeInfo, setRouteInfo }) {
         const jsonResponse = await response.json();
         setRouteInfo({
           hotareas: jsonResponse.hotareas,
+          hotspots: jsonResponse.hotspots,
           routes: jsonResponse.routes.map(route => ({
             assigned_to: null,
             geometry: route

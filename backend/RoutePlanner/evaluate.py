@@ -11,7 +11,7 @@ import numpy as np
 import pandas as pd
 
 MAX_STATIONS = 4
-MAX_ROUTES = 4
+MAX_ROUTES = 3
 ROUTE_LENGTH_WEIGHT = -0.1
 ROUTE_LENGTHVAR_WEIGHT = -0.02
 SCALER = 1000
@@ -37,12 +37,12 @@ def evaluate_routes(result: dict):
         for route in routes if route is not None
     ) / len(routes)))
 
-def evaluate_router(router: PoliceRouter, **kwargs):
+def evaluate_router(router: PoliceRouter, max_routes, **kwargs):
     station_ids = choices(range(len(router._stations)), k=MAX_STATIONS)
     scores = [0 for _ in range(MAX_ROUTES)]
     
     for id in station_ids:
-        for n in range(MAX_ROUTES):
+        for n in range(max_routes):
             scores[n] += evaluate_routes(router.compute_routes(id, n + 1, **kwargs))
     return scores
 
@@ -54,12 +54,13 @@ if __name__ == "__main__":
         description='Evaluate the performance of the routing algorithm'
     )
     parser.add_argument('-s', '--save', action='store_true', help=f'Store the results in {RESULTS_FILE}')
+    parser.add_argument('-n', '--number-routes', type=int, default=3, help=f'Maximum number of routes to evaluate at a time')
     args = parser.parse_args()
 
     router = PoliceRouter(
         ORS_KEY, SimpleModelWrapper(MODEL_PATH)
     )
-    results = evaluate_router(router)
+    results = evaluate_router(router, args.number_routes)
 
     if args.save:
         if exists(RESULTS_FILE):
@@ -70,7 +71,7 @@ if __name__ == "__main__":
             ])
         past_results.loc[len(past_results)] = \
             [datetime.strftime(datetime.now(), TIMESTAMP_FORMAT)] \
-            + results
+            + [results[i] if i < MAX_ROUTES else None for i in range(len(past_results.columns) - 1)]
         past_results.to_csv(RESULTS_FILE, index=False)
        
     else:
