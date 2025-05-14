@@ -218,6 +218,7 @@ def create_app(config_filename='config_dev.py'):
     # Register endpoints
     api.add_resource(Route,
         '/api/routes/<string:date>/<int:cai_id>/<int:assigned_to>')
+    api.add_resource(Routes, '/api/routes/<string:date>/<int:cai_id>')
     api.add_resource(RouteSuggestions, '/api/routes')
     app.add_url_rule('/api/admin/login', methods=["POST"], view_func=admin_login)
 
