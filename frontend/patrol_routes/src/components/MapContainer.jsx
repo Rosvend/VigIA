@@ -91,6 +91,9 @@ function MapCont({ marginLeft, routeInfo, setRouteInfo }) {
             data={routeInfo.hotareas}
             style={paint_cell}
             onEachFeature={probabilityTooltip}/>}
+        {routeInfo && routeInfo.hotspots.map((spot, index) => 
+          <Marker key={"p-" + index} position={rev(spot.coordinates)}/>
+        )}
       </MapContainer>
     </div>
   );
