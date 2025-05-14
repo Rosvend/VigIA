@@ -20,6 +20,7 @@ const COLOR_SCALER = 3
 
 const initial_center = [6.24938, -75.56];
 const rev = (pos) => [pos[1], pos[0]];
+const off = (pos, i) => pos.map(p => p + (i-1) *0.00002)
 const probability_colors = [
   "#FAFAFA",
   "#F5F5F5",
@@ -112,7 +113,9 @@ function MapCont({ marginLeft, routeInfo, setRouteInfo }) {
             <Polyline
               pathOptions={{ color: colors[i % colors.length]}}
               key={"r" + i}
-              positions={route.geometry.map((pos) => rev(pos))}
+              positions={route.geometry.map((pos) => off(rev(pos), i))}
+              // Should we?
+              // dashArray={[4]}
               eventHandlers={{
                 click: () => setRouteAssigns(i),
               }}
