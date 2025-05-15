@@ -8,22 +8,26 @@ import * as turf from "turf";
 import { features as comunas } from "../../../../geodata/comunas.json";
 import { features as stations } from "../../../../geodata/police.json";
 
-  const filterCai = (selComuna) => stations
-    .map((cai, i) => ({...cai, properties: {id: i, ...cai.properties}}))
-    .filter(cai => turf.inside(cai, comunas[selComuna]))
+const filterCai = (selComuna) => stations
+  .map((cai, i) => ({...cai, properties: {id: i, ...cai.properties}}))
+  .filter(cai => turf.inside(cai, comunas[selComuna]))
 
-function Sidebar({ active, routeInfo, setRouteInfo }) {
+const findMatchingComuna = (cai) => comunas.findIndex(com => turf.inside(cai, com));
+
+function Sidebar({ active, routeInfo, setRouteInfo, selCai, setSelCai }) {
   const { token, user } = useAuth();
-  const [selComuna, setSelComuna] = useState(0);
-  const [selCai, setSelCai] = useState(filterCai(selComuna)[0].properties.id);
+  console.log(stations[selCai]);
+  const [selComuna, setSelComuna] = useState(findMatchingComuna(stations[selCai]));
   const [routeCounter, setRouteCounter] = useState(1);
   const [routes, setRoutes] = useState([1]);
   const [showDeleteConfirm, setShowDeleteConfirm] = useState(false);
   const isSupervisor = user !== null;
 
+  const setComuna = (id) =>
+    setSelCai(filterCai(id)[0].properties.id);
   useEffect(() => {
-    setSelCai(filterCai(selComuna)[0].properties.id)
-  }, [selComuna])
+    setSelComuna(findMatchingComuna(stations[selCai]))
+  }, [selCai])
 
   const assignRoute = async (cai, singleRouteGeom, id) => {
     const currentDate = new Date();
@@ -138,7 +142,7 @@ function Sidebar({ active, routeInfo, setRouteInfo }) {
       <GeoSelect
         features={comunas}
         selIndex={selComuna}
-        setSelIndex={setSelComuna}
+        setSelIndex={setComuna}
         name="Comuna"
       />
       <div className="form-group">

@@ -2,7 +2,7 @@ import { useState } from "react";
 import { useAuth } from "../Auth";
 import LoginModal from "./LoginModal";
 
-function Header({ activeRole, onRoleChange, sidebarActive, toggleSidebar }) {
+function Header({ activeRole, onRoleChange, sidebarActive, toggleSidebar, selCai , setSelCai}) {
   const { user, logIn, logOut } = useAuth();
   const [showLoginModal, setShowLoginModal] = useState(false);
 
@@ -44,6 +44,9 @@ function Header({ activeRole, onRoleChange, sidebarActive, toggleSidebar }) {
           </button>
           <h1>Patrol Routes</h1>
         </div>
+        {user && user.cai_id != selCai && <div onClick={() => {setSelCai(user.cai_id)}} className="role-toggle">
+          Ir a mi cai
+        </div>}
         <div className="role-toggle" onClick={toggleRole}>
           <span className="role-label">Rol:</span>
           <span className="role-value">

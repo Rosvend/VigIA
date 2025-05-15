@@ -7,6 +7,7 @@ import "./App.css";
 
 function App() {
   const [sidebarActive, setSidebarActive] = useState(false);
+  const [selCai, setSelCai] = useState(0);
   const [activeRole, setActiveRole] = useState("policia");
   const [routeInfo, setRouteInfo] = useState(null);
 
@@ -25,12 +26,16 @@ function App() {
           activeRole={activeRole}
           onRoleChange={handleRoleChange}
           sidebarActive={sidebarActive}
+          selCai={selCai}
+          setSelCai={setSelCai}
           toggleSidebar={toggleSidebar}
         />
         <div className="container">
           <Sidebar
             routeInfo={routeInfo}
             setRouteInfo={setRouteInfo}
+            selCai={selCai}
+            setSelCai={setSelCai}
             active={sidebarActive}
           />
           <MapCont
