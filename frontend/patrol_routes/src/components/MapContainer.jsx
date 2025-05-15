@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { useAuth } from "../Auth";
 import "../App.css";
 import {
   Popup,
@@ -71,6 +72,7 @@ const assignRoute = (routes, index, to) =>
   );
 
 function MapCont({ marginLeft, routeInfo, setRouteInfo }) {
+  const { token, user } = useAuth();
   const probabilityTooltip = (feature, layer) => {
     layer.on({
       mouseover: (e) => {
@@ -116,9 +118,9 @@ function MapCont({ marginLeft, routeInfo, setRouteInfo }) {
               positions={route.geometry.map((pos) => off(rev(pos), i))}
               // Should we?
               // dashArray={[4]}
-              eventHandlers={{
+              eventHandlers={user ? {
                 click: () => setRouteAssigns(i),
-              }}
+              } : {}}
             >
               {route.assigned_to && (
                 <Tooltip permanent>
@@ -127,8 +129,9 @@ function MapCont({ marginLeft, routeInfo, setRouteInfo }) {
               )}
             </Polyline>
           ))}
-        {routeInfo && routeInfo.hotspots.map((spot, index) => 
-          <Circle key={"p-" + index} center={rev(spot.coordinates)} fillOpacity={1} color={probability_colors[-1]}/>
+        {routeInfo && routeInfo.hotspots &&
+          routeInfo.hotspots.map((spot, index) => 
+            <Circle key={"p-" + index} center={rev(spot.coordinates)} fillOpacity={1} color={probability_colors[-1]}/>
         )}
       </MapContainer>
     </div>
