@@ -5,10 +5,10 @@ This project aims to enhance police patrol efficiency in Medellín by predicting
 
 Based on these predictions, the system generates optimized patrol routes from police stations to the high-risk locations and back, ensuring effective resource allocation.
 
-## Team
+## Contributors
 - **Data Scientist:** Roy Sandoval (@rosvend)  
 - **Software Engineers:**  
-  - Fernando Gonzales (@fergonzr)  
+  - Fernando Gonzales (@fergonzr)
   - Argenis Omaña (@4rg3n15)  
 
 ## Features
@@ -31,12 +31,31 @@ Based on these predictions, the system generates optimized patrol routes from po
 ## Tech Stack
 - **Frontend:** React (JavaScript)  
 - **Backend:** Flask (Python)  
-- **Database:** Supabase (PostgreSQL)  
+- **Database:** PostgreSQL
 - **Machine Learning:** Scikit-learn, TensorFlow & PyTorch (Python)  
 - **Mapping & Routing:**  
-  - Google Maps **JavaScript API** (for interactive maps)  
-  - Google Maps **Directions API** (for patrol route optimization)  
-- **Visualization:** Google Maps JavaScript API  
+  - OpenStreetMap (for interactive maps)  
+  - OpenRouteService **API** (for patrol route optimization)  
+- **Visualization:** Leaflet
+
+## Architecture
+The project consists of three main components:
+
+### ML Pipeline
+- Data ingestion and cleaning
+- Spatial grid creation using H3 hexagons
+- Feature engineering (spatial, temporal, and categorical)
+- Model training and evaluation
+- Performance reports with metrics like ROC-AUC
+## Backend (Flask)
+- RESTful API for crime predictions and route optimization
+- PostgreSQL database integration
+- API documentation via Swagger/Flasgger
+- Error handling and logging
+### Frontend (React + Vite)
+- Interactive map visualization
+- Route planning interface
+- Crime heatmap display
 
 ## How to run
 
@@ -44,4 +63,4 @@ Based on these predictions, the system generates optimized patrol routes from po
 2. Get an [OpenRouteService](https://openrouteservice.org/) API key.
 3. Make sure docker and docker compose is installed on your machine.
 4. Run `ORS_KEY=YOUR_API_KEY docker compose up`.
-5. Wait for the images to be built and ran.
+5. Wait for the images to be built and run.
