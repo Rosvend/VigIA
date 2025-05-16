@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 
-function Notification({ message, type, onClose, duration = 3000 }) {
+function Notification({ message, type, onClose, duration = 3000, style = {} }) {
   const [visible, setVisible] = useState(true);
 
   useEffect(() => {
@@ -35,7 +35,7 @@ function Notification({ message, type, onClose, duration = 3000 }) {
         position: "fixed",
         top: "20px",
         right: "20px",
-        padding: "12px 20px",
+        padding: "12px 10px",
         backgroundColor: getBackgroundColor(),
         color: "white",
         borderRadius: "4px",
@@ -47,13 +47,14 @@ function Notification({ message, type, onClose, duration = 3000 }) {
         alignItems: "center",
         justifyContent: "space-between",
         maxWidth: "350px",
+        ...style,
       }}
     >
       <span>{message}</span>
       <button
         onClick={() => {
           setVisible(false);
-          setTimeout(onClose, 300);
+          setTimeout(onClose, 200);
         }}
         style={{
           background: "none",
@@ -61,7 +62,7 @@ function Notification({ message, type, onClose, duration = 3000 }) {
           color: "white",
           fontSize: "16px",
           cursor: "pointer",
-          marginLeft: "15px",
+          marginLeft: "5px",
         }}
       >
         ×
