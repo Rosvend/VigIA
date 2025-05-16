@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import "../App.css";
 import {
   Popup,
@@ -13,14 +13,15 @@ import {
 } from "react-leaflet";
 import L from "leaflet";
 import "leaflet/dist/leaflet.css";
+import "leaflet-polylinedecorator";
 import colormap from "colormap";
 
-const NUM_P_COLORS = 20
-const COLOR_SCALER = 3
+const NUM_P_COLORS = 20;
+const COLOR_SCALER = 3;
 
 const initial_center = [6.24938, -75.56];
 const rev = (pos) => [pos[1], pos[0]];
-const off = (pos, i) => pos.map(p => p + (i-1) *0.00002)
+const off = (pos, i) => pos.map((p) => p + (i - 1) * 0.00002);
 const probability_colors = [
   "#FAFAFA",
   "#F5F5F5",
@@ -54,7 +55,10 @@ const fmt_probability = (probability) =>
   (probability * 100).toPrecision(3) + " %";
 
 const paint_cell = (feature) => {
-  const probability = Math.pow(feature.properties.probability, 1/COLOR_SCALER);
+  const probability = Math.pow(
+    feature.properties.probability,
+    1 / COLOR_SCALER
+  );
   const color =
     probability_colors[Math.floor(probability * (NUM_P_COLORS - 1))];
   return {
@@ -65,12 +69,25 @@ const paint_cell = (feature) => {
   };
 };
 
+// Custom start marker icon SVG
+const startMarkerIcon = L.divIcon({
+  html: `<svg width="14" height="14" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+    <circle cx="50" cy="50" r="40" fill="#007bff" stroke="white" stroke-width="8"/>
+    <path d="M30 50 L70 50 M50 30 L50 70" stroke="white" stroke-width="8"/>
+  </svg>`,
+  className: "",
+  iconSize: [14, 14],
+  iconAnchor: [7, 7],
+});
+
 const assignRoute = (routes, index, to) =>
   routes.map((route, i) =>
     i == index ? { ...route, assigned_to: to } : route
   );
 
 function MapCont({ marginLeft, routeInfo, setRouteInfo }) {
+  const [map, setMap] = useState(null);
+
   const probabilityTooltip = (feature, layer) => {
     layer.on({
       mouseover: (e) => {
@@ -93,43 +110,111 @@ function MapCont({ marginLeft, routeInfo, setRouteInfo }) {
         parseInt(prompt("¿A cuál patrulla asignar ruta?"))
       ),
     });
-  console.log(routeInfo);
+
+  // Add directional arrows to routes when routeInfo changes
+  useEffect(() => {
+    if (!map || !routeInfo || !routeInfo.routes) return;
+
+    // Remove existing decorators
+    map.eachLayer((layer) => {
+      if (layer._decorator) {
+        map.removeLayer(layer);
+      }
+    });
+
+    // Add arrow decorators for each route
+    routeInfo.routes.forEach((route, i) => {
+      if (route.geometry && route.geometry.length > 1) {
+        const routePoints = route.geometry.map((pos) => off(rev(pos), i));
+
+        // Create a hidden polyline for the decorator
+        const polyline = L.polyline(routePoints, {
+          opacity: 0,
+          weight: 0,
+        }).addTo(map);
+
+        // Create the decorator with arrow pattern
+        const decorator = L.polylineDecorator(polyline, {
+          patterns: [
+            {
+              offset: 25,
+              repeat: 75,
+              symbol: L.Symbol.arrowHead({
+                pixelSize: 15,
+                headAngle: 50,
+                pathOptions: {
+                  fillOpacity: 1,
+                  weight: 2,
+                  color: colors[i % colors.length],
+                  fillColor: colors[i % colors.length],
+                },
+              }),
+            },
+          ],
+        }).addTo(map);
+
+        // Mark this layer for future cleanup
+        decorator._decorator = true;
+      }
+    });
+  }, [map, routeInfo]);
 
   return (
     <div style={{ marginLeft }}>
-      <MapContainer className="map-container" center={initial_center} zoom={13}>
+      <MapContainer
+        className="map-container"
+        center={initial_center}
+        zoom={13}
+        whenCreated={setMap}
+      >
         <TileLayer
           attribution='&copy; <a href="https://www.maptiler.com/copyright/">MapTiler</a> &copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
           url="https://api.maptiler.com/maps/streets/{z}/{x}/{y}.png?key=0QXa7JOFYu3UV34Ew0Vx"
         />
-        {routeInfo && 
+        {routeInfo && (
           <GeoJSON
             key={JSON.stringify(routeInfo.hotareas)}
             data={routeInfo.hotareas}
-            style={(feature) => ({...paint_cell(feature)})}
-            onEachFeature={probabilityTooltip}/>}
+            style={(feature) => ({ ...paint_cell(feature) })}
+            onEachFeature={probabilityTooltip}
+          />
+        )}
         {routeInfo &&
           routeInfo.routes.map((route, i) => (
-            <Polyline
-              pathOptions={{ color: colors[i % colors.length]}}
-              key={"r" + i}
-              positions={route.geometry.map((pos) => off(rev(pos), i))}
-              // Should we?
-              // dashArray={[4]}
-              eventHandlers={{
-                click: () => setRouteAssigns(i),
-              }}
-            >
-              {route.assigned_to && (
-                <Tooltip permanent>
-                  {"Asignado a: " + route.assigned_to}
-                </Tooltip>
-              )}
-            </Polyline>
+            <>
+              {/* Start marker for each route */}
+              <Marker
+                key={`start-marker-${i}`}
+                position={off(rev(route.geometry[0]), i)}
+                icon={startMarkerIcon}
+              >
+                <Tooltip permanent>Cai {i + 1}</Tooltip>
+              </Marker>
+              <Polyline
+                pathOptions={{ color: colors[i % colors.length] }}
+                key={"r" + i}
+                positions={route.geometry.map((pos) => off(rev(pos), i))}
+                eventHandlers={{
+                  click: () => setRouteAssigns(i),
+                }}
+              >
+                {route.assigned_to && (
+                  <Tooltip permanent>
+                    {"Asignado a: " + route.assigned_to}
+                  </Tooltip>
+                )}
+              </Polyline>
+            </>
           ))}
-        {routeInfo && routeInfo.hotspots.map((spot, index) => 
-          <Circle key={"p-" + index} center={rev(spot.coordinates)} fillOpacity={1} color={probability_colors[-1]}/>
-        )}
+        {routeInfo &&
+          routeInfo.hotspots.map((spot, index) => (
+            <Circle
+              key={"p-" + index}
+              center={rev(spot.coordinates)}
+              fillOpacity={1}
+              color={probability_colors[-1]}
+            />
+          ))}
       </MapContainer>
     </div>
   );
