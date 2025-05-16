@@ -157,13 +157,13 @@ function Sidebar({ active, routeInfo, setRouteInfo, selCai, setSelCai }) {
   };
 
   const addRoute = () => {
-    if (routes.length < 4) {
+    if (routes.length < 3) {
       const newRouteNumber = routeCounter + 1;
       setRouteCounter(newRouteNumber);
       setRoutes([...routes, newRouteNumber]);
       showInfo(`Ruta ${newRouteNumber} añadida`);
     } else {
-      showError("Máximo de 4 rutas alcanzado");
+      showError("Máximo de 3 rutas alcanzado");
     }
   };
 
@@ -197,7 +197,7 @@ function Sidebar({ active, routeInfo, setRouteInfo, selCai, setSelCai }) {
             id="rutas"
             className="form-control"
             multiple
-            size={Math.min(routes.length, 4)}
+            size={Math.min(routes.length, 3)}
           >
             {routes.map((route) => (
               <option key={route} value={route}>
