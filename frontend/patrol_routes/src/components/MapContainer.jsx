@@ -14,6 +14,7 @@ import {
 import L from "leaflet";
 import "leaflet/dist/leaflet.css";
 import "leaflet-polylinedecorator";
+import { useNotification } from "./NotificationProvider";
 import colormap from "colormap";
 
 const NUM_P_COLORS = 20;
@@ -85,8 +86,9 @@ const assignRoute = (routes, index, to) =>
     i == index ? { ...route, assigned_to: to } : route
   );
 
-function MapCont({ marginLeft, routeInfo, setRouteInfo }) {
+function MapCont({ marginLeft, routeInfo, setRouteInfo, activeRole }) {
   const [map, setMap] = useState(null);
+  const { showSuccess, showError } = useNotification();
 
   const probabilityTooltip = (feature, layer) => {
     layer.on({
@@ -101,15 +103,27 @@ function MapCont({ marginLeft, routeInfo, setRouteInfo }) {
     });
   };
 
-  const setRouteAssigns = (i) =>
+  const setRouteAssigns = (i) => {
+    if (activeRole !== "supervisor") {
+      showError("Solo los supervisores pueden asignar rutas");
+      return;
+    }
+
+    const patrolNumber = prompt("¿A cuál patrulla asignar ruta?");
+    if (!patrolNumber) return;
+
+    const patrol = parseInt(patrolNumber);
+    if (isNaN(patrol) || patrol <= 0) {
+      showError("Número de patrulla inválido");
+      return;
+    }
+
     setRouteInfo({
       ...routeInfo,
-      routes: assignRoute(
-        routeInfo.routes,
-        i,
-        parseInt(prompt("¿A cuál patrulla asignar ruta?"))
-      ),
+      routes: assignRoute(routeInfo.routes, i, patrol),
     });
+    showSuccess(`Ruta asignada a patrulla ${patrol}`);
+  };
 
   // Add directional arrows to routes when routeInfo changes
   useEffect(() => {
@@ -127,7 +141,7 @@ function MapCont({ marginLeft, routeInfo, setRouteInfo }) {
       if (route.geometry && route.geometry.length > 1) {
         const routePoints = route.geometry.map((pos) => off(rev(pos), i));
 
-        // Create a hidden polyline for the decorator
+        // Create a polyline for the decorator
         const polyline = L.polyline(routePoints, {
           opacity: 0,
           weight: 0,
@@ -157,10 +171,21 @@ function MapCont({ marginLeft, routeInfo, setRouteInfo }) {
         decorator._decorator = true;
       }
     });
+
+    // Cleanup function when component unmounts or routeInfo changes
+    return () => {
+      if (map) {
+        map.eachLayer((layer) => {
+          if (layer._decorator) {
+            map.removeLayer(layer);
+          }
+        });
+      }
+    };
   }, [map, routeInfo]);
 
   return (
-    <div style={{ marginLeft }}>
+    <div style={{ marginLeft }} id="map-container">
       <MapContainer
         className="map-container"
         center={initial_center}
@@ -171,7 +196,7 @@ function MapCont({ marginLeft, routeInfo, setRouteInfo }) {
           attribution='&copy; <a href="https://www.maptiler.com/copyright/">MapTiler</a> &copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
           url="https://api.maptiler.com/maps/streets/{z}/{x}/{y}.png?key=0QXa7JOFYu3UV34Ew0Vx"
         />
-        {routeInfo && (
+        {routeInfo && routeInfo.hotareas && (
           <GeoJSON
             key={JSON.stringify(routeInfo.hotareas)}
             data={routeInfo.hotareas}
@@ -180,17 +205,24 @@ function MapCont({ marginLeft, routeInfo, setRouteInfo }) {
           />
         )}
         {routeInfo &&
+          routeInfo.routes &&
           routeInfo.routes.map((route, i) => (
-            <>
+            <div key={`route-group-${i}`}>
               {/* Start marker for each route */}
               <Marker
                 key={`start-marker-${i}`}
                 position={off(rev(route.geometry[0]), i)}
                 icon={startMarkerIcon}
-              ></Marker>
+              >
+                <Tooltip permanent>CAI</Tooltip>
+              </Marker>
               <Polyline
-                pathOptions={{ color: colors[i % colors.length] }}
-                key={"r" + i}
+                pathOptions={{
+                  color: colors[i % colors.length],
+                  weight: 4,
+                  opacity: 0.7,
+                }}
+                key={`route-line-${i}`}
                 positions={route.geometry.map((pos) => off(rev(pos), i))}
                 eventHandlers={{
                   click: () => setRouteAssigns(i),
@@ -198,16 +230,17 @@ function MapCont({ marginLeft, routeInfo, setRouteInfo }) {
               >
                 {route.assigned_to && (
                   <Tooltip permanent>
-                    {"Asignado a: " + route.assigned_to}
+                    {"Asignado a patrulla: " + route.assigned_to}
                   </Tooltip>
                 )}
               </Polyline>
-            </>
+            </div>
           ))}
         {routeInfo &&
+          routeInfo.hotspots &&
           routeInfo.hotspots.map((spot, index) => (
             <Circle
-              key={`p-${index}`}
+              key={`hotspot-${index}`}
               center={rev(spot.coordinates)}
               radius={15}
               fillOpacity={0.6}

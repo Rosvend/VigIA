@@ -3,6 +3,7 @@ import SidebarSection from "./SidebarSection";
 import GeoSelect from "./GeoSelect";
 import { API_URL } from "../api";
 import { useAuth } from "../Auth";
+import { useNotification } from "./NotificationProvider";
 import * as turf from "turf";
 
 import { features as comunas } from "../../../../geodata/comunas.json";
@@ -18,7 +19,8 @@ const findMatchingComuna = (cai) =>
 
 function Sidebar({ active, routeInfo, setRouteInfo, selCai, setSelCai }) {
   const { token, user } = useAuth();
-  console.log(stations[selCai]);
+  const { showSuccess, showError, showInfo } = useNotification();
+
   const [selComuna, setSelComuna] = useState(
     findMatchingComuna(stations[selCai])
   );
@@ -51,21 +53,50 @@ function Sidebar({ active, routeInfo, setRouteInfo, selCai, setSelCai }) {
         }
       );
 
-      // TODO: Insert fancy popup here.
-      if (response.ok) return false;
+      if (response.ok) {
+        showSuccess(`Ruta asignada correctamente a patrulla ${id}`);
+        return true;
+      } else {
+        showError(`Error al asignar ruta a patrulla ${id}`);
+        return false;
+      }
     } catch (err) {
-      // TODO: Error message
+      showError(`Error de conexión al asignar ruta: ${err.message}`);
       console.log(err);
+      return false;
     }
   };
 
   const assignRoutes = async (cai, routeInfo) => {
-    routeInfo.routes.forEach(async (route) => {
-      console.log(cai);
-      console.log(route.geometry);
-      console.log(route.assigned_to);
-      await assignRoute(cai, route.geometry, route.assigned_to);
-    });
+    if (!routeInfo || !routeInfo.routes || routeInfo.routes.length === 0) {
+      showError("No hay rutas para asignar");
+      return;
+    }
+
+    let assignedCount = 0;
+    let failedCount = 0;
+
+    for (const route of routeInfo.routes) {
+      if (!route.assigned_to) {
+        showInfo(`Omitiendo ruta no asignada`);
+        continue;
+      }
+
+      const success = await assignRoute(cai, route.geometry, route.assigned_to);
+      if (success) {
+        assignedCount++;
+      } else {
+        failedCount++;
+      }
+    }
+
+    if (assignedCount > 0 && failedCount === 0) {
+      showSuccess(`${assignedCount} rutas asignadas correctamente`);
+    } else if (assignedCount > 0 && failedCount > 0) {
+      showInfo(`${assignedCount} rutas asignadas, ${failedCount} fallaron`);
+    } else if (failedCount > 0) {
+      showError(`Error al asignar ${failedCount} rutas`);
+    }
   };
 
   const fetchRoute = async (cai, id) => {
@@ -85,9 +116,12 @@ function Sidebar({ active, routeInfo, setRouteInfo, selCai, setSelCai }) {
         setRouteInfo(
           isNaN(id) ? { routes: jsonResponse } : { routes: [jsonResponse] }
         );
+        showSuccess("Rutas cargadas correctamente");
+      } else {
+        showError("Error al cargar rutas");
       }
     } catch (err) {
-      // TODO: show error message properly
+      showError(`Error de conexión: ${err.message}`);
       console.log(err);
     }
   };
@@ -112,8 +146,12 @@ function Sidebar({ active, routeInfo, setRouteInfo, selCai, setSelCai }) {
             geometry: route,
           })),
         });
+        showSuccess(`${n_routes} rutas generadas correctamente`);
+      } else {
+        showError("Error al generar rutas");
       }
     } catch (e) {
+      showError(`Error de conexión: ${e.message}`);
       console.log(e);
     }
   };
@@ -123,8 +161,9 @@ function Sidebar({ active, routeInfo, setRouteInfo, selCai, setSelCai }) {
       const newRouteNumber = routeCounter + 1;
       setRouteCounter(newRouteNumber);
       setRoutes([...routes, newRouteNumber]);
+      showInfo(`Ruta ${newRouteNumber} añadida`);
     } else {
-      alert("Máximo de 4 rutas alcanzado");
+      showError("Máximo de 4 rutas alcanzado");
     }
   };
 
@@ -132,6 +171,7 @@ function Sidebar({ active, routeInfo, setRouteInfo, selCai, setSelCai }) {
     setRoutes([1]);
     setRouteCounter(1);
     setRouteInfo(null);
+    showInfo("Rutas reiniciadas correctamente");
   };
 
   // Filter section content
@@ -206,6 +246,9 @@ function Sidebar({ active, routeInfo, setRouteInfo, selCai, setSelCai }) {
             className="btn"
             onClick={() => assignRoutes(selCai, routeInfo)}
             style={{ marginTop: "10px", width: "100%" }}
+            disabled={
+              !routeInfo || !routeInfo.routes || routeInfo.routes.length === 0
+            }
           >
             Asignar rutas
           </button>
@@ -231,7 +274,7 @@ function Sidebar({ active, routeInfo, setRouteInfo, selCai, setSelCai }) {
         <div className="legend-icon" style={{ color: "#5cb85c" }}>
           &#9679;
         </div>
-        <span>CAI</span>
+        <span>CAI (Centro de Atención Inmediata)</span>
       </div>
       <div className="legend-item">
         <div className="legend-icon" style={{ color: "#d9534f" }}>
@@ -240,16 +283,22 @@ function Sidebar({ active, routeInfo, setRouteInfo, selCai, setSelCai }) {
         <span>Punto de Alto Riesgo</span>
       </div>
       <div className="legend-item">
-        <div className="legend-icon" style={{ color: "#007bff" }}>
-          &#11049;
-        </div>
-        <span>Inicio de ruta</span>
-      </div>
-      <div className="legend-item">
-        <div className="legend-icon" style={{ color: "white" }}>
+        <div className="legend-icon" style={{ color: "#E88A4C" }}>
           &#10148;
         </div>
-        <span>Dirección de ruta</span>
+        <span>Ruta 1</span>
+      </div>
+      <div className="legend-item">
+        <div className="legend-icon" style={{ color: "green" }}>
+          &#10148;
+        </div>
+        <span>Ruta 2</span>
+      </div>
+      <div className="legend-item">
+        <div className="legend-icon" style={{ color: "#083D77" }}>
+          &#10148;
+        </div>
+        <span>Ruta 3</span>
       </div>
     </>
   );

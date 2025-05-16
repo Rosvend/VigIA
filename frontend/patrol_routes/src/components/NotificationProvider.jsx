@@ -72,13 +72,14 @@ export const NotificationProvider = ({ children }) => {
     >
       {children}
       <div className="notifications-container">
-        {notifications.map(({ id, message, type, duration }) => (
+        {notifications.map(({ id, message, type, duration }, index) => (
           <Notification
             key={id}
             message={message}
             type={type}
             duration={duration}
             onClose={() => removeNotification(id)}
+            style={{ top: `${20 + index * 70}px` }}
           />
         ))}
       </div>
