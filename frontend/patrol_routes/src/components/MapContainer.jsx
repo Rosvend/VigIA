@@ -1,4 +1,4 @@
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect } from "react";
 import "../App.css";
 import {
   Popup,
@@ -49,7 +49,7 @@ const probability_colors = [
  * Different colors for the routes. Should be adjusted according to the
  * selected color palette when #16 is solved.
  */
-const colors = ["orange", "red", "green", "yellow"];
+const colors = ["#E88A4C", "green", "#083D77"];
 
 const fmt_probability = (probability) =>
   (probability * 100).toPrecision(3) + " %";
@@ -69,50 +69,16 @@ const paint_cell = (feature) => {
   };
 };
 
-// Custom marker icon SVG for CAI stations
-const caiMarkerIcon = L.divIcon({
+// Custom start marker icon SVG
+const startMarkerIcon = L.divIcon({
   html: `<svg width="14" height="14" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
-    <circle cx="50" cy="50" r="40" fill="#5cb85c" stroke="white" stroke-width="4"/>
-    <text x="50" y="55" font-size="40" text-anchor="middle" fill="white">C</text>
+    <circle cx="50" cy="50" r="43" fill="#5cb85c" stroke="white" stroke-width="5"/>
+    <text x="50" y="64" font-size="40" text-anchor="middle" fill="white">C</text>
   </svg>`,
   className: "",
   iconSize: [14, 14],
   iconAnchor: [7, 7],
 });
-
-// A function that adds arrow decorators to a polyline
-const addArrowsToPolyline = (map, polylinePoints, color) => {
-  // First, make sure the polyline has at least 2 points
-  if (!polylinePoints || polylinePoints.length < 2) return null;
-
-  // Create the polyline
-  const polyline = L.polyline(polylinePoints, {
-    color: color,
-    weight: 3,
-  }).addTo(map);
-
-  // Create the decorator with arrow patterns
-  const decorator = L.polylineDecorator(polyline, {
-    patterns: [
-      {
-        offset: "5%",
-        repeat: "15%",
-        symbol: L.Symbol.arrowHead({
-          pixelSize: 15,
-          headAngle: 30,
-          polygon: false,
-          pathOptions: {
-            color: color,
-            fillOpacity: 1,
-            weight: 3,
-          },
-        }),
-      },
-    ],
-  }).addTo(map);
-
-  return { polyline, decorator };
-};
 
 const assignRoute = (routes, index, to) =>
   routes.map((route, i) =>
@@ -121,7 +87,6 @@ const assignRoute = (routes, index, to) =>
 
 function MapCont({ marginLeft, routeInfo, setRouteInfo }) {
   const [map, setMap] = useState(null);
-  const arrowsRef = useRef([]);
 
   const probabilityTooltip = (feature, layer) => {
     layer.on({
@@ -136,56 +101,62 @@ function MapCont({ marginLeft, routeInfo, setRouteInfo }) {
     });
   };
 
-  const setRouteAssigns = (i) => {
-    const patrolNumber = prompt("¿A cuál patrulla asignar ruta?");
-    if (patrolNumber && !isNaN(parseInt(patrolNumber))) {
-      setRouteInfo({
-        ...routeInfo,
-        routes: assignRoute(routeInfo.routes, i, parseInt(patrolNumber)),
-      });
-    }
-  };
+  const setRouteAssigns = (i) =>
+    setRouteInfo({
+      ...routeInfo,
+      routes: assignRoute(
+        routeInfo.routes,
+        i,
+        parseInt(prompt("¿A cuál patrulla asignar ruta?"))
+      ),
+    });
 
   // Add directional arrows to routes when routeInfo changes
   useEffect(() => {
     if (!map || !routeInfo || !routeInfo.routes) return;
 
-    // Clean up previous arrows
-    if (arrowsRef.current.length > 0) {
-      arrowsRef.current.forEach((arrow) => {
-        if (arrow.polyline) map.removeLayer(arrow.polyline);
-        if (arrow.decorator) map.removeLayer(arrow.decorator);
-      });
-      arrowsRef.current = [];
-    }
-
-    // Add new arrows for each route
-    const newArrows = routeInfo.routes
-      .map((route, i) => {
-        if (route.geometry && route.geometry.length > 1) {
-          const routePoints = route.geometry.map((pos) => off(rev(pos), i));
-          return addArrowsToPolyline(
-            map,
-            routePoints,
-            colors[i % colors.length]
-          );
-        }
-        return null;
-      })
-      .filter(Boolean);
-
-    arrowsRef.current = newArrows;
-
-    // Cleanup function
-    return () => {
-      if (arrowsRef.current.length > 0) {
-        arrowsRef.current.forEach((arrow) => {
-          if (arrow.polyline) map.removeLayer(arrow.polyline);
-          if (arrow.decorator) map.removeLayer(arrow.decorator);
-        });
-        arrowsRef.current = [];
+    // Remove existing decorators
+    map.eachLayer((layer) => {
+      if (layer._decorator) {
+        map.removeLayer(layer);
       }
-    };
+    });
+
+    // Add arrow decorators for each route
+    routeInfo.routes.forEach((route, i) => {
+      if (route.geometry && route.geometry.length > 1) {
+        const routePoints = route.geometry.map((pos) => off(rev(pos), i));
+
+        // Create a hidden polyline for the decorator
+        const polyline = L.polyline(routePoints, {
+          opacity: 0,
+          weight: 0,
+        }).addTo(map);
+
+        // Create the decorator with arrow pattern
+        const decorator = L.polylineDecorator(polyline, {
+          patterns: [
+            {
+              offset: 25,
+              repeat: 75,
+              symbol: L.Symbol.arrowHead({
+                pixelSize: 15,
+                headAngle: 50,
+                pathOptions: {
+                  fillOpacity: 1,
+                  weight: 2,
+                  color: colors[i % colors.length],
+                  fillColor: colors[i % colors.length],
+                },
+              }),
+            },
+          ],
+        }).addTo(map);
+
+        // Mark this layer for future cleanup
+        decorator._decorator = true;
+      }
+    });
   }, [map, routeInfo]);
 
   return (
@@ -210,48 +181,36 @@ function MapCont({ marginLeft, routeInfo, setRouteInfo }) {
         )}
         {routeInfo &&
           routeInfo.routes.map((route, i) => (
-            <div key={`route-container-${i}`}>
-              {/* CAI marker for each route */}
+            <>
+              {/* Start marker for each route */}
               <Marker
-                key={`cai-marker-${i}`}
+                key={`start-marker-${i}`}
                 position={off(rev(route.geometry[0]), i)}
-                icon={caiMarkerIcon}
+                icon={startMarkerIcon}
+              ></Marker>
+              <Polyline
+                pathOptions={{ color: colors[i % colors.length] }}
+                key={"r" + i}
+                positions={route.geometry.map((pos) => off(rev(pos), i))}
+                eventHandlers={{
+                  click: () => setRouteAssigns(i),
+                }}
               >
-                <Tooltip permanent>CAI {i + 1}</Tooltip>
-              </Marker>
-
-              {/* We're not rendering Polylines here because we handle them with our custom arrows in the useEffect */}
-
-              {/* Display assigned patrol info */}
-              {route.assigned_to && (
-                <Marker
-                  key={`assigned-marker-${i}`}
-                  position={off(
-                    rev(route.geometry[Math.floor(route.geometry.length / 2)]),
-                    i
-                  )}
-                  icon={L.divIcon({
-                    html: `<div style="background-color:${
-                      colors[i % colors.length]
-                    }; padding: 2px 6px; border-radius: 3px; color: white; font-weight: bold;">Patrulla ${
-                      route.assigned_to
-                    }</div>`,
-                    className: "",
-                  })}
-                  eventHandlers={{
-                    click: () => setRouteAssigns(i),
-                  }}
-                />
-              )}
-            </div>
+                {route.assigned_to && (
+                  <Tooltip permanent>
+                    {"Asignado a: " + route.assigned_to}
+                  </Tooltip>
+                )}
+              </Polyline>
+            </>
           ))}
         {routeInfo &&
           routeInfo.hotspots.map((spot, index) => (
             <Circle
               key={`p-${index}`}
               center={rev(spot.coordinates)}
-              radius={20} // Make circles more visible
-              fillOpacity={0.8}
+              radius={15}
+              fillOpacity={0.6}
               fillColor="#d9534f"
               color="#d9534f"
             >
