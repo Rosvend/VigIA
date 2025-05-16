@@ -24,6 +24,18 @@ header {
   padding: 10px 20px;
   border-bottom: 1px solid #4a0000;
 }
+.logo-title {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  color: white;
+}
+
+.logo-icon {
+  height: 32px;
+  width: 32px;
+  margin-left: 10px;
+}
 
 .header-content {
   display: flex;

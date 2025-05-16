@@ -19,14 +19,14 @@ function Header({
     if (activeRole === "policia") {
       if (user) {
         onRoleChange("supervisor");
-        showSuccess("Modo supervisor activado");
+        showSuccess("Bienvenido, Supervisor");
       } else {
         setShowLoginModal(true);
       }
     } else {
       logOut();
       onRoleChange("policia");
-      showSuccess("Modo policía activado");
+      showSuccess("Bienvenido, Policía");
     }
   };
 
@@ -66,11 +66,16 @@ function Header({
             <div className="burger-line"></div>
             <div className="burger-line"></div>
           </button>
-          <h1>Patrol Routes</h1>
+          <img
+            src="./public/header_logo.svg"
+            alt="Logo Vigía"
+            className="logo-icon"
+          />
+          <h1>VIGIA</h1>
         </div>
         {user && user.cai_id !== undefined && user.cai_id != selCai && (
           <div onClick={goToMyCai} className="role-toggle">
-            Ir a mi cai
+            Ir a mi CAI
           </div>
         )}
         <div className="role-toggle" onClick={toggleRole}>
