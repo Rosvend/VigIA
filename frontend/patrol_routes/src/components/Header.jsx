@@ -67,7 +67,7 @@ function Header({
             <div className="burger-line"></div>
           </button>
           <img
-            src="./public/header_logo.svg"
+            src="/header_logo.svg"
             alt="Logo Vigía"
             className="logo-icon"
           />
