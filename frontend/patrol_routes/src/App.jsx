@@ -3,6 +3,7 @@ import Header from "./components/Header";
 import Sidebar from "./components/Sidebar";
 import MapCont from "./components/MapContainer";
 import AuthProvider from "./Auth";
+import NotificationProvider from "./components/NotificationProvider";
 import "./App.css";
 
 function App() {
@@ -20,33 +21,36 @@ function App() {
   };
 
   return (
-    <AuthProvider>
-      <div className="app">
-        <Header
-          activeRole={activeRole}
-          onRoleChange={handleRoleChange}
-          sidebarActive={sidebarActive}
-          selCai={selCai}
-          setSelCai={setSelCai}
-          toggleSidebar={toggleSidebar}
-        />
-        <div className="container">
-          <Sidebar
-            routeInfo={routeInfo}
-            setRouteInfo={setRouteInfo}
+    <NotificationProvider>
+      <AuthProvider>
+        <div className="app">
+          <Header
+            activeRole={activeRole}
+            onRoleChange={handleRoleChange}
+            sidebarActive={sidebarActive}
             selCai={selCai}
             setSelCai={setSelCai}
-            active={sidebarActive}
+            toggleSidebar={toggleSidebar}
           />
-          <MapCont
-            marginLeft={sidebarActive ? "300px" : "0"}
-            activeRole={activeRole}
-            routeInfo={routeInfo}
-            setRouteInfo={setRouteInfo}
-          />
+          <div className="container">
+            <Sidebar
+              routeInfo={routeInfo}
+              setRouteInfo={setRouteInfo}
+              selCai={selCai}
+              setSelCai={setSelCai}
+              active={sidebarActive}
+            />
+            <MapCont
+              marginLeft={sidebarActive ? "300px" : "0"}
+              activeRole={activeRole}
+              routeInfo={routeInfo}
+              setRouteInfo={setRouteInfo}
+              selCai={selCai}
+            />
+          </div>
         </div>
-      </div>
-    </AuthProvider>
+      </AuthProvider>
+    </NotificationProvider>
   );
 }
 

@@ -3,31 +3,35 @@ import SidebarSection from "./SidebarSection";
 import GeoSelect from "./GeoSelect";
 import { API_URL } from "../api";
 import { useAuth } from "../Auth";
+import { useNotification } from "./NotificationProvider";
 import * as turf from "turf";
 
 import { features as comunas } from "../../../../geodata/comunas.json";
 import { features as stations } from "../../../../geodata/police.json";
 
-const filterCai = (selComuna) => stations
-  .map((cai, i) => ({...cai, properties: {id: i, ...cai.properties}}))
-  .filter(cai => turf.inside(cai, comunas[selComuna]))
+const filterCai = (selComuna) =>
+  stations
+    .map((cai, i) => ({ ...cai, properties: { id: i, ...cai.properties } }))
+    .filter((cai) => turf.inside(cai, comunas[selComuna]));
 
-const findMatchingComuna = (cai) => comunas.findIndex(com => turf.inside(cai, com));
+const findMatchingComuna = (cai) =>
+  comunas.findIndex((com) => turf.inside(cai, com));
 
 function Sidebar({ active, routeInfo, setRouteInfo, selCai, setSelCai }) {
   const { token, user } = useAuth();
-  console.log(stations[selCai]);
-  const [selComuna, setSelComuna] = useState(findMatchingComuna(stations[selCai]));
+  const { showSuccess, showError, showInfo } = useNotification();
+
+  const [selComuna, setSelComuna] = useState(
+    findMatchingComuna(stations[selCai])
+  );
   const [routeCounter, setRouteCounter] = useState(1);
   const [routes, setRoutes] = useState([1]);
-  const [showDeleteConfirm, setShowDeleteConfirm] = useState(false);
   const isSupervisor = user !== null;
 
-  const setComuna = (id) =>
-    setSelCai(filterCai(id)[0].properties.id);
+  const setComuna = (id) => setSelCai(filterCai(id)[0].properties.id);
   useEffect(() => {
-    setSelComuna(findMatchingComuna(stations[selCai]))
-  }, [selCai])
+    setSelComuna(findMatchingComuna(stations[selCai]));
+  }, [selCai]);
 
   const assignRoute = async (cai, singleRouteGeom, id) => {
     const currentDate = new Date();
@@ -36,34 +40,64 @@ function Sidebar({ active, routeInfo, setRouteInfo, selCai, setSelCai }) {
     const day = currentDate.getDate();
 
     try {
-      const response = await fetch(`${API_URL}/routes/${year}-${month}-${day}/${cai}/${id}`, {
-        method: "PUT",
-        mode: "cors",
-        headers: {
-          "Content-type": "application/json",
-          "Authorization": "Bearer " + token
-        },
-        body: JSON.stringify(singleRouteGeom)
-      });
-      
+      const response = await fetch(
+        `${API_URL}/routes/${year}-${month}-${day}/${cai}/${id}`,
+        {
+          method: "PUT",
+          mode: "cors",
+          headers: {
+            "Content-type": "application/json",
+            Authorization: "Bearer " + token,
+          },
+          body: JSON.stringify(singleRouteGeom),
+        }
+      );
 
-      // TODO: Insert fancy popup here.
-      if (response.ok)
-        return false
+      if (response.ok) {
+        showSuccess(`Ruta asignada correctamente a patrulla ${id}`);
+        return true;
+      } else {
+        showError(`Error al asignar ruta a patrulla ${id}`);
+        return false;
+      }
     } catch (err) {
-      // TODO: Error message
-      console.log(err)
+      showError(`Error de conexión al asignar ruta: ${err.message}`);
+      console.log(err);
+      return false;
     }
   };
 
   const assignRoutes = async (cai, routeInfo) => {
-    routeInfo.routes.forEach(async route => {
-      console.log(cai);
-      console.log(route.geometry);
-      console.log(route.assigned_to);
-      await assignRoute(cai, route.geometry, route.assigned_to)
-    });
-  }
+    if (!routeInfo || !routeInfo.routes || routeInfo.routes.length === 0) {
+      showError("No hay rutas para asignar");
+      return;
+    }
+
+    let assignedCount = 0;
+    let failedCount = 0;
+
+    for (const route of routeInfo.routes) {
+      if (!route.assigned_to) {
+        showInfo(`Omitiendo ruta no asignada`);
+        continue;
+      }
+
+      const success = await assignRoute(cai, route.geometry, route.assigned_to);
+      if (success) {
+        assignedCount++;
+      } else {
+        failedCount++;
+      }
+    }
+
+    if (assignedCount > 0 && failedCount === 0) {
+      showSuccess(`${assignedCount} rutas asignadas correctamente`);
+    } else if (assignedCount > 0 && failedCount > 0) {
+      showInfo(`${assignedCount} rutas asignadas, ${failedCount} fallaron`);
+    } else if (failedCount > 0) {
+      showError(`Error al asignar ${failedCount} rutas`);
+    }
+  };
 
   const fetchRoute = async (cai, id) => {
     const currentDate = new Date();
@@ -77,13 +111,18 @@ function Sidebar({ active, routeInfo, setRouteInfo, selCai, setSelCai }) {
 
     try {
       const response = await fetch(url);
-      if (response.ok){
+      if (response.ok) {
         const jsonResponse = await response.json();
-        setRouteInfo(isNaN(id) ? {routes: jsonResponse} : {routes: [jsonResponse]});
+        setRouteInfo(
+          isNaN(id) ? { routes: jsonResponse } : { routes: [jsonResponse] }
+        );
+        showSuccess("Rutas cargadas correctamente");
+      } else {
+        showError("Error al cargar rutas");
       }
     } catch (err) {
-      // TODO: show error message properly
-      console.log(err)
+      showError(`Error de conexión: ${err.message}`);
+      console.log(err);
     }
   };
 
@@ -97,18 +136,22 @@ function Sidebar({ active, routeInfo, setRouteInfo, selCai, setSelCai }) {
 
     try {
       const response = await fetch(`${API_URL}/routes?${params}`);
-      if (response.ok){
+      if (response.ok) {
         const jsonResponse = await response.json();
         setRouteInfo({
           hotareas: jsonResponse.hotareas,
           hotspots: jsonResponse.hotspots,
-          routes: jsonResponse.routes.map(route => ({
+          routes: jsonResponse.routes.map((route) => ({
             assigned_to: null,
-            geometry: route
-          }))
-        })
+            geometry: route,
+          })),
+        });
+        showSuccess(`${n_routes} rutas generadas correctamente`);
+      } else {
+        showError("Error al generar rutas");
       }
     } catch (e) {
+      showError(`Error de conexión: ${e.message}`);
       console.log(e);
     }
   };
@@ -118,23 +161,18 @@ function Sidebar({ active, routeInfo, setRouteInfo, selCai, setSelCai }) {
       const newRouteNumber = routeCounter + 1;
       setRouteCounter(newRouteNumber);
       setRoutes([...routes, newRouteNumber]);
+      showInfo(`Ruta ${newRouteNumber} añadida`);
     } else {
-      alert("Máximo de 4 rutas alcanzado");
+      showError("Máximo de 4 rutas alcanzado");
     }
   };
 
-  const confirmDeleteRoute = () => {
-    setShowDeleteConfirm(true);
+  const resetRoutes = () => {
+    setRoutes([1]);
+    setRouteCounter(1);
+    setRouteInfo(null);
+    showInfo("Rutas reiniciadas correctamente");
   };
-
-  const handleDeleteRoute = (confirm) => {
-    if (confirm && routes.length > 1) {
-      const newRoutes = routes.slice(1);
-      setRoutes(newRoutes);
-    }
-    setShowDeleteConfirm(false);
-  };
-
 
   // Filter section content
   const filterContent = (
@@ -145,14 +183,6 @@ function Sidebar({ active, routeInfo, setRouteInfo, selCai, setSelCai }) {
         setSelIndex={setComuna}
         name="Comuna"
       />
-      <div className="form-group">
-        <label htmlFor="crimen">Crimen</label>
-        <select id="crimen" className="form-control">
-          <option value="hurto">HURTO A MANO ARMADA</option>
-          <option value="robo">ROBO</option>
-          <option value="homicidio">HOMICIDIO</option>
-        </select>
-      </div>
       <GeoSelect
         features={filterCai(selComuna)}
         selIndex={selCai}
@@ -163,89 +193,79 @@ function Sidebar({ active, routeInfo, setRouteInfo, selCai, setSelCai }) {
       <div className="form-group">
         <label htmlFor="rutas">Rutas Activas</label>
         <div style={{ display: "flex", flexDirection: "column", gap: "10px" }}>
-          <div style={{ display: "flex", gap: "10px", alignItems: "center" }}>
-            <select
-              id="rutas"
-              className="form-control form-control-inline"
-              multiple
-              size={Math.min(routes.length, 4)}
-              style={{ width: isSupervisor ? "calc(100% - 80px)" : "100%" }}
+          <select
+            id="rutas"
+            className="form-control"
+            multiple
+            size={Math.min(routes.length, 4)}
+          >
+            {routes.map((route) => (
+              <option key={route} value={route}>
+                Ruta {route}
+              </option>
+            ))}
+          </select>
+
+          {isSupervisor && (
+            <div
+              style={{
+                display: "flex",
+                justifyContent: "space-between",
+                marginTop: "10px",
+              }}
             >
-              {routes.map((route) => (
-                <option key={route} value={route}>
-                  Ruta {route}
-                </option>
-              ))}
-            </select>
-            {isSupervisor && (
-              <div
-                style={{ display: "flex", flexDirection: "column", gap: "5px" }}
+              <button
+                className="btn"
+                onClick={addRoute}
+                title="Agregar Ruta"
+                disabled={routes.length >= 4}
               >
-                <button className="btn" onClick={addRoute} title="Agregar Ruta">
-                  +
-                </button>
-                <button
-                  className="btn"
-                  onClick={confirmDeleteRoute}
-                  title="Eliminar Primera Ruta"
-                  disabled={routes.length <= 1}
-                >
-                  -
-                </button>
-              </div>
-            )}
-          </div>
+                Agregar ruta
+              </button>
+              <button
+                className="btn"
+                onClick={resetRoutes}
+                title="Reiniciar rutas"
+              >
+                Reiniciar
+              </button>
+            </div>
+          )}
         </div>
       </div>
-      {showDeleteConfirm && (
-        <div className="delete-confirm">
-          <p>¿Estás seguro de eliminar la ruta?</p>
-          <div
-            style={{
-              display: "flex",
-              justifyContent: "space-between",
-              marginTop: "10px",
-            }}
-          >
-            <button
-              className="btn"
-              onClick={() => handleDeleteRoute(true)}
-              style={{ marginRight: "10px" }}
-            >
-              Sí
-            </button>
-            <button className="btn" onClick={() => handleDeleteRoute(false)}>
-              No
-            </button>
-          </div>
-        </div>
-      )}
       {isSupervisor ? (
         <>
           <button
             className="btn"
             onClick={() => generateRoutes(selCai, routeCounter)}
+            style={{ marginTop: "10px", width: "100%" }}
           >
             Generar rutas
           </button>
           <button
             className="btn"
             onClick={() => assignRoutes(selCai, routeInfo)}
+            style={{ marginTop: "10px", width: "100%" }}
+            disabled={
+              !routeInfo || !routeInfo.routes || routeInfo.routes.length === 0
+            }
           >
             Asignar rutas
           </button>
         </>
-      ): (
-      <>
-        <button
-          className="btn"
-          onClick={() => fetchRoute(selCai)}
-        >
-          Mostrar rutas
-        </button>
-      </>
+      ) : (
+        <>
+          <button
+            className="btn"
+            onClick={() => fetchRoute(selCai)}
+            style={{ marginTop: "10px", width: "100%" }}
+          >
+            Mostrar rutas
+          </button>
+        </>
       )}
-    </>);
+    </>
+  );
 
   // Legend section content
   const legendContent = (
@@ -254,7 +274,7 @@ function Sidebar({ active, routeInfo, setRouteInfo, selCai, setSelCai }) {
         <div className="legend-icon" style={{ color: "#5cb85c" }}>
           &#9679;
         </div>
-        <span>CAI</span>
+        <span>CAI (Centro de Atención Inmediata)</span>
       </div>
       <div className="legend-item">
         <div className="legend-icon" style={{ color: "#d9534f" }}>
@@ -263,8 +283,22 @@ function Sidebar({ active, routeInfo, setRouteInfo, selCai, setSelCai }) {
         <span>Punto de Alto Riesgo</span>
       </div>
       <div className="legend-item">
-        <div className="legend-icon">&#10092;</div>
-        <span>Sentido de la ruta</span>
+        <div className="legend-icon" style={{ color: "#E88A4C" }}>
+          &#10148;
+        </div>
+        <span>Ruta 1</span>
+      </div>
+      <div className="legend-item">
+        <div className="legend-icon" style={{ color: "green" }}>
+          &#10148;
+        </div>
+        <span>Ruta 2</span>
+      </div>
+      <div className="legend-item">
+        <div className="legend-icon" style={{ color: "#083D77" }}>
+          &#10148;
+        </div>
+        <span>Ruta 3</span>
       </div>
     </>
   );
