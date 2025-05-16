@@ -101,7 +101,7 @@ def generate_quick_predictions(model_data, grid_gdf=None):
     """
     if grid_gdf is None:
         logger.info("Loading grid data...")
-        grid_gdf, gdf_crimenes, gdf_police, _ = load_datasets()
+        grid_gdf, gdf_crimenes, gdf_police, _, _ = load_datasets()
     else:
         # We need crime and police data for preprocessing
         logger.info("Loading additional data for preprocessing...")
