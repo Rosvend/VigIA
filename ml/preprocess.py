@@ -10,18 +10,9 @@ It includes the following steps:
 6. Create temporal training data with sliding windows
 7. Generate target variables for different prediction windows
 8. Save the final dataset to a GeoPackage file
-
-
-REQUIRED LIBRARIES:
-- pandas
-- geopandas
-- shapely
-- sklearn
-- numpy
-- matplotlib
-- seaborn
 """
 
+# Import necessary libraries
 import pandas as pd
 import geopandas as gpd
 from shapely.geometry import Point
@@ -34,164 +25,98 @@ from datetime import datetime, timedelta
 import argparse
 import warnings
 import requests
+import logging
 warnings.filterwarnings("ignore", category=pd.errors.SettingWithCopyWarning)
 
+logging.basicConfig(
+    level=logging.INFO,
+    format='%(asctime)s - %(levelname)s - %(message)s'
+)
+log = logging.getLogger(__name__)
 
-def download_github_file(filename, output_path):
+def download_github_file(filename, output_path, base_url="https://github.com/Rosvend/Patrol-routes-optimization-Medellin/raw/main/geodata/"):
     """
-    Download a file from GitHub repository
-    
-    Args:
-        filename: Name of the file to download (e.g., 'hex_grid.gpkg')
-        output_path: Path where to save the downloaded file
-    
-    Returns:
-        Boolean indicating if download was successful
+    Downloads a file from a GitHub repository and saves it to output_path.
     """
-    base_url = "https://github.com/Rosvend/Patrol-routes-optimization-Medellin/raw/main/geodata/"
+
     url = base_url + filename
-    
-    print(f"Downloading {filename} from GitHub...")
-    
-    try:
-        # Create directory if it doesn't exist
-        os.makedirs(os.path.dirname(output_path), exist_ok=True)
-        
-        # Download file
-        response = requests.get(url, stream=True)
-        if response.status_code == 200:
-            with open(output_path, 'wb') as f:
-                for chunk in response.iter_content(chunk_size=1024):
-                    f.write(chunk)
-            print(f"Successfully downloaded {filename}")
-            return True
-        else:
-            print(f"Failed to download {filename}. Status code: {response.status_code}")
-            return False
-    except Exception as e:
-        print(f"Error downloading {filename}: {str(e)}")
-        return False
+    log.info(f"Downloading {filename} from GitHub...")
 
-# Data loading function for easier reuse across modules
+    response = requests.get(url, stream=True)
+    if response.status_code == 200:
+        with open(output_path, 'wb') as f:
+            for chunk in response.iter_content(chunk_size=1024):
+                f.write(chunk)
+        log.info(f"Succesfully downloaded {filename} to {output_path}")
+    else:
+        log.error(f"Failed to download {filename}. Status code: {response.status_code}")
+
 def load_datasets(data_dir="../geodata"):
     """
-    Load all datasets required for crime prediction.
-    Downloads files from GitHub if they're not found locally.
+    Downloads all datasets from GitHub and loads them into GeoDataFrames.
     
     Returns:
         grid_gdf: H3 grid cells
         gdf_crimenes: Crime data
         gdf_police: Police station locations
-        gdf_barrios: Barrios (neighborhoods) data
+        gdf_barrios: Neighborhoods data
+        gdf_turismo: Tourist attractions data
     """
-    # Get the absolute path to the data directory based on the script location
     script_dir = os.path.dirname(os.path.abspath(__file__))
     data_dir = os.path.normpath(os.path.join(script_dir, data_dir))
-    
-    print(f"Using data directory: {data_dir}")
     os.makedirs(data_dir, exist_ok=True)
+    log.info(f"Using data directory: {data_dir}")
+
+    files = {
+        "hex_grid.gpkg": "grid_gdf",
+        "crime_data1.geojson": "gdf_crimenes",
+        "police1.geojson": "gdf_police",
+        "barrios_medellin1.geojson": "gdf_barrios",
+        "atractivos_turisticos1.geojson": "gdf_turismo"
+    }
+
+    loaded_data = {}
+    for filename, varname in files.items():
+        path = os.path.join(data_dir, filename)
+        download_github_file(filename, path)
+        gdf = gpd.read_file(path)
+        loaded_data[varname] = gdf
+        log.info(f"Loaded {filename} with {len(gdf)} records")
+
+    return (loaded_data["grid_gdf"],
+            loaded_data["gdf_crimenes"],
+            loaded_data["gdf_police"],
+            loaded_data["gdf_barrios"],
+            loaded_data["gdf_turismo"])
+
+def crs_harmonization(grid_gdf, gdf_crimenes, gdf_police, gdf_barrios, gdf_turismo):
+    """
+    Harmonize the coordinate reference systems (CRS) of all datasets to EPSG:4326.
+    This is important for spatial operations and analysis.
     
-    # Load grid data
-    print("Loading grid data...")
-    grid_path = os.path.join(data_dir, "hex_grid.gpkg")
-    if not os.path.exists(grid_path):
-        print(f"File not found at {grid_path}, downloading...")
-        download_github_file("hex_grid.gpkg", grid_path)
-    
-    grid_gdf = gpd.read_file(grid_path)
-    print(f"Loaded grid with {len(grid_gdf)} cells")
-    
-    # Load crime data
-    print("Loading crime data...")
-    crime_path = os.path.join(data_dir, "crime_data1.geojson")
-    if not os.path.exists(crime_path):
-        print(f"File not found at {crime_path}, downloading...")
-        download_github_file("crime_data1.geojson", crime_path)
-    
-    gdf_crimenes = gpd.read_file(crime_path)
-    print(f"Loaded crime data with {len(gdf_crimenes)} records")
-    
-    # Load police station data
-    print("Loading police station data...")
-    police_path = os.path.join(data_dir, "police1.geojson")
-    if not os.path.exists(police_path):
-        print(f"File not found at {police_path}, downloading...")
-        download_github_file("police1.geojson", police_path)
-    
-    gdf_police = gpd.read_file(police_path)
-    print(f"Loaded police data with {len(gdf_police)} stations")
-    
-    # Load barrios data
-    print("Loading barrios data...")
-    barrios_path = os.path.join(data_dir, "barrios_medellin1.geojson")
-    if not os.path.exists(barrios_path):
-        print(f"File not found at {barrios_path}, downloading...")
-        download_github_file("barrios_medellin1.geojson", barrios_path)
-    
-    gdf_barrios = gpd.read_file(barrios_path)
-    print(f"Loaded barrios data with {len(gdf_barrios)} neighborhoods")
-    
-    # Ensure all datasets have the same CRS (EPSG:4326 is standard for lat/lon)
-    print("Checking and harmonizing coordinate reference systems (CRS)...")
-    
-    # Check if grid_gdf has a CRS, if not set it to EPSG:4326
-    if grid_gdf.crs is None:
-        print("Setting grid CRS to EPSG:4326")
-        grid_gdf.crs = "EPSG:4326"
-    else:
-        # If it has a different CRS, transform to EPSG:4326
-        if grid_gdf.crs != "EPSG:4326":
-            print(f"Converting grid CRS from {grid_gdf.crs} to EPSG:4326")
-            grid_gdf = grid_gdf.to_crs("EPSG:4326")
-    
-    # Convert crime data to GeoDataFrame if it's not already
-    if not isinstance(gdf_crimenes, gpd.GeoDataFrame):
-        print("Converting crime data to GeoDataFrame...")
-        if 'geometry' not in gdf_crimenes.columns:
-            # Look for coordinate columns
-            if all(col in gdf_crimenes.columns for col in ['latitud', 'longitud']):
-                print("Creating geometry from latitud/longitud columns")
-                from shapely.geometry import Point
-                geometry = [Point(lon, lat) for lon, lat in zip(gdf_crimenes['longitud'], gdf_crimenes['latitud'])]
-                gdf_crimenes = gpd.GeoDataFrame(gdf_crimenes, geometry=geometry, crs="EPSG:4326")
-            elif all(col in gdf_crimenes.columns for col in ['latitude', 'longitude']):
-                print("Creating geometry from latitude/longitude columns")
-                from shapely.geometry import Point
-                geometry = [Point(lon, lat) for lon, lat in zip(gdf_crimenes['longitude'], gdf_crimenes['latitude'])]
-                gdf_crimenes = gpd.GeoDataFrame(gdf_crimenes, geometry=geometry, crs="EPSG:4326")
-            else:
-                raise ValueError("Crime data must have coordinate columns (latitud/longitud or latitude/longitude)")
-    
-    # Make sure crime data is in EPSG:4326
-    if gdf_crimenes.crs is None:
-        print("Setting crime data CRS to EPSG:4326")
-        gdf_crimenes.crs = "EPSG:4326"
-    else:
-        if gdf_crimenes.crs != "EPSG:4326":
-            print(f"Converting crime data CRS from {gdf_crimenes.crs} to EPSG:4326")
-            gdf_crimenes = gdf_crimenes.to_crs("EPSG:4326")
-    
-    # Make sure police station data is in EPSG:4326
-    if gdf_police.crs is None:
-        print("Setting police data CRS to EPSG:4326")
-        gdf_police.crs = "EPSG:4326"
-    else:
-        if gdf_police.crs != "EPSG:4326":
-            print(f"Converting police data CRS from {gdf_police.crs} to EPSG:4326")
-            gdf_police = gdf_police.to_crs("EPSG:4326")
-    
-    # Make sure barrios data is in EPSG:4326
-    if gdf_barrios.crs is None:
-        print("Setting barrios data CRS to EPSG:4326")
-        gdf_barrios.crs = "EPSG:4326"
-    else:
-        if gdf_barrios.crs != "EPSG:4326":
-            print(f"Converting barrios data CRS from {gdf_barrios.crs} to EPSG:4326")
-            gdf_barrios = gdf_barrios.to_crs("EPSG:4326")
-    
-    print("All datasets now have matching CRS: EPSG:4326")
-    print("Datasets loaded successfully")
+    Returns:
+        grid_gdf, gdf_crimenes, gdf_police, gdf_barrios, gdf_turismo (all harmonized to EPSG:4326)
+    """
+    log.info("Checking and harmonizing coordinate reference systems (CRS)...")
+
+    def ensure_crs(gdf, name):
+        if gdf.crs is None:
+            log.info(f"Setting {name} CRS to EPSG:4326")
+            gdf.set_crs("EPSG:4326", inplace=True)
+        elif gdf.crs != "EPSG:4326":
+            log.info(f"Converting {name} CRS from {gdf.crs} to EPSG:4326")
+            gdf = gdf.to_crs("EPSG:4326")
+        return gdf
+
+    grid_gdf     = ensure_crs(grid_gdf, "grid")
+    gdf_crimenes = ensure_crs(gdf_crimenes, "crime data")
+    gdf_police   = ensure_crs(gdf_police, "police data")
+    gdf_barrios  = ensure_crs(gdf_barrios, "barrios data")
+    gdf_turismo  = ensure_crs(gdf_turismo, "tourist data")
+
+    log.info("All datasets now have matching CRS: EPSG:4326")
     return grid_gdf, gdf_crimenes, gdf_police, gdf_barrios
+
 
 # 1. Contar crimenes en cada celda
 def count_crimes_per_cell(grid_gdf, crime_gdf):
@@ -209,24 +134,24 @@ def add_distance_to_police(grid_gdf, police_gdf):
     grid_centroids = grid_gdf.copy()
     
     if grid_centroids.crs != police_gdf.crs:
-        print(f"Converting police stations CRS to match grid CRS: {grid_centroids.crs}")
+        log.info(f"Converting police stations CRS to match grid CRS: {grid_centroids.crs}")
         police_gdf = police_gdf.to_crs(grid_centroids.crs)
     
     #Medellín, Colombia (6°N, 75°W), UTM zone 18N
-    print("Projecting to UTM Zone 18N (EPSG:32618) for accurate distance calculations")
+    log.info("Projecting to UTM Zone 18N (EPSG:32618) for accurate distance calculations")
     grid_projected = grid_centroids.to_crs("EPSG:32618")
     police_projected = police_gdf.to_crs("EPSG:32618")
     
     grid_projected['centroid'] = grid_projected.geometry.centroid
     
     # Calcular distancias en metros a CAIs
-    print("Calculating distances to nearest police stations...")
+    log.info("Calculating distances to nearest police stations...")
     distances = []
     total_cells = len(grid_projected)
     
     for i, cell in grid_projected.iterrows():
         if i % 100 == 0:
-            print(f"Processing cell {i}/{total_cells}")
+            log.info(f"Processing cell {i}/{total_cells}")
             
         dist_to_police = police_projected.geometry.distance(cell['centroid'])
         min_dist = dist_to_police.min()
@@ -237,7 +162,7 @@ def add_distance_to_police(grid_gdf, police_gdf):
     # Convertir distancia a km
     grid_gdf['distance_to_police'] = grid_gdf['distance_to_police'] / 1000
     
-    print(f"Distance calculations complete. Range: {grid_gdf['distance_to_police'].min():.2f} - {grid_gdf['distance_to_police'].max():.2f} km")
+    log.info(f"Distance calculations complete. Range: {grid_gdf['distance_to_police'].min():.2f} - {grid_gdf['distance_to_police'].max():.2f} km")
     return grid_gdf
 
 # 3. Features temporales con ventanas deslizantes
@@ -260,7 +185,7 @@ def add_time_features(grid_gdf, crime_gdf, time_windows=None):
     
     # Ensure both geodataframes have the same CRS
     if grid_gdf.crs != crime_gdf.crs:
-        print(f"Ensuring CRS compatibility: {grid_gdf.crs} vs {crime_gdf.crs}")
+        log.info(f"Ensuring CRS compatibility: {grid_gdf.crs} vs {crime_gdf.crs}")
         crime_gdf = crime_gdf.to_crs(grid_gdf.crs)
     
     # Create a copy of the grid_gdf for the results
@@ -290,13 +215,13 @@ def add_time_features(grid_gdf, crime_gdf, time_windows=None):
     
     # Get the latest crime date to use as reference
     latest_date = crime_gdf['fecha_hecho'].max()
-    print(f"Using latest crime date as reference: {latest_date}")
+    log.info(f"Using latest crime date as reference: {latest_date}")
     
     # Process each cell
     total_cells = len(grid_gdf)
     for i, (idx, cell) in enumerate(grid_gdf.iterrows()):
         if i % 100 == 0:
-            print(f"Processing time features for cell {i}/{total_cells}")
+            log.info(f"Processing time features for cell {i}/{total_cells}")
         
         # Use spatial index to find candidates
         possible_matches_index = list(crime_sindex.intersection(cell.geometry.bounds))
@@ -332,7 +257,7 @@ def add_time_features(grid_gdf, crime_gdf, time_windows=None):
                         weighted_count = weights.sum()
                         result.at[idx, f'crimes_last_{window}d'] = weighted_count
     
-    print("Time features added successfully")
+    log.info("Time features added successfully")
     return result
 
 # 4. Features de tipo de crimen con ponderación temporal
@@ -352,14 +277,14 @@ def add_crime_type_features(grid_gdf, crime_gdf, time_windows=None):
         
     # Ensure both geodataframes have the same CRS
     if grid_gdf.crs != crime_gdf.crs:
-        print(f"Ensuring CRS compatibility for crime types: {grid_gdf.crs} vs {crime_gdf.crs}")
+        log.info(f"Ensuring CRS compatibility for crime types: {grid_gdf.crs} vs {crime_gdf.crs}")
         crime_gdf = crime_gdf.to_crs(grid_gdf.crs)
     
     # Get the latest crime date to use as reference
     latest_date = crime_gdf['fecha_hecho'].max()
     
     crime_types = crime_gdf['modalidad'].unique()
-    print(f"Found {len(crime_types)} different crime types")
+    log.info(f"Found {len(crime_types)} different crime types")
     
     # Create a copy of grid_gdf for the results
     result = grid_gdf.copy()
@@ -381,7 +306,7 @@ def add_crime_type_features(grid_gdf, crime_gdf, time_windows=None):
     total_cells = len(grid_gdf)
     for i, (idx, cell) in enumerate(grid_gdf.iterrows()):
         if i % 100 == 0:
-            print(f"Processing crime types for cell {i}/{total_cells}")
+            log.info(f"Processing crime types for cell {i}/{total_cells}")
         
         # Use spatial index to find candidates
         possible_matches_index = list(crime_sindex.intersection(cell.geometry.bounds))
@@ -464,7 +389,7 @@ def generate_temporal_windows(grid_gdf, crime_gdf, window_sizes=None, step_size=
     if window_sizes is None:
         window_sizes = [6, 12, 24, 72]  # 6h, 12h, 24h, 3 days
     
-    print(f"Generating temporal windows with sizes {window_sizes} hours and step size {step_size} hours")
+    log.info(f"Generating temporal windows with sizes {window_sizes} hours and step size {step_size} hours")
     
     # Get date range from crime data
     start_date = crime_gdf['fecha_hecho'].min()
@@ -474,15 +399,15 @@ def generate_temporal_windows(grid_gdf, crime_gdf, window_sizes=None, step_size=
     # In quick mode, we can use a shorter lookback period for faster processing
     if quick_mode:
         feature_lookback = timedelta(days=30)  # 30 days in quick mode 
-        print(f"QUICK MODE: Using 30-day feature lookback instead of 90 days")
+        log.info(f"QUICK MODE: Using 30-day feature lookback instead of 90 days")
     else:
         feature_lookback = timedelta(days=90)  # 90 days in full mode
     
     # Adjust start date to allow for feature generation
     training_start = start_date + feature_lookback
     
-    print(f"Data spans from {start_date} to {end_date}")
-    print(f"Training windows will start from {training_start}")
+    log.info(f"Data spans from {start_date} to {end_date}")
+    log.info(f"Training windows will start from {training_start}")
     
     # Generate reference points (every step_size hours)
     reference_points = []
@@ -495,22 +420,22 @@ def generate_temporal_windows(grid_gdf, crime_gdf, window_sizes=None, step_size=
     if quick_mode:
         if max_windows is None:
             max_windows = 20  # Default if not specified
-        print(f"QUICK MODE: Limiting to {max_windows} windows instead of {len(reference_points)}")
+        log.info(f"QUICK MODE: Limiting to {max_windows} windows instead of {len(reference_points)}")
         # Take evenly spaced windows for better representation across the time range
         if len(reference_points) > max_windows:
             indices = np.linspace(0, len(reference_points) - 1, max_windows, dtype=int)
             reference_points = [reference_points[i] for i in indices]
     
-    print(f"Generated {len(reference_points)} reference time points")
+    log.info(f"Generated {len(reference_points)} reference time points")
     
     # In quick mode, take a sample of the grid cells
     if quick_mode:
         actual_sample = min(sample_size, len(grid_gdf))
-        print(f"QUICK MODE: Using {actual_sample} grid cells instead of {len(grid_gdf)}")
+        log.info(f"QUICK MODE: Using {actual_sample} grid cells instead of {len(grid_gdf)}")
         grid_gdf = grid_gdf.sample(actual_sample, random_state=42)
     
     # Create spatial index for crime_gdf to improve performance
-    print("Building spatial index for crime data...")
+    log.info("Building spatial index for crime data...")
     # This explicitly creates the spatial index if it doesn't exist
     crime_gdf = crime_gdf.copy()
     crime_sindex = crime_gdf.sindex
@@ -528,7 +453,7 @@ def generate_temporal_windows(grid_gdf, crime_gdf, window_sizes=None, step_size=
     # Process each reference point
     for i, ref_point in enumerate(reference_points):
         if i % 10 == 0 or i == len(reference_points) - 1:  # Progress update every 10 windows
-            print(f"Processing window {i+1}/{len(reference_points)} at {ref_point}")
+            log.info(f"Processing window {i+1}/{len(reference_points)} at {ref_point}")
         
         # Create a copy of the grid for this time window
         window_gdf = grid_gdf.copy()
@@ -590,7 +515,7 @@ def generate_temporal_windows(grid_gdf, crime_gdf, window_sizes=None, step_size=
                                 window_gdf.at[idx, f'crimes_last_{window}d'] = weighted_count
                 except Exception as e:
                     if not quick_mode:  # Only print warnings in full mode
-                        print(f"Warning: Error processing cell at index {idx} for window {window}d: {e}")
+                        log.info(f"Warning: Error processing cell at index {idx} for window {window}d: {e}")
                     continue
         
         # Generate target variables for each prediction window
@@ -632,26 +557,26 @@ def generate_temporal_windows(grid_gdf, crime_gdf, window_sizes=None, step_size=
                                 window_gdf.at[idx, target_col] = 1
                 except Exception as e:
                     if not quick_mode:  # Only print warnings in full mode
-                        print(f"Warning: Error processing future crimes for cell at index {idx} for {hours}h window: {e}")
+                        log.info(f"Warning: Error processing future crimes for cell at index {idx} for {hours}h window: {e}")
                     continue
         
         # Add this window to the collection
         window_data.append(window_gdf)
     
-    print(f"Generated {len(window_data)} temporal windows")
+    log.info(f"Generated {len(window_data)} temporal windows")
     # If window_data is empty, return None
     if not window_data:
         return None
         
     # Combine all windows into a single DataFrame
     combined_windows = pd.concat(window_data, ignore_index=True)
-    print(f"Combined temporal dataset shape: {combined_windows.shape}")
+    log.info(f"Combined temporal dataset shape: {combined_windows.shape}")
     
     # Print a sample of the data to verify
-    print("\nSample of temporal dataset (first few rows, selected columns):")
+    log.info("\nSample of temporal dataset (first few rows, selected columns):")
     sample_cols = ['reference_time', 'ref_hour', 'ref_day'] + [f'crimes_last_{w}d' for w in recency_windows] + [f'target_{h}h' for h in window_sizes]
     sample_cols = [col for col in sample_cols if col in combined_windows.columns]
-    print(combined_windows[sample_cols].head(3))
+    log.info(combined_windows[sample_cols].head(3))
     
     return grid_gdf
 
@@ -671,34 +596,34 @@ def create_crime_prediction_dataset(grid_gdf, crime_gdf, police_gdf, barrios_gdf
     Returns:
         GeoDataFrame with all features for crime prediction
     """
-    print("\n1. Counting crimes per grid cell...")
+    log.info("\n1. Counting crimes per grid cell...")
     grid_with_crimes = count_crimes_per_cell(grid_gdf, crime_gdf)
-    print(f"Crime counts added. Range: {grid_with_crimes['crime_count'].min()} - {grid_with_crimes['crime_count'].max()}")
+    log.info(f"Crime counts added. Range: {grid_with_crimes['crime_count'].min()} - {grid_with_crimes['crime_count'].max()}")
     
-    print("\n2. Calculating distance to nearest police station...")
+    log.info("\n2. Calculating distance to nearest police station...")
     grid_with_police = add_distance_to_police(grid_with_crimes, police_gdf)
     
-    print("\n3. Adding time-based features...")
+    log.info("\n3. Adding time-based features...")
     # Use fewer time windows in quick mode
     time_windows = [7, 30] if quick_mode else [7, 30, 90]
     grid_with_time = add_time_features(grid_with_police, crime_gdf, time_windows=time_windows)
     
-    print("\n4. Adding crime type features...")
+    log.info("\n4. Adding crime type features...")
     grid_with_crimes_types = add_crime_type_features(
         grid_with_time, 
         crime_gdf,
         time_windows=[30] if quick_mode else [30, 90]
     )
     
-    print("\n5. Adding demographic features...")
+    log.info("\n5. Adding demographic features...")
     grid_with_demographics = add_demographic_features(grid_with_crimes_types, barrios_gdf)
     
     # Either return the static dataset or continue to create temporal windows
     if not temporal_windows:
-        print("\nCreated static crime prediction dataset")
+        log.info("\nCreated static crime prediction dataset")
         return grid_with_demographics
     
-    print("\n6. Generating temporal windows for prediction...")
+    log.info("\n6. Generating temporal windows for prediction...")
     # Use fewer windows and a smaller sample in quick mode
     window_sizes = [24] if quick_mode else [6, 12, 24, 72]
     max_windows = 10 if quick_mode else None
@@ -714,7 +639,7 @@ def create_crime_prediction_dataset(grid_gdf, crime_gdf, police_gdf, barrios_gdf
         sample_size=sample_size
     )
     
-    print("\nTemporal crime prediction dataset created")
+    log.info("\nTemporal crime prediction dataset created")
     return temporal_dataset
 
 # Update the main function to include command line argument for quick mode
@@ -723,13 +648,15 @@ if __name__ == "__main__":
     parser.add_argument('--quick', action='store_true', help='Process a smaller subset of data for faster execution')
     args = parser.parse_args()
     
-    print(f"Preprocessing started at {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}")
+    log.info(f"Preprocessing started at {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}")
     
     if args.quick:
-        print("\n===== QUICK MODE ENABLED: Processing reduced dataset for rapid testing =====\n")
+        log.info("\n===== QUICK MODE ENABLED: Processing reduced dataset for rapid testing =====\n")
     
     # Load datasets
-    grid_gdf, gdf_crimenes, gdf_police, gdf_barrios = load_datasets()
+    grid_gdf, gdf_crimenes, gdf_police, gdf_barrios, gdf_turismo = load_datasets()
+    grid_gdf, gdf_crimenes, gdf_police, gdf_barrios = crs_harmonization(grid_gdf, gdf_crimenes, gdf_police, gdf_barrios,gdf_turismo)
+
     
     # Create the complete dataset (with temporal windows)
     crime_prediction_dataset = create_crime_prediction_dataset(
@@ -743,16 +670,9 @@ if __name__ == "__main__":
 
     # Export the dataframe to Excel for analysis (sample only due to size)
     if crime_prediction_dataset is not None:
-        # Convert timezone-aware datetime columns to timezone-naive for Excel compatibility
-        crime_prediction_dataset = convert_datetime_columns_to_naive(crime_prediction_dataset)
-        
-        sample_size = min(1000, len(crime_prediction_dataset))
-        crime_prediction_dataset.sample(sample_size).to_excel("crime_prediction_temporal_sample.xlsx", index=False)
-        print(f"Sample of {sample_size} records exported to Excel for analysis")
-
         # Export the full dataset to a compressed format
         crime_prediction_dataset.to_pickle("crime_prediction_temporal_dataset.pkl")
-        print("Full temporal dataset saved to crime_prediction_temporal_dataset.pkl")
+        log.info("Full temporal dataset saved to crime_prediction_temporal_dataset.pkl")
     
     # Also create a static dataset for backward compatibility
     static_dataset = create_crime_prediction_dataset(
@@ -766,6 +686,6 @@ if __name__ == "__main__":
     
     # Export the spatial dataset to GeoPackage
     static_dataset.to_file("crime_prediction_grid.gpkg", driver="GPKG")
-    print("Static dataset saved to crime_prediction_grid.gpkg")
+    log.info("Static dataset saved to crime_prediction_grid.gpkg")
     
-    print(f"Preprocessing completed at {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}")
+    log.info(f"Preprocessing completed at {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}")

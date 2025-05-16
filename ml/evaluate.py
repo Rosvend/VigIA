@@ -1,5 +1,5 @@
 '''
-Evaluacion de modelos para predicción de crimen
+Evaluación de modelos para predicción de crimen
 '''
 import joblib
 import pandas as pd
