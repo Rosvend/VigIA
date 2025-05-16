@@ -1,5 +1,6 @@
 import { useEffect, useContext, useState, createContext } from "react";
 import { API_URL } from "./api";
+import { useNotification } from "./components/NotificationProvider";
 
 const getStoredUser = () => JSON.parse(localStorage.getItem("user"));
 
@@ -12,6 +13,7 @@ const AuthProvider = ({ children }) => {
   const [user, setUser] = useState(getStoredUser());
   const [token, setToken] = useState(localStorage.getItem("token") || "");
   const [error, setError] = useState(null);
+  const { showSuccess, showError, showInfo } = useNotification();
 
   useEffect(() => {
     if (user) {
@@ -37,14 +39,19 @@ const AuthProvider = ({ children }) => {
         setUser(res.user);
         setToken(res.access_token);
         localStorage.setItem("token", res.access_token);
+        showSuccess(`Inicio de sesión exitoso. Bienvenido, ${username}!`);
         return res;
       } else {
         const errorData = await response.json();
-        setError(errorData.message || "Error al iniciar sesión");
-        throw new Error(errorData.message || "Error al iniciar sesión");
+        const errorMessage = errorData.message || "Error al iniciar sesión";
+        setError(errorMessage);
+        showError(errorMessage);
+        throw new Error(errorMessage);
       }
     } catch (err) {
-      setError(err.message || "Error de conexión");
+      const errorMessage = err.message || "Error de conexión";
+      setError(errorMessage);
+      showError(errorMessage);
       throw err;
     }
   };
@@ -54,6 +61,7 @@ const AuthProvider = ({ children }) => {
     setToken("");
     localStorage.removeItem("token");
     localStorage.removeItem("user");
+    showInfo("Sesión cerrada correctamente");
   };
 
   return (
