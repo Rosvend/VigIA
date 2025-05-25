@@ -578,7 +578,7 @@ def generate_temporal_windows(grid_gdf, crime_gdf, window_sizes=None, step_size=
     sample_cols = [col for col in sample_cols if col in combined_windows.columns]
     log.info(combined_windows[sample_cols].head(3))
     
-    return grid_gdf
+    return combined_windows
 
 # Create a comprehensive function to call all the preprocessing steps
 def create_crime_prediction_dataset(grid_gdf, crime_gdf, police_gdf, barrios_gdf, temporal_windows=True, quick_mode=False):
