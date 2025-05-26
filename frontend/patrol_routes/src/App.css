@@ -24,6 +24,7 @@ header {
   padding: 10px 20px;
   border-bottom: 1px solid #4a0000;
 }
+
 .logo-title {
   display: flex;
   align-items: center;
@@ -41,6 +42,8 @@ header {
   display: flex;
   justify-content: space-between;
   align-items: center;
+  flex-wrap: wrap;
+  gap: 10px;
 }
 
 .header-left {
@@ -64,6 +67,7 @@ h1 {
   user-select: none;
   transition: background-color 0.3s;
   box-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
+  font-size: 0.9rem;
 }
 
 .role-toggle:hover {
@@ -239,10 +243,17 @@ h1 {
   cursor: pointer;
   font-size: 16px;
   color: white;
+  transition: background-color 0.3s;
 }
 
 .btn:hover {
   background-color: #601515;
+}
+
+.btn:disabled {
+  background-color: #333;
+  cursor: not-allowed;
+  opacity: 0.6;
 }
 
 .legend-item {
@@ -282,16 +293,6 @@ h1 {
 
 .toggle-arrow.up {
   transform: rotate(180deg);
-}
-
-@media (max-width: 768px) {
-  .sidebar {
-    width: 100%;
-  }
-
-  #map-container {
-    padding: 0;
-  }
 }
 
 .map-container {
@@ -348,7 +349,8 @@ h1 {
   background-color: #2a1212;
   border-radius: 8px;
   padding: 20px;
-  width: 350px;
+  width: 90%;
+  max-width: 350px;
   box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
 }
 
@@ -382,6 +384,11 @@ h1 {
   display: flex;
   justify-content: space-between;
   margin-top: 20px;
+  gap: 10px;
+}
+
+.modal-buttons .btn {
+  flex: 1;
 }
 
 .btn-primary {
@@ -403,6 +410,7 @@ h1 {
 .btn-secondary:hover {
   background-color: #333;
 }
+
 .leaflet-control-zoom a {
   background-color: #4a1a1a !important;
   color: white !important;
@@ -411,4 +419,133 @@ h1 {
 
 .leaflet-control-zoom a:hover {
   background-color: #601515 !important;
+}
+
+.google-maps-btn {
+  background-color: #1a73e8;
+  color: white;
+  border: none;
+  padding: 10px 15px;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 14px;
+  margin-top: 15px;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  transition: background-color 0.3s;
+}
+
+.google-maps-btn:hover {
+  background-color: #1557b0;
+}
+
+.google-maps-btn:disabled {
+  background-color: #555;
+  cursor: not-allowed;
+  opacity: 0.6;
+}
+
+/* Responsive Design */
+@media (max-width: 1024px) {
+  .sidebar {
+    width: 280px;
+  }
+  
+  h1 {
+    font-size: 1.3rem;
+  }
+}
+
+@media (max-width: 768px) {
+  .sidebar {
+    width: 100%;
+    max-width: 300px;
+  }
+
+  #map-container {
+    padding: 0;
+  }
+  
+  .header-content {
+    flex-direction: row;
+    justify-content: space-between;
+  }
+  
+  h1 {
+    font-size: 1.2rem;
+    margin-left: 10px;
+  }
+  
+  .role-toggle {
+    font-size: 0.8rem;
+    padding: 5px 8px;
+  }
+  
+  .logo-icon {
+    height: 28px;
+    width: 28px;
+    margin-left: 5px;
+  }
+}
+
+@media (max-width: 480px) {
+  header {
+    padding: 8px 15px;
+  }
+  
+  .sidebar {
+    width: 100%;
+  }
+  
+  h1 {
+    font-size: 1.1rem;
+    margin-left: 8px;
+  }
+  
+  .role-toggle {
+    font-size: 0.75rem;
+    padding: 4px 6px;
+  }
+  
+  .logo-icon {
+    height: 24px;
+    width: 24px;
+    margin-left: 0;
+  }
+  
+  .burger-menu {
+    width: 35px;
+    height: 35px;
+  }
+  
+  .burger-line {
+    width: 20px;
+    height: 2px;
+  }
+  
+  .modal-buttons {
+    flex-direction: column;
+  }
+  
+  .modal-buttons .btn {
+    margin-bottom: 10px;
+  }
+}
+
+@media (max-width: 360px) {
+  .header-content {
+    gap: 5px;
+  }
+  
+  h1 {
+    font-size: 1rem;
+  }
+  
+  .role-toggle {
+    font-size: 0.7rem;
+    padding: 3px 5px;
+  }
 }
