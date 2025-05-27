@@ -73,15 +73,32 @@ const paint_cell = (feature) => {
   };
 };
 
-// Custom start marker icon SVG
-const startMarkerIcon = L.divIcon({
-  html: `<svg width="14" height="14" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
-    <circle cx="50" cy="50" r="43" fill="#5cb85c" stroke="white" stroke-width="5"/>
-    <text x="50" y="64" font-size="40" text-anchor="middle" fill="white">C</text>
-  </svg>`,
+// Improved CAI marker icon - larger and more visible like Google Maps
+const caiMarkerIcon = L.divIcon({
+  html: `<div style="
+    background-color: #4285f4;
+    width: 24px;
+    height: 24px;
+    border-radius: 50% 50% 50% 0;
+    transform: rotate(-45deg);
+    border: 3px solid white;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.3);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  ">
+    <div style="
+      color: white;
+      font-size: 12px;
+      font-weight: bold;
+      transform: rotate(45deg);
+      margin-top: -2px;
+    ">🏛️</div>
+  </div>`,
   className: "",
-  iconSize: [14, 14],
-  iconAnchor: [7, 7],
+  iconSize: [24, 24],
+  iconAnchor: [12, 24],
+  popupAnchor: [0, -24],
 });
 
 const assignRoute = (routes, index, to) =>
@@ -210,10 +227,18 @@ function MapCont({ marginLeft, routeInfo, setRouteInfo, selCai, activeRole }) {
         )}
         {routeInfo &&
               <Marker
-                key={`start-marker`}
+                key={`cai-marker`}
                 position={rev(stations[selCai].geometry.coordinates)}
-                icon={startMarkerIcon}
-              ></Marker>}
+                icon={caiMarkerIcon}
+              >
+                <Popup>
+                  <div style={{ color: '#333', fontSize: '14px' }}>
+                    <strong>{stations[selCai].properties.nombre}</strong>
+                    <br />
+                    CAI - Centro de Atención Inmediata
+                  </div>
+                </Popup>
+              </Marker>}
         {routeInfo &&
           routeInfo.routes &&
           routeInfo.routes.map((route, i) => (

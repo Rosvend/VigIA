@@ -26,12 +26,64 @@ function Sidebar({ active, routeInfo, setRouteInfo, selCai, setSelCai }) {
   );
   const [routeCounter, setRouteCounter] = useState(1);
   const [routes, setRoutes] = useState([1]);
+  const [selectedRoute, setSelectedRoute] = useState(null);
   const isSupervisor = user !== null;
 
   const setComuna = (id) => setSelCai(filterCai(id)[0].properties.id);
   useEffect(() => {
     setSelComuna(findMatchingComuna(stations[selCai]));
   }, [selCai]);
+
+  // Function to open route in Google Maps
+  const openInGoogleMaps = () => {
+    if (!routeInfo || !routeInfo.routes || routeInfo.routes.length === 0) {
+      showError("No hay rutas disponibles para mostrar en Google Maps");
+      return;
+    }
+
+    try {
+      // Get CAI coordinates as starting point
+      const caiCoords = stations[selCai].geometry.coordinates;
+      const origin = `${caiCoords[1]},${caiCoords[0]}`;
+
+      // If there's a selected route, use it; otherwise use the first route
+      const routeToShow = selectedRoute !== null 
+        ? routeInfo.routes[selectedRoute] 
+        : routeInfo.routes[0];
+
+      if (!routeToShow || !routeToShow.geometry || routeToShow.geometry.length === 0) {
+        showError("La ruta seleccionada no tiene coordenadas válidas");
+        return;
+      }
+
+      // Get waypoints from the route (skip first and last for better Google Maps handling)
+      const waypoints = routeToShow.geometry.slice(1, -1)
+        .filter((_, index) => index % 3 === 0) // Take every 3rd point to avoid too many waypoints
+        .slice(0, 8) // Google Maps allows max 8 waypoints for free tier
+        .map(coord => `${coord[1]},${coord[0]}`)
+        .join('|');
+
+      // Destination is the last point of the route
+      const lastPoint = routeToShow.geometry[routeToShow.geometry.length - 1];
+      const destination = `${lastPoint[1]},${lastPoint[0]}`;
+
+      // Construct Google Maps URL
+      let googleMapsUrl = `https://www.google.com/maps/dir/${origin}`;
+      
+      if (waypoints) {
+        googleMapsUrl += `/${waypoints}`;
+      }
+      
+      googleMapsUrl += `/${destination}`;
+
+      // Open in new tab
+      window.open(googleMapsUrl, '_blank');
+      showSuccess("Abriendo ruta en Google Maps");
+    } catch (error) {
+      showError("Error al generar enlace de Google Maps");
+      console.error("Google Maps error:", error);
+    }
+  };
 
   const assignRoute = async (cai, singleRouteGeom, id) => {
     const currentDate = new Date();
@@ -171,6 +223,7 @@ function Sidebar({ active, routeInfo, setRouteInfo, selCai, setSelCai }) {
     setRoutes([1]);
     setRouteCounter(1);
     setRouteInfo(null);
+    setSelectedRoute(null);
     showInfo("Rutas reiniciadas correctamente");
   };
 
@@ -196,15 +249,27 @@ function Sidebar({ active, routeInfo, setRouteInfo, selCai, setSelCai }) {
           <select
             id="rutas"
             className="form-control"
-            multiple
-            size={Math.min(routes.length, 3)}
+            value={selectedRoute || ""}
+            onChange={(e) => setSelectedRoute(e.target.value ? parseInt(e.target.value) : null)}
           >
-            {routes.map((route) => (
-              <option key={route} value={route}>
-                Ruta {route}
+            <option value="">Seleccionar ruta para Google Maps</option>
+            {routeInfo && routeInfo.routes && routeInfo.routes.map((route, index) => (
+              <option key={index} value={index}>
+                Ruta {index + 1} {route.assigned_to ? `(Patrulla ${route.assigned_to})` : '(Sin asignar)'}
               </option>
             ))}
           </select>
+
+          {/* Google Maps Button - Available for everyone */}
+          <button
+            className="google-maps-btn"
+            onClick={openInGoogleMaps}
+            disabled={!routeInfo || !routeInfo.routes || routeInfo.routes.length === 0}
+            title="Abrir ruta seleccionada en Google Maps"
+          >
+            <span>🗺️</span>
+            Abrir en Google Maps
+          </button>
 
           {isSupervisor && (
             <div
