@@ -26,7 +26,7 @@ When you have that set up:
 cd backend/
 poetry install --no-root # install dependencies
 poetry run python database/models.py # create tables in the database
-poetry run python app.py # run the application
+poetry run flask run --debug # run the application
 ```
 
 The app will then run in `http://127.0.0.1:5000/` by default.
