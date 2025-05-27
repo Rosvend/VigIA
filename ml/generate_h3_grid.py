@@ -45,10 +45,10 @@ def main():
     parser = argparse.ArgumentParser(description='Generate H3 hexagon grid from barrios data')
     parser.add_argument('--input', default='barrios.geojson', help='Path to input GeoJSON file with barrios data')
     parser.add_argument('--github_url', 
-                   default='https://raw.githubusercontent.com/Rosvend/Patrol-routes-optimization-Medellin/main/geodata/medellin_barrios.geojson',
+                   default='https://raw.githubusercontent.com/Rosvend/Patrol-routes-optimization-Medellin/main/geodata/barrios_medellin1.geojson',
                    help='URL to download the GeoJSON if not available locally')
     parser.add_argument('--output', default='hex_grid.gpkg', help='Path to output GPKG file')
-    parser.add_argument('--resolution', type=int, default=9, help='H3 resolution (0-15)')
+    parser.add_argument('--resolution', type=int, default=8, help='H3 resolution (0-15)')
     parser.add_argument('--visualize', action='store_true', help='Generate visualization')
     
     args = parser.parse_args()

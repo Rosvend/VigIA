@@ -1,15 +1,7 @@
 """
-Preprocessing script for crime prediction dataset
+Preprocessing script for crime prediction dataset with 12-hour windows
 This script processes the crime data, police station locations, and grid cells to create a dataset suitable for machine learning models.
-It includes the following steps:
-1. Count crimes in each grid cell
-2. Calculate distance to the nearest police station for each grid cell
-3. Add time-based features (hour of the day, day of the week) 
-4. Add crime type features (counts of each crime type in each cell)
-5. Add demographic features (from barrios that intersect with each cell)
-6. Create temporal training data with sliding windows
-7. Generate target variables for different prediction windows
-8. Save the final dataset to a GeoPackage file
+Focus on 12-hour temporal windows for better class balance and temporal resolution 8 H3 hexagons.
 """
 
 # Import necessary libraries
@@ -35,28 +27,37 @@ logging.basicConfig(
 log = logging.getLogger(__name__)
 
 def download_github_file(filename, output_path, base_url="https://github.com/Rosvend/Patrol-routes-optimization-Medellin/raw/main/geodata/"):
-    """
-    Downloads a file from a GitHub repository and saves it to output_path.
-    """
-
+    """Downloads a file from a GitHub repository and saves it to output_path."""
     url = base_url + filename
     log.info(f"Downloading {filename} from GitHub...")
 
-    response = requests.get(url, stream=True)
-    if response.status_code == 200:
-        with open(output_path, 'wb') as f:
-            for chunk in response.iter_content(chunk_size=1024):
-                f.write(chunk)
-        log.info(f"Succesfully downloaded {filename} to {output_path}")
-    else:
-        log.error(f"Failed to download {filename}. Status code: {response.status_code}")
+    try:
+        response = requests.get(url, stream=True, timeout=30)
+        if response.status_code == 200:
+            os.makedirs(os.path.dirname(output_path), exist_ok=True)
+            with open(output_path, 'wb') as f:
+                for chunk in response.iter_content(chunk_size=1024):
+                    f.write(chunk)
+            log.info(f"Successfully downloaded {filename} to {output_path}")
+            return True
+        else:
+            log.error(f"Failed to download {filename}. Status code: {response.status_code}")
+            return False
+    except Exception as e:
+        log.error(f"Error downloading {filename}: {e}")
+        return False
 
-def load_datasets(data_dir="../geodata"):
+def load_datasets(data_dir="../geodata", resolution=8):
     """
     Downloads all datasets from GitHub and loads them into GeoDataFrames.
+    Prioritizes H3 resolution 8 grid for better balance between granularity and data density.
+    
+    Args:
+        data_dir: Directory to save/load data files
+        resolution: H3 resolution to use (default 8)
     
     Returns:
-        grid_gdf: H3 grid cells
+        grid_gdf: H3 grid cells (resolution 8)
         gdf_crimenes: Crime data
         gdf_police: Police station locations
         gdf_barrios: Neighborhoods data
@@ -66,9 +67,11 @@ def load_datasets(data_dir="../geodata"):
     data_dir = os.path.normpath(os.path.join(script_dir, data_dir))
     os.makedirs(data_dir, exist_ok=True)
     log.info(f"Using data directory: {data_dir}")
+    log.info(f"Target H3 resolution: {resolution}")
 
+    # Define files with priority for resolution 8
     files = {
-        "hex_grid.gpkg": "grid_gdf",
+        f"hex_grid_res{resolution}.gpkg": "grid_gdf",
         "crime_data1.geojson": "gdf_crimenes",
         "police1.geojson": "gdf_police",
         "barrios_medellin1.geojson": "gdf_barrios",
@@ -78,10 +81,40 @@ def load_datasets(data_dir="../geodata"):
     loaded_data = {}
     for filename, varname in files.items():
         path = os.path.join(data_dir, filename)
-        download_github_file(filename, path)
-        gdf = gpd.read_file(path)
-        loaded_data[varname] = gdf
-        log.info(f"Loaded {filename} with {len(gdf)} records")
+        
+        # Check if file exists locally first
+        if not os.path.exists(path):
+            success = download_github_file(filename, path)
+            if not success and varname == "grid_gdf":
+                # Fallback to generic grid file if specific resolution not available
+                fallback_file = "hex_grid.gpkg"
+                fallback_path = os.path.join(data_dir, fallback_file)
+                log.warning(f"Trying fallback grid file: {fallback_file}")
+                success = download_github_file(fallback_file, fallback_path)
+                if success:
+                    path = fallback_path
+                else:
+                    raise FileNotFoundError(f"Could not download grid file for resolution {resolution}")
+        
+        try:
+            gdf = gpd.read_file(path)
+            loaded_data[varname] = gdf
+            
+            if varname == "grid_gdf":
+                log.info(f"Loaded grid with {len(gdf)} cells")
+                # Check if this is actually resolution 8
+                if 'h3_index' in gdf.columns and len(gdf) > 0:
+                    # H3 resolution 8 should have around 1000-3000 cells for Medellín
+                    if 500 < len(gdf) < 5000:
+                        log.info(f"Grid appears to be appropriate resolution (H3 res ~{resolution})")
+                    else:
+                        log.warning(f"Grid size ({len(gdf)} cells) may not match expected H3 resolution {resolution}")
+            else:
+                log.info(f"Loaded {filename} with {len(gdf)} records")
+                
+        except Exception as e:
+            log.error(f"Error loading {filename}: {e}")
+            raise
 
     return (loaded_data["grid_gdf"],
             loaded_data["gdf_crimenes"],
@@ -90,13 +123,7 @@ def load_datasets(data_dir="../geodata"):
             loaded_data["gdf_turismo"])
 
 def crs_harmonization(grid_gdf, gdf_crimenes, gdf_police, gdf_barrios, gdf_turismo):
-    """
-    Harmonize the coordinate reference systems (CRS) of all datasets to EPSG:4326.
-    This is important for spatial operations and analysis.
-    
-    Returns:
-        grid_gdf, gdf_crimenes, gdf_police, gdf_barrios, gdf_turismo (all harmonized to EPSG:4326)
-    """
+    """Harmonize the coordinate reference systems (CRS) of all datasets to EPSG:4326."""
     log.info("Checking and harmonizing coordinate reference systems (CRS)...")
 
     def ensure_crs(gdf, name):
@@ -115,577 +142,370 @@ def crs_harmonization(grid_gdf, gdf_crimenes, gdf_police, gdf_barrios, gdf_turis
     gdf_turismo  = ensure_crs(gdf_turismo, "tourist data")
 
     log.info("All datasets now have matching CRS: EPSG:4326")
-    return grid_gdf, gdf_crimenes, gdf_police, gdf_barrios
+    return grid_gdf, gdf_crimenes, gdf_police, gdf_barrios, gdf_turismo
 
-
-# 1. Contar crimenes en cada celda
 def count_crimes_per_cell(grid_gdf, crime_gdf):
     """Count crimes in each grid cell"""
+    log.info("Counting total crimes per grid cell...")
     joined = gpd.sjoin(grid_gdf, crime_gdf, how='left', predicate='intersects')
     crime_counts = joined.groupby('h3_index').size().reset_index(name='crime_count')
 
     grid_with_crimes = grid_gdf.merge(crime_counts, on='h3_index', how='left')
     grid_with_crimes['crime_count'] = grid_with_crimes['crime_count'].fillna(0)
+    
+    log.info(f"Crime counts range: {grid_with_crimes['crime_count'].min()} - {grid_with_crimes['crime_count'].max()}")
+    log.info(f"Cells with crimes: {(grid_with_crimes['crime_count'] > 0).sum()}/{len(grid_with_crimes)}")
     return grid_with_crimes
 
-# 2. Calcular distancia a CAI mas cercano en cada celda
 def add_distance_to_police(grid_gdf, police_gdf):
     """Calculate distance to nearest police station for each grid cell"""
+    log.info("Calculating distance to nearest police station...")
     grid_centroids = grid_gdf.copy()
     
     if grid_centroids.crs != police_gdf.crs:
         log.info(f"Converting police stations CRS to match grid CRS: {grid_centroids.crs}")
         police_gdf = police_gdf.to_crs(grid_centroids.crs)
     
-    #Medellín, Colombia (6°N, 75°W), UTM zone 18N
+    # Project to UTM Zone 18N for accurate distance calculations (Colombia)
     log.info("Projecting to UTM Zone 18N (EPSG:32618) for accurate distance calculations")
     grid_projected = grid_centroids.to_crs("EPSG:32618")
     police_projected = police_gdf.to_crs("EPSG:32618")
     
     grid_projected['centroid'] = grid_projected.geometry.centroid
     
-    # Calcular distancias en metros a CAIs
-    log.info("Calculating distances to nearest police stations...")
-    distances = []
-    total_cells = len(grid_projected)
+    # Calculate distances using vectorized operations for better performance
+    from scipy.spatial import cKDTree
     
-    for i, cell in grid_projected.iterrows():
-        if i % 100 == 0:
-            log.info(f"Processing cell {i}/{total_cells}")
-            
-        dist_to_police = police_projected.geometry.distance(cell['centroid'])
-        min_dist = dist_to_police.min()
-        distances.append(min_dist)
+    # Extract coordinates
+    police_coords = np.array([
+        (geom.x, geom.y) for geom in police_projected.geometry
+    ])
     
-    grid_gdf['distance_to_police'] = distances
+    grid_coords = np.array([
+        (geom.x, geom.y) for geom in grid_projected['centroid']
+    ])
     
-    # Convertir distancia a km
-    grid_gdf['distance_to_police'] = grid_gdf['distance_to_police'] / 1000
+    # Build KD-tree for police stations
+    police_tree = cKDTree(police_coords)
+    
+    # Query tree for each grid centroid
+    distances, _ = police_tree.query(grid_coords)
+    
+    # Convert from meters to kilometers
+    grid_gdf['distance_to_police'] = distances / 1000
     
     log.info(f"Distance calculations complete. Range: {grid_gdf['distance_to_police'].min():.2f} - {grid_gdf['distance_to_police'].max():.2f} km")
     return grid_gdf
 
-# 3. Features temporales con ventanas deslizantes
-def add_time_features(grid_gdf, crime_gdf, time_windows=None):
+def generate_temporal_windows_12h(grid_gdf, crime_gdf, prediction_window=12, step_size=12, 
+                                  quick_mode=False, max_windows=None, sample_size=100):
     """
-    Add time-based crime features for each cell with multiple time windows
-    
-    Args:
-        grid_gdf: GeoDataFrame with grid cells
-        crime_gdf: GeoDataFrame with crime data including fecha_hecho (timestamp)
-        time_windows: List of time windows in days to use for recent crime weighting
-                      Default: [7, 30, 90] for 1 week, 1 month, 3 months
-    
-    Returns:
-        GeoDataFrame with added time features
-    """
-    # Default time windows if not specified
-    if time_windows is None:
-        time_windows = [7, 30, 90]  # 1 week, 1 month, 3 months
-    
-    # Ensure both geodataframes have the same CRS
-    if grid_gdf.crs != crime_gdf.crs:
-        log.info(f"Ensuring CRS compatibility: {grid_gdf.crs} vs {crime_gdf.crs}")
-        crime_gdf = crime_gdf.to_crs(grid_gdf.crs)
-    
-    # Create a copy of the grid_gdf for the results
-    result = grid_gdf.copy()
-    
-    # Define time periods and days
-    time_periods = {
-        'morning': (6, 12),
-        'afternoon': (12, 18),
-        'evening': (18, 24),
-        'night': (0, 6)
-    }
-    
-    days = ['monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday', 'sunday']
-    
-    for period in time_periods:
-        result[f'crimes_{period}'] = 0
-    
-    for day in days:
-        result[f'crimes_{day}'] = 0
-    
-    # Add time window features
-    for window in time_windows:
-        result[f'crimes_last_{window}d'] = 0
-    
-    crime_sindex = crime_gdf.sindex
-    
-    # Get the latest crime date to use as reference
-    latest_date = crime_gdf['fecha_hecho'].max()
-    log.info(f"Using latest crime date as reference: {latest_date}")
-    
-    # Process each cell
-    total_cells = len(grid_gdf)
-    for i, (idx, cell) in enumerate(grid_gdf.iterrows()):
-        if i % 100 == 0:
-            log.info(f"Processing time features for cell {i}/{total_cells}")
-        
-        # Use spatial index to find candidates
-        possible_matches_index = list(crime_sindex.intersection(cell.geometry.bounds))
-        if possible_matches_index:
-            possible_matches = crime_gdf.iloc[possible_matches_index]
-            # Confirm that the candidates actually intersect
-            precise_matches = possible_matches[possible_matches.intersects(cell.geometry)]
-            
-            if len(precise_matches) > 0:
-                # Add time period counts
-                for period, (start_hour, end_hour) in time_periods.items():
-                    period_crimes = precise_matches[
-                        precise_matches['fecha_hecho'].dt.hour.between(start_hour, end_hour - 1)
-                    ]
-                    result.at[idx, f'crimes_{period}'] = len(period_crimes)
-                
-                # Add day of week counts
-                for i, day in enumerate(days):
-                    day_crimes = precise_matches[precise_matches['fecha_hecho'].dt.dayofweek == i]
-                    result.at[idx, f'crimes_{day}'] = len(day_crimes)
-                
-                # Add time window counts with recency weighting
-                for window in time_windows:
-                    cutoff_date = latest_date - timedelta(days=window)
-                    recent_crimes = precise_matches[precise_matches['fecha_hecho'] >= cutoff_date]
-                    
-                    # Apply recency weighting - more recent crimes have higher weight
-                    if len(recent_crimes) > 0:
-                        # Calculate days from cutoff for each crime
-                        days_from_cutoff = (recent_crimes['fecha_hecho'] - cutoff_date).dt.total_seconds() / (24 * 3600)
-                        # Apply exponential decay weight: more recent = higher weight
-                        weights = np.exp(days_from_cutoff / window)  # Normalized by window size
-                        weighted_count = weights.sum()
-                        result.at[idx, f'crimes_last_{window}d'] = weighted_count
-    
-    log.info("Time features added successfully")
-    return result
-
-# 4. Features de tipo de crimen con ponderación temporal
-def add_crime_type_features(grid_gdf, crime_gdf, time_windows=None):
-    """
-    Add crime type features for each cell with recency weighting
+    Generate temporal sliding windows focused on 12-hour predictions
     
     Args:
         grid_gdf: GeoDataFrame with grid cells
         crime_gdf: GeoDataFrame with crime data
-        time_windows: List of time windows in days for recency features
-                      Default: [30, 90] for 1 month and 3 months
-    """
-    # Default time windows if not specified
-    if time_windows is None:
-        time_windows = [30, 90]  # 1 month, 3 months
-        
-    # Ensure both geodataframes have the same CRS
-    if grid_gdf.crs != crime_gdf.crs:
-        log.info(f"Ensuring CRS compatibility for crime types: {grid_gdf.crs} vs {crime_gdf.crs}")
-        crime_gdf = crime_gdf.to_crs(grid_gdf.crs)
-    
-    # Get the latest crime date to use as reference
-    latest_date = crime_gdf['fecha_hecho'].max()
-    
-    crime_types = crime_gdf['modalidad'].unique()
-    log.info(f"Found {len(crime_types)} different crime types")
-    
-    # Create a copy of grid_gdf for the results
-    result = grid_gdf.copy()
-    
-    # Initialize columns with zeros
-    for crime_type in crime_types:
-        # Standard count of each crime type
-        column_name = f'crime_type_{crime_type}'
-        result[column_name] = 0
-        
-        # Add time window columns for each crime type
-        for window in time_windows:
-            result[f'{column_name}_last_{window}d'] = 0
-    
-    # Create a spatial index for crime_gdf to improve performance
-    crime_sindex = crime_gdf.sindex
-    
-    # Process each cell
-    total_cells = len(grid_gdf)
-    for i, (idx, cell) in enumerate(grid_gdf.iterrows()):
-        if i % 100 == 0:
-            log.info(f"Processing crime types for cell {i}/{total_cells}")
-        
-        # Use spatial index to find candidates
-        possible_matches_index = list(crime_sindex.intersection(cell.geometry.bounds))
-        if possible_matches_index:
-            possible_matches = crime_gdf.iloc[possible_matches_index]
-            # Confirm that the candidates actually intersect
-            precise_matches = possible_matches[possible_matches.intersects(cell.geometry)]
-            
-            if len(precise_matches) > 0:
-                # Count by crime type (overall)
-                type_counts = precise_matches['modalidad'].value_counts()
-                for crime_type, count in type_counts.items():
-                    result.at[idx, f'crime_type_{crime_type}'] = count
-                
-                # Add time window counts for each crime type
-                for window in time_windows:
-                    cutoff_date = latest_date - timedelta(days=window)
-                    recent_crimes = precise_matches[precise_matches['fecha_hecho'] >= cutoff_date]
-                    
-                    if len(recent_crimes) > 0:
-                        # Calculate days from cutoff for each crime
-                        recent_crimes['days_from_cutoff'] = (recent_crimes['fecha_hecho'] - cutoff_date).dt.total_seconds() / (24 * 3600)
-                        
-                        # Group by crime type and calculate weighted counts
-                        for crime_type in crime_types:
-                            type_crimes = recent_crimes[recent_crimes['modalidad'] == crime_type]
-                            if len(type_crimes) > 0:
-                                # Apply exponential decay weight
-                                weights = np.exp(type_crimes['days_from_cutoff'] / window)
-                                weighted_count = weights.sum()
-                                result.at[idx, f'crime_type_{crime_type}_last_{window}d'] = weighted_count
-    
-    return result
-
-# 5. features demograficas
-def add_demographic_features(grid_gdf, barrios_gdf):
-    """Add demographic features from barrios that intersect with each cell"""
-    # barrios que intersectan en cada celda
-    grid_with_barrios = grid_gdf.copy()
-    grid_with_barrios['barrios'] = None
-
-    for idx, cell in grid_gdf.iterrows():
-        intersecting_barrios = barrios_gdf[barrios_gdf.geometry.intersects(cell.geometry)]
-        if len(intersecting_barrios) > 0:
-            grid_with_barrios.at[idx, 'barrios'] = ','.join(intersecting_barrios['nombre'].tolist())
-
-    # comuna de cada celda
-    grid_with_barrios['comuna'] = None
-
-    for idx, cell in grid_gdf.iterrows():
-        intersecting_barrios = barrios_gdf[barrios_gdf.geometry.intersects(cell.geometry)]
-        if len(intersecting_barrios) > 0:
-            # comuna mas comun que intersecta
-            comuna = intersecting_barrios['codigo_comuna'].mode()[0]
-            grid_with_barrios.at[idx, 'comuna'] = comuna
-
-    return grid_with_barrios
-
-# 6. Sliding window generator for temporal training
-def generate_temporal_windows(grid_gdf, crime_gdf, window_sizes=None, step_size=24, quick_mode=False, max_windows=None, sample_size=100, recency_windows=None):
-    """
-    Generate temporal sliding windows for training
-    
-    Args:
-        grid_gdf: GeoDataFrame with grid cells
-        crime_gdf: GeoDataFrame with crime data
-        window_sizes: List of future window sizes in hours for prediction targets
-                     Default: [6, 12, 24, 72] for 6h, 12h, 24h, 3 days
-        step_size: Hours to step forward for each new training window 
-                   Default: 24 (daily windows)
+        prediction_window: Hours for prediction target (default: 12)
+        step_size: Hours to step forward for each new training window (default: 12)
         quick_mode: If True, process fewer windows and cells for faster execution
-        max_windows: Maximum number of windows to process (for quick mode)
-        sample_size: Number of grid cells to sample in quick mode (default: 100)
-        recency_windows: List of past time windows in days for feature generation
-                     Default: [1, 3, 7, 14, 30]
+        max_windows: Maximum number of windows to process
+        sample_size: Number of grid cells to sample in quick mode
                    
     Returns:
-        List of temporal window DataFrames, each with features and multiple target columns
+        DataFrame with temporal windows focused on 12-hour predictions
     """
-    if window_sizes is None:
-        window_sizes = [6, 12, 24, 72]  # 6h, 12h, 24h, 3 days
-    
-    log.info(f"Generating temporal windows with sizes {window_sizes} hours and step size {step_size} hours")
+    log.info(f"Generating 12-hour temporal windows (prediction: {prediction_window}h, step: {step_size}h)")
     
     # Get date range from crime data
     start_date = crime_gdf['fecha_hecho'].min()
     end_date = crime_gdf['fecha_hecho'].max()
     
-    # Calculate the minimum lookback period needed for features
-    # In quick mode, we can use a shorter lookback period for faster processing
-    if quick_mode:
-        feature_lookback = timedelta(days=30)  # 30 days in quick mode 
-        log.info(f"QUICK MODE: Using 30-day feature lookback instead of 90 days")
-    else:
-        feature_lookback = timedelta(days=90)  # 90 days in full mode
-    
-    # Adjust start date to allow for feature generation
+    # Allow for feature generation lookback
+    feature_lookback = timedelta(days=30 if quick_mode else 90)
     training_start = start_date + feature_lookback
     
     log.info(f"Data spans from {start_date} to {end_date}")
     log.info(f"Training windows will start from {training_start}")
     
-    # Generate reference points (every step_size hours)
+    # Generate reference points every 12 hours
     reference_points = []
     current = training_start
-    while current < end_date - timedelta(hours=max(window_sizes)):
+    while current < end_date - timedelta(hours=prediction_window):
         reference_points.append(current)
         current += timedelta(hours=step_size)
     
-    # In quick mode, limit the number of windows
-    if quick_mode:
-        if max_windows is None:
-            max_windows = 20  # Default if not specified
-        log.info(f"QUICK MODE: Limiting to {max_windows} windows instead of {len(reference_points)}")
-        # Take evenly spaced windows for better representation across the time range
+    # Limit windows in quick mode
+    if quick_mode and max_windows:
         if len(reference_points) > max_windows:
             indices = np.linspace(0, len(reference_points) - 1, max_windows, dtype=int)
             reference_points = [reference_points[i] for i in indices]
+        log.info(f"QUICK MODE: Using {len(reference_points)} windows")
     
-    log.info(f"Generated {len(reference_points)} reference time points")
-    
-    # In quick mode, take a sample of the grid cells
+    # Sample grid cells in quick mode
     if quick_mode:
         actual_sample = min(sample_size, len(grid_gdf))
-        log.info(f"QUICK MODE: Using {actual_sample} grid cells instead of {len(grid_gdf)}")
+        log.info(f"QUICK MODE: Using {actual_sample} grid cells")
         grid_gdf = grid_gdf.sample(actual_sample, random_state=42)
     
-    # Create spatial index for crime_gdf to improve performance
-    log.info("Building spatial index for crime data...")
-    # This explicitly creates the spatial index if it doesn't exist
-    crime_gdf = crime_gdf.copy()
+    log.info(f"Processing {len(reference_points)} reference time points")
+    
+    # Build spatial index for performance
     crime_sindex = crime_gdf.sindex
     
-    # Prepare the list of window DataFrames
     window_data = []
-    
-    # Define recency time windows from reference point if not provided
-    if recency_windows is None:
-        if quick_mode:
-            recency_windows = [1, 7, 30]  # Simplified windows in quick mode
-        else:
-            recency_windows = [1, 3, 7, 14, 30]  # 1d, 3d, 7d, 14d, 30d
+    recency_windows = [1, 7, 30]  # Days
     
     # Process each reference point
     for i, ref_point in enumerate(reference_points):
-        if i % 10 == 0 or i == len(reference_points) - 1:  # Progress update every 10 windows
+        if i % 10 == 0:
             log.info(f"Processing window {i+1}/{len(reference_points)} at {ref_point}")
         
-        # Create a copy of the grid for this time window
+        # Create window dataframe
         window_gdf = grid_gdf.copy()
         
-        # Convert timezone-aware datetime to naive datetime to avoid Excel export issues
-        if ref_point.tzinfo is not None:
-            naive_ref_point = ref_point.replace(tzinfo=None)
-        else:
-            naive_ref_point = ref_point
-            
+        # Convert to naive datetime for consistency
+        naive_ref_point = ref_point.replace(tzinfo=None) if ref_point.tzinfo else ref_point
         window_gdf['reference_time'] = naive_ref_point
         
-        # Filter crimes for feature generation (before reference point)
-        past_crimes = crime_gdf[crime_gdf['fecha_hecho'] < ref_point]
-        
-        # Add the reference hour and day as features
+        # Add temporal features
         window_gdf['ref_hour'] = ref_point.hour
         window_gdf['ref_day'] = ref_point.dayofweek
         window_gdf['ref_month'] = ref_point.month
         window_gdf['ref_is_weekend'] = 1 if ref_point.dayofweek >= 5 else 0
+        window_gdf['ref_is_day_shift'] = 1 if 6 <= ref_point.hour < 18 else 0  # 6 AM - 6 PM
+        window_gdf['ref_is_night_shift'] = 1 if ref_point.hour < 6 or ref_point.hour >= 18 else 0
         
-        # Add recency-weighted crime counts
-        for window in recency_windows:
-            window_gdf[f'crimes_last_{window}d'] = 0
-            cutoff = ref_point - timedelta(days=window)
-            
-            # Filter past crimes within this window
-            window_crimes = past_crimes[past_crimes['fecha_hecho'] >= cutoff]
-            if len(window_crimes) == 0:
-                continue
-                
-            # Create a spatial index for the filtered crimes
-            if hasattr(window_crimes, 'sindex') and window_crimes.sindex is not None:
-                window_crimes_sindex = window_crimes.sindex
-            else:
-                window_crimes_sindex = window_crimes.sindex
-            
-            # Process each cell
-            for idx, cell in window_gdf.iterrows():
-                try:
-                    # Use spatial index to find candidates, checking for errors
-                    if window_crimes_sindex is not None:
-                        possible_matches_index = list(window_crimes_sindex.intersection(cell.geometry.bounds))
-                        
-                        # Validate indices to avoid out-of-bounds errors
-                        valid_indices = [i for i in possible_matches_index if i < len(window_crimes)]
-                        if valid_indices:
-                            possible_matches = window_crimes.iloc[valid_indices]
-                            
-                            # Confirm that the candidates actually intersect
-                            recent_matches = possible_matches[possible_matches.intersects(cell.geometry)]
-                            
-                            if len(recent_matches) > 0:
-                                # Calculate days from cutoff for each crime
-                                days_from_cutoff = (recent_matches['fecha_hecho'] - cutoff).dt.total_seconds() / (24 * 3600)
-                                # Apply exponential decay weight: more recent = higher weight
-                                weights = np.exp(days_from_cutoff / window)  # Normalized by window size
-                                weighted_count = weights.sum()
-                                window_gdf.at[idx, f'crimes_last_{window}d'] = weighted_count
-                except Exception as e:
-                    if not quick_mode:  # Only print warnings in full mode
-                        log.info(f"Warning: Error processing cell at index {idx} for window {window}d: {e}")
-                    continue
-        
-        # Generate target variables for each prediction window
-        for hours in window_sizes:
-            future_cutoff = ref_point + timedelta(hours=hours)
-            target_col = f'target_{hours}h'
-            window_gdf[target_col] = 0
-            
-            # Filter future crimes for this window
-            future_crimes = crime_gdf[
-                (crime_gdf['fecha_hecho'] >= ref_point) & 
-                (crime_gdf['fecha_hecho'] < future_cutoff)
+        # Add recent crime features
+        for window_days in recency_windows:
+            window_gdf[f'crimes_last_{window_days}d'] = 0
+            cutoff = ref_point - timedelta(days=window_days)
+            recent_crimes = crime_gdf[
+                (crime_gdf['fecha_hecho'] >= cutoff) & 
+                (crime_gdf['fecha_hecho'] < ref_point)
             ]
             
-            if len(future_crimes) == 0:
-                continue
-                
-            # Create spatial index for future crimes
-            if hasattr(future_crimes, 'sindex') and future_crimes.sindex is not None:
-                future_crimes_sindex = future_crimes.sindex
-            else:
-                future_crimes_sindex = future_crimes.sindex
-            
-            # Process each cell
+            if len(recent_crimes) > 0:
+                # Count crimes in each cell for this time window
+                for idx, cell in window_gdf.iterrows():
+                    try:
+                        # Use spatial intersection
+                        crimes_in_cell = recent_crimes[recent_crimes.intersects(cell.geometry)]
+                        if len(crimes_in_cell) > 0:
+                            # Apply recency weighting
+                            days_from_cutoff = (crimes_in_cell['fecha_hecho'] - cutoff).dt.total_seconds() / (24 * 3600)
+                            weights = np.exp(days_from_cutoff / window_days)
+                            window_gdf.at[idx, f'crimes_last_{window_days}d'] = weights.sum()
+                    except Exception as e:
+                        if not quick_mode:
+                            log.debug(f"Warning processing cell {idx}: {e}")
+                        continue
+        
+        # Generate 12-hour target
+        target_col = f'target_{prediction_window}h'
+        window_gdf[target_col] = 0
+        
+        future_cutoff = ref_point + timedelta(hours=prediction_window)
+        future_crimes = crime_gdf[
+            (crime_gdf['fecha_hecho'] >= ref_point) & 
+            (crime_gdf['fecha_hecho'] < future_cutoff)
+        ]
+        
+        if len(future_crimes) > 0:
             for idx, cell in window_gdf.iterrows():
                 try:
-                    # Use spatial index to find candidates
-                    if future_crimes_sindex is not None:
-                        possible_matches_index = list(future_crimes_sindex.intersection(cell.geometry.bounds))
-                        
-                        # Validate indices to avoid out-of-bounds errors
-                        valid_indices = [i for i in possible_matches_index if i < len(future_crimes)]
-                        if valid_indices:
-                            possible_matches = future_crimes.iloc[valid_indices]
-                            
-                            # Check if any future crimes intersect with this cell
-                            has_crime = any(possible_matches.intersects(cell.geometry))
-                            if has_crime:
-                                window_gdf.at[idx, target_col] = 1
+                    # Check if any future crimes intersect with this cell
+                    has_crime = any(future_crimes.intersects(cell.geometry))
+                    if has_crime:
+                        window_gdf.at[idx, target_col] = 1
                 except Exception as e:
-                    if not quick_mode:  # Only print warnings in full mode
-                        log.info(f"Warning: Error processing future crimes for cell at index {idx} for {hours}h window: {e}")
+                    if not quick_mode:
+                        log.debug(f"Warning processing future crimes for cell {idx}: {e}")
                     continue
         
-        # Add this window to the collection
         window_data.append(window_gdf)
     
-    log.info(f"Generated {len(window_data)} temporal windows")
-    # If window_data is empty, return None
+    # Combine all windows
     if not window_data:
+        log.error("No temporal windows generated")
         return None
         
-    # Combine all windows into a single DataFrame
     combined_windows = pd.concat(window_data, ignore_index=True)
     log.info(f"Combined temporal dataset shape: {combined_windows.shape}")
     
-    # Print a sample of the data to verify
-    log.info("\nSample of temporal dataset (first few rows, selected columns):")
-    sample_cols = ['reference_time', 'ref_hour', 'ref_day'] + [f'crimes_last_{w}d' for w in recency_windows] + [f'target_{h}h' for h in window_sizes]
-    sample_cols = [col for col in sample_cols if col in combined_windows.columns]
-    log.info(combined_windows[sample_cols].head(3))
+    # Report class distribution
+    target_col = f'target_{prediction_window}h'
+    if target_col in combined_windows.columns:
+        positive_count = combined_windows[target_col].sum()
+        negative_count = len(combined_windows) - positive_count
+        total = len(combined_windows)
+        
+        log.info(f"\n{prediction_window}-hour target class distribution:")
+        log.info(f"  No crime (0): {negative_count} ({negative_count/total:.2%})")
+        log.info(f"  Crime (1): {positive_count} ({positive_count/total:.2%})")
+        log.info(f"  Positive class ratio: {positive_count/total:.3%}")
+        
+        # Check if balance is better than the original 6-hour windows
+        if positive_count/total > 0.02:  # More than 2%
+            log.info(f"✓ Good class balance achieved with 12-hour windows!")
+        else:
+            log.warning(f"Class balance still low. Consider longer windows or different approach.")
     
     return combined_windows
 
-# Create a comprehensive function to call all the preprocessing steps
-def create_crime_prediction_dataset(grid_gdf, crime_gdf, police_gdf, barrios_gdf, temporal_windows=True, quick_mode=False):
+def create_temporal_splits(dataset, target_col='target_12h'):
     """
-    Create a complete crime prediction dataset by applying all preprocessing steps
+    Create temporal train/validation/test splits following the requirements:
+    - Train: January to September (70%)
+    - Validation: October to November (15%) 
+    - Test: December (15%)
+    """
+    log.info("Creating temporal train/validation/test splits...")
+    
+    # Ensure reference_time is datetime
+    dataset['reference_time'] = pd.to_datetime(dataset['reference_time'])
+    dataset['ref_month'] = dataset['reference_time'].dt.month
+    
+    # Create splits based on months
+    train_data = dataset[dataset['ref_month'] <= 9].copy()  # Jan-Sep
+    val_data = dataset[(dataset['ref_month'] > 9) & (dataset['ref_month'] <= 11)].copy()  # Oct-Nov
+    test_data = dataset[dataset['ref_month'] > 11].copy()  # Dec
+    
+    log.info(f"Temporal splits created:")
+    log.info(f"  Training (Jan-Sep): {len(train_data)} samples")
+    log.info(f"  Validation (Oct-Nov): {len(val_data)} samples")
+    log.info(f"  Test (Dec): {len(test_data)} samples")
+    
+    # Check class distributions
+    for name, data in [("Training", train_data), ("Validation", val_data), ("Test", test_data)]:
+        if len(data) > 0 and target_col in data.columns:
+            pos_count = data[target_col].sum()
+            total = len(data)
+            log.info(f"  {name} - Positive class: {pos_count}/{total} ({pos_count/total:.2%})")
+    
+    return train_data, val_data, test_data
+
+def create_crime_prediction_dataset_12h(grid_gdf, crime_gdf, police_gdf, barrios_gdf, 
+                                        prediction_window=12, quick_mode=False):
+    """
+    Create a complete crime prediction dataset focused on 12-hour windows
     
     Args:
-        grid_gdf: GeoDataFrame with grid cells
+        grid_gdf: GeoDataFrame with H3 resolution 8 grid cells
         crime_gdf: GeoDataFrame with crime data
         police_gdf: GeoDataFrame with police station locations
         barrios_gdf: GeoDataFrame with neighborhood data
-        temporal_windows: Whether to create temporal windows for prediction
+        prediction_window: Hours for prediction target (default: 12)
         quick_mode: If True, process fewer data points for faster execution
     
     Returns:
-        GeoDataFrame with all features for crime prediction
+        DataFrame with 12-hour temporal windows for crime prediction
     """
+    log.info(f"\n=== Creating 12-hour crime prediction dataset ===")
+    log.info(f"Target prediction window: {prediction_window} hours")
+    
     log.info("\n1. Counting crimes per grid cell...")
     grid_with_crimes = count_crimes_per_cell(grid_gdf, crime_gdf)
-    log.info(f"Crime counts added. Range: {grid_with_crimes['crime_count'].min()} - {grid_with_crimes['crime_count'].max()}")
     
     log.info("\n2. Calculating distance to nearest police station...")
     grid_with_police = add_distance_to_police(grid_with_crimes, police_gdf)
     
-    log.info("\n3. Adding time-based features...")
-    # Use fewer time windows in quick mode
-    time_windows = [7, 30] if quick_mode else [7, 30, 90]
-    grid_with_time = add_time_features(grid_with_police, crime_gdf, time_windows=time_windows)
+    log.info("\n3. Adding demographic features...")
+    # Simple demographic features from barrios
+    grid_with_demographics = grid_with_police.copy()
+    grid_with_demographics['barrios_count'] = 0
+    grid_with_demographics['comuna'] = None
     
-    log.info("\n4. Adding crime type features...")
-    grid_with_crimes_types = add_crime_type_features(
-        grid_with_time, 
-        crime_gdf,
-        time_windows=[30] if quick_mode else [30, 90]
-    )
+    for idx, cell in grid_with_demographics.iterrows():
+        intersecting_barrios = barrios_gdf[barrios_gdf.geometry.intersects(cell.geometry)]
+        if len(intersecting_barrios) > 0:
+            grid_with_demographics.at[idx, 'barrios_count'] = len(intersecting_barrios)
+            # Use most common comuna
+            if 'codigo_comuna' in intersecting_barrios.columns:
+                comuna_mode = intersecting_barrios['codigo_comuna'].mode()
+                if len(comuna_mode) > 0:
+                    grid_with_demographics.at[idx, 'comuna'] = comuna_mode.iloc[0]
     
-    log.info("\n5. Adding demographic features...")
-    grid_with_demographics = add_demographic_features(grid_with_crimes_types, barrios_gdf)
-    
-    # Either return the static dataset or continue to create temporal windows
-    if not temporal_windows:
-        log.info("\nCreated static crime prediction dataset")
-        return grid_with_demographics
-    
-    log.info("\n6. Generating temporal windows for prediction...")
-    # Use fewer windows and a smaller sample in quick mode
-    window_sizes = [24] if quick_mode else [6, 12, 24, 72]
-    max_windows = 10 if quick_mode else None
-    sample_size = 100 if quick_mode else 1000
-    
-    temporal_dataset = generate_temporal_windows(
+    log.info("\n4. Generating 12-hour temporal windows...")
+    temporal_dataset = generate_temporal_windows_12h(
         grid_with_demographics,
         crime_gdf,
-        window_sizes=window_sizes,
-        step_size=24,  # Daily windows
+        prediction_window=prediction_window,
+        step_size=12,  # 12-hour steps
         quick_mode=quick_mode,
-        max_windows=max_windows,
-        sample_size=sample_size
+        max_windows=20 if quick_mode else None,
+        sample_size=100 if quick_mode else None
     )
     
-    log.info("\nTemporal crime prediction dataset created")
+    if temporal_dataset is None:
+        log.error("Failed to generate temporal dataset")
+        return None
+    
+    log.info(f"\n=== 12-hour crime prediction dataset complete ===")
+    log.info(f"Final dataset shape: {temporal_dataset.shape}")
+    
+    # Create and display temporal splits
+    train_data, val_data, test_data = create_temporal_splits(temporal_dataset, f'target_{prediction_window}h')
+    
     return temporal_dataset
 
-# Update the main function to include command line argument for quick mode
 if __name__ == "__main__":
-    parser = argparse.ArgumentParser(description='Preprocess crime data for predictive modeling')
-    parser.add_argument('--quick', action='store_true', help='Process a smaller subset of data for faster execution')
+    parser = argparse.ArgumentParser(description='Preprocess crime data for 12-hour prediction windows')
+    parser.add_argument('--quick', action='store_true', help='Process a smaller subset for faster execution')
+    parser.add_argument('--resolution', type=int, default=8, help='H3 resolution for grid (default: 8)')
+    parser.add_argument('--window', type=int, default=12, help='Prediction window in hours (default: 12)')
     args = parser.parse_args()
     
     log.info(f"Preprocessing started at {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}")
+    log.info(f"Configuration: H3 resolution {args.resolution}, {args.window}h prediction window")
     
     if args.quick:
-        log.info("\n===== QUICK MODE ENABLED: Processing reduced dataset for rapid testing =====\n")
+        log.info("\n===== QUICK MODE: Processing reduced dataset for rapid testing =====\n")
     
-    # Load datasets
-    grid_gdf, gdf_crimenes, gdf_police, gdf_barrios, gdf_turismo = load_datasets()
-    grid_gdf, gdf_crimenes, gdf_police, gdf_barrios = crs_harmonization(grid_gdf, gdf_crimenes, gdf_police, gdf_barrios,gdf_turismo)
-
-    
-    # Create the complete dataset (with temporal windows)
-    crime_prediction_dataset = create_crime_prediction_dataset(
-        grid_gdf,
-        gdf_crimenes,
-        gdf_police,
-        gdf_barrios,
-        temporal_windows=True,
-        quick_mode=args.quick
-    )
-
-    # Export the dataframe to Excel for analysis (sample only due to size)
-    if crime_prediction_dataset is not None:
-        # Export the full dataset to a compressed format
-        crime_prediction_dataset.to_pickle("crime_prediction_temporal_dataset.pkl")
-        log.info("Full temporal dataset saved to crime_prediction_temporal_dataset.pkl")
-    
-    # Also create a static dataset for backward compatibility
-    static_dataset = create_crime_prediction_dataset(
-        grid_gdf,
-        gdf_crimenes,
-        gdf_police,
-        gdf_barrios,
-        temporal_windows=False,
-        quick_mode=args.quick
-    )
-    
-    # Export the spatial dataset to GeoPackage
-    static_dataset.to_file("crime_prediction_grid.gpkg", driver="GPKG")
-    log.info("Static dataset saved to crime_prediction_grid.gpkg")
+    try:
+        # Load datasets with specified resolution
+        grid_gdf, gdf_crimenes, gdf_police, gdf_barrios, gdf_turismo = load_datasets(resolution=args.resolution)
+        
+        # Harmonize coordinate systems
+        grid_gdf, gdf_crimenes, gdf_police, gdf_barrios, gdf_turismo = crs_harmonization(
+            grid_gdf, gdf_crimenes, gdf_police, gdf_barrios, gdf_turismo
+        )
+        
+        # Create the 12-hour focused dataset
+        crime_prediction_dataset = create_crime_prediction_dataset_12h(
+            grid_gdf,
+            gdf_crimenes,
+            gdf_police,
+            gdf_barrios,
+            prediction_window=args.window,
+            quick_mode=args.quick
+        )
+        
+        if crime_prediction_dataset is not None:
+            # Save the temporal dataset
+            output_file = f"crime_prediction_temporal_dataset_{args.window}h.pkl"
+            crime_prediction_dataset.to_pickle(output_file)
+            log.info(f"Temporal dataset saved to {output_file}")
+            
+            # Save a CSV sample for inspection
+            sample_file = f"crime_dataset_sample_{args.window}h_{datetime.now().strftime('%Y%m%d_%H%M')}.csv"
+            sample_size = min(1000, len(crime_prediction_dataset))
+            crime_prediction_dataset.sample(sample_size).to_csv(sample_file, index=False)
+            log.info(f"Sample dataset saved to {sample_file}")
+            
+            # Display summary statistics
+            log.info(f"\n=== DATASET SUMMARY ===")
+            log.info(f"Total samples: {len(crime_prediction_dataset)}")
+            log.info(f"Features: {crime_prediction_dataset.columns.tolist()}")
+            
+            target_col = f'target_{args.window}h'
+            if target_col in crime_prediction_dataset.columns:
+                target_summary = crime_prediction_dataset[target_col].value_counts()
+                log.info(f"Target distribution: {dict(target_summary)}")
+        else:
+            log.error("Failed to create temporal dataset")
+            
+    except Exception as e:
+        log.exception(f"Error during preprocessing: {str(e)}")
+        raise
     
     log.info(f"Preprocessing completed at {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}")
