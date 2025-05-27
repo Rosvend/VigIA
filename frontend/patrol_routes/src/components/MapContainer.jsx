@@ -225,20 +225,20 @@ function MapCont({ marginLeft, routeInfo, setRouteInfo, selCai, activeRole }) {
             onEachFeature={probabilityTooltip}
           />
         )}
-        {routeInfo &&
-              <Marker
-                key={`cai-marker`}
-                position={rev(stations[selCai].geometry.coordinates)}
-                icon={caiMarkerIcon}
-              >
-                <Popup>
-                  <div style={{ color: '#333', fontSize: '14px' }}>
-                    <strong>{stations[selCai].properties.nombre}</strong>
-                    <br />
-                    CAI - Centro de Atención Inmediata
-                  </div>
-                </Popup>
-              </Marker>}
+       
+        <Marker
+          key={`cai-marker-${selCai}`}
+          position={rev(stations[selCai].geometry.coordinates)}
+          icon={caiMarkerIcon}
+        >
+          <Popup>
+            <div style={{ color: '#333', fontSize: '14px' }}>
+              <strong>{stations[selCai].properties.nombre}</strong>
+              <br />
+              CAI - Centro de Atención Inmediata
+            </div>
+          </Popup>
+        </Marker>
         {routeInfo &&
           routeInfo.routes &&
           routeInfo.routes.map((route, i) => (
