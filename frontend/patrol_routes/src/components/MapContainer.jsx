@@ -77,8 +77,8 @@ const paint_cell = (feature) => {
 const caiMarkerIcon = L.divIcon({
   html: `<div style="
     background-color: #4285f4;
-    width: 24px;
-    height: 24px;
+    width: 25px;
+    height: 25px;
     border-radius: 50% 50% 50% 0;
     transform: rotate(-45deg);
     border: 3px solid white;
@@ -89,11 +89,11 @@ const caiMarkerIcon = L.divIcon({
   ">
     <div style="
       color: white;
-      font-size: 12px;
+      font-size: 15px;
       font-weight: bold;
       transform: rotate(45deg);
       margin-top: -2px;
-    ">🏛️</div>
+    ">👮🏻‍♂️</div>
   </div>`,
   className: "",
   iconSize: [24, 24],
