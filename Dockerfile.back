@@ -16,10 +16,11 @@ COPY backend/pyproject.toml backend/poetry.lock ./backend
 RUN poetry -P backend/ install --without dev --no-root && rm -rf $POETRY_CACHE_DIR
 
 # Train the model
+COPY geodata geodata/
+
 COPY ml ml/
 RUN poetry -P backend/ run python ml/quick_predict.py --output backend/crime_model_simple.pkl
 
-COPY geodata geodata/
 COPY backend backend/
 
 WORKDIR /usr/local/app/backend
