@@ -352,38 +352,6 @@ def generate_temporal_windows_12h(grid_gdf, crime_gdf, prediction_window=12, ste
     
     return combined_windows
 
-def create_temporal_splits(dataset, target_col='target_12h'):
-    """
-    Create temporal train/validation/test splits following the requirements:
-    - Train: January to September (70%)
-    - Validation: October to November (15%) 
-    - Test: December (15%)
-    """
-    log.info("Creating temporal train/validation/test splits...")
-    
-    # Ensure reference_time is datetime
-    dataset['reference_time'] = pd.to_datetime(dataset['reference_time'])
-    dataset['ref_month'] = dataset['reference_time'].dt.month
-    
-    # Create splits based on months
-    train_data = dataset[dataset['ref_month'] <= 9].copy()  # Jan-Sep
-    val_data = dataset[(dataset['ref_month'] > 9) & (dataset['ref_month'] <= 11)].copy()  # Oct-Nov
-    test_data = dataset[dataset['ref_month'] > 11].copy()  # Dec
-    
-    log.info(f"Temporal splits created:")
-    log.info(f"  Training (Jan-Sep): {len(train_data)} samples")
-    log.info(f"  Validation (Oct-Nov): {len(val_data)} samples")
-    log.info(f"  Test (Dec): {len(test_data)} samples")
-    
-    # Check class distributions
-    for name, data in [("Training", train_data), ("Validation", val_data), ("Test", test_data)]:
-        if len(data) > 0 and target_col in data.columns:
-            pos_count = data[target_col].sum()
-            total = len(data)
-            log.info(f"  {name} - Positive class: {pos_count}/{total} ({pos_count/total:.2%})")
-    
-    return train_data, val_data, test_data
-
 def create_crime_prediction_dataset_12h(grid_gdf, crime_gdf, police_gdf, barrios_gdf, 
                                         prediction_window=12, quick_mode=False):
     """
@@ -443,8 +411,8 @@ def create_crime_prediction_dataset_12h(grid_gdf, crime_gdf, police_gdf, barrios
     log.info(f"\n=== 12-hour crime prediction dataset complete ===")
     log.info(f"Final dataset shape: {temporal_dataset.shape}")
     
-    # Create and display temporal splits
-    train_data, val_data, test_data = create_temporal_splits(temporal_dataset, f'target_{prediction_window}h')
+    # NOTE: Temporal splitting is now handled in train.py to avoid duplication
+    log.info("Temporal splitting will be performed during training phase")
     
     return temporal_dataset
 

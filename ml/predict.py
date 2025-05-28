@@ -2,7 +2,7 @@
 Prediction module for crime risk assessment.
 This module loads the trained model and provides functions to:
 1. Generate risk predictions for all grid cells for specific time windows
-2. Output grid cells with their risk scores in various formats (JSON, GeoJSON)
+2. Output grid cells with their risk scores in JSON format
 """
 
 import joblib
