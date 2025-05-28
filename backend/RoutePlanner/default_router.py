@@ -1,5 +1,4 @@
 from .HotspotQuerier import gen_hotspots_and_areas, Hotspot
-from .ors_secrets import ORS_KEY
 from .prediction.wrapper_interface import ModelWrapperInterface
 from geopandas import GeoDataFrame
 from shapely import Polygon, Point
