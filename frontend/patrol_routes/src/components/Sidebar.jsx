@@ -272,7 +272,7 @@ function Sidebar({ active, routeInfo, setRouteInfo, selCai, setSelCai }) {
     <>
       <div className="legend-item">
         <div className="legend-icon" style={{ color: "#5cb85c" }}>
-          &#9679;
+        👮🏻‍♂️
         </div>
         <span>CAI (Centro de Atención Inmediata)</span>
       </div>
