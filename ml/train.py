@@ -572,7 +572,9 @@ def train_models_with_cv(temporal_data, prediction_window=12, dataset_path=None)
         X_val_final, y_val_final, 
         X_test_final, y_test_final,
         h3_train, h3_val, h3_test,
-        prediction_window
+        prediction_window,
+        preprocessor,
+        feature_types
     )
     
     # Create model pipelines (without preprocessing since data is already processed)
@@ -884,7 +886,7 @@ def apply_smote_to_training(X_train, y_train):
     return X_train_resampled, y_train_resampled
 
 def export_final_training_data(X_train_final, y_train_final, X_val_final, y_val_final, X_test_final, y_test_final, 
-                               h3_train, h3_val, h3_test, prediction_window):
+                               h3_train, h3_val, h3_test, prediction_window, preprocessor=None, feature_types=None):
     """
     Export the final preprocessed data that goes into training
     
@@ -897,6 +899,8 @@ def export_final_training_data(X_train_final, y_train_final, X_val_final, y_val_
         y_test_final: Final test labels
         h3_train, h3_val, h3_test: H3 indices for each split (original size, before SMOTE)
         prediction_window: Prediction window in hours
+        preprocessor: The fitted preprocessor to get feature names
+        feature_types: Dictionary with feature type information
     """
     logger.info("Exporting final training data for review...")
     
@@ -904,8 +908,19 @@ def export_final_training_data(X_train_final, y_train_final, X_val_final, y_val_
     export_dir = f"final_training_data_{prediction_window}h"
     os.makedirs(export_dir, exist_ok=True)
     
+    # Get meaningful feature names from preprocessor
+    if preprocessor is not None:
+        try:
+            feature_names = preprocessor.get_feature_names_out()
+            logger.info(f"Got {len(feature_names)} feature names from preprocessor")
+        except Exception as e:
+            logger.warning(f"Could not get feature names from preprocessor: {e}")
+            feature_names = [f"feature_{i}" for i in range(X_train_final.shape[1])]
+    else:
+        feature_names = [f"feature_{i}" for i in range(X_train_final.shape[1])]
+    
     # Export training data (note: after SMOTE, we can't match H3 indices to synthetic samples)
-    train_df = pd.DataFrame(X_train_final)
+    train_df = pd.DataFrame(X_train_final, columns=feature_names)
     train_df[f'target_{prediction_window}h'] = y_train_final
     
     # For training data, note that H3 indices don't apply to synthetic SMOTE samples
@@ -919,22 +934,22 @@ def export_final_training_data(X_train_final, y_train_final, X_val_final, y_val_
     train_df.to_csv(os.path.join(export_dir, 'train_final.csv'), index=False)
     
     # Export validation data
-    val_df = pd.DataFrame(X_val_final)
+    val_df = pd.DataFrame(X_val_final, columns=feature_names)
     val_df[f'target_{prediction_window}h'] = y_val_final
     if h3_val is not None:
         val_df['h3_index'] = h3_val.values if hasattr(h3_val, 'values') else h3_val
     val_df.to_csv(os.path.join(export_dir, 'val_final.csv'), index=False)
     
     # Export test data
-    test_df = pd.DataFrame(X_test_final)
+    test_df = pd.DataFrame(X_test_final, columns=feature_names)
     test_df[f'target_{prediction_window}h'] = y_test_final
     if h3_test is not None:
         test_df['h3_index'] = h3_test.values if hasattr(h3_test, 'values') else h3_test
     test_df.to_csv(os.path.join(export_dir, 'test_final.csv'), index=False)
     
-    # Export feature names and information
+    # Export feature names and information with meaningful names
     feature_info = {
-        'feature_names': [col for col in train_df.columns if col not in [f'target_{prediction_window}h', 'h3_index', 'note']],
+        'feature_names': feature_names.tolist() if hasattr(feature_names, 'tolist') else list(feature_names),
         'n_features': X_train_final.shape[1],
         'train_shape': X_train_final.shape,
         'val_shape': X_val_final.shape,
@@ -949,6 +964,10 @@ def export_final_training_data(X_train_final, y_train_final, X_val_final, y_val_
         }
     }
     
+    # Add feature type mapping if available
+    if feature_types:
+        feature_info['original_feature_types'] = feature_types
+    
     with open(os.path.join(export_dir, 'feature_info.json'), 'w') as f:
         json.dump(feature_info, f, indent=2)
     
@@ -957,6 +976,9 @@ def export_final_training_data(X_train_final, y_train_final, X_val_final, y_val_
     logger.info(f"  - val_final.csv: {val_df.shape}")
     logger.info(f"  - test_final.csv: {test_df.shape}")
     logger.info(f"  - feature_info.json: {len(feature_info['feature_names'])} features")
+    
+    # Print first few feature names for verification
+    logger.info(f"First 10 features: {feature_info['feature_names'][:10]}")
     
     if feature_info['smote_applied']:
         logger.info(f"  - Note: Training data includes {feature_info['augmented_train_size'] - feature_info['original_train_size']} synthetic SMOTE samples")
