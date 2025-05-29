@@ -9,6 +9,9 @@ import joblib
 import os
 import matplotlib.pyplot as plt
 import json
+import logging
+import warnings
+import argparse
 from sklearn.model_selection import cross_val_score, StratifiedKFold
 from sklearn.preprocessing import StandardScaler, OneHotEncoder, LabelEncoder
 from sklearn.compose import ColumnTransformer
@@ -25,9 +28,6 @@ from sklearn.metrics import (confusion_matrix, classification_report, roc_auc_sc
 from imblearn.over_sampling import SMOTE
 from imblearn.pipeline import Pipeline as ImbPipeline
 from datetime import datetime, timedelta
-import logging
-import warnings
-import argparse
 from scipy import stats
 from scipy.stats import f_oneway
 from statsmodels.stats.multicomp import pairwise_tukeyhsd
@@ -44,6 +44,14 @@ try:
     XGBOOST_AVAILABLE = True
 except ImportError:
     XGBOOST_AVAILABLE = False
+
+# Try to import Optuna for hyperparameter optimization
+try:
+    import optuna
+    OPTUNA_AVAILABLE = True
+    optuna.logging.set_verbosity(optuna.logging.WARNING)  # Reduce verbosity
+except ImportError:
+    OPTUNA_AVAILABLE = False
 
 # Set up logging
 logging.basicConfig(
@@ -86,7 +94,6 @@ def load_preprocessed_dataset(dataset_path):
             unique_count = len(temporal_data[col].unique())
             unique_vals = unique_count if unique_count < 10 else "many"
             logger.info(f"  {col}: {dtype} (unique values: {unique_vals})")
-
         
         return temporal_data
         
@@ -1059,6 +1066,339 @@ def perform_statistical_testing(cv_results_all, metric='roc_auc'):
     
     return statistical_results
 
+def optimize_hyperparameters_optuna(model_name, X_train, y_train, X_val, y_val, n_trials=20):
+    """
+    Optimize hyperparameters using Optuna for the top 3 models
+    
+    Args:
+        model_name: Name of the model to optimize
+        X_train: Training features
+        y_train: Training labels
+        X_val: Validation features
+        y_val: Validation labels
+        n_trials: Number of Optuna trials (default: 20 for faster execution)
+    
+    Returns:
+        Dictionary with best parameters and optimized model
+    """
+    if not OPTUNA_AVAILABLE:
+        logger.warning("Optuna not available - install with: pip install optuna")
+        return None
+    
+    logger.info(f"Optimizing hyperparameters for {model_name} with {n_trials} trials...")
+    
+    def objective(trial):
+        """Objective function for Optuna optimization"""
+        
+        if model_name == 'logistic_regression':
+            params = {
+                'C': trial.suggest_float('C', 0.01, 10.0, log=True),
+                'solver': trial.suggest_categorical('solver', ['liblinear', 'lbfgs']),
+                'max_iter': trial.suggest_int('max_iter', 500, 2000),
+                'class_weight': 'balanced',
+                'random_state': 42
+            }
+            model = LogisticRegression(**params)
+            
+        elif model_name == 'decision_tree':
+            params = {
+                'max_depth': trial.suggest_int('max_depth', 3, 20),
+                'min_samples_split': trial.suggest_int('min_samples_split', 2, 50),
+                'min_samples_leaf': trial.suggest_int('min_samples_leaf', 1, 20),
+                'max_features': trial.suggest_categorical('max_features', ['sqrt', 'log2', None]),
+                'class_weight': 'balanced',
+                'random_state': 42
+            }
+            model = DecisionTreeClassifier(**params)
+            
+        elif model_name == 'knn':
+            params = {
+                'n_neighbors': trial.suggest_int('n_neighbors', 3, 15),
+                'weights': trial.suggest_categorical('weights', ['uniform', 'distance']),
+                'metric': trial.suggest_categorical('metric', ['euclidean', 'manhattan', 'minkowski'])
+            }
+            model = KNeighborsClassifier(**params)
+            
+        elif model_name == 'lightgbm' and LIGHTGBM_AVAILABLE:
+            params = {
+                'n_estimators': trial.suggest_int('n_estimators', 50, 200),
+                'max_depth': trial.suggest_int('max_depth', 3, 15),
+                'learning_rate': trial.suggest_float('learning_rate', 0.01, 0.3),
+                'num_leaves': trial.suggest_int('num_leaves', 20, 100),
+                'subsample': trial.suggest_float('subsample', 0.6, 1.0),
+                'colsample_bytree': trial.suggest_float('colsample_bytree', 0.6, 1.0),
+                'class_weight': 'balanced',
+                'verbosity': -1,
+                'random_state': 42
+            }
+            model = lgb.LGBMClassifier(**params)
+            
+        elif model_name == 'xgboost' and XGBOOST_AVAILABLE:
+            params = {
+                'n_estimators': trial.suggest_int('n_estimators', 50, 200),
+                'max_depth': trial.suggest_int('max_depth', 3, 15),
+                'learning_rate': trial.suggest_float('learning_rate', 0.01, 0.3),
+                'subsample': trial.suggest_float('subsample', 0.6, 1.0),
+                'colsample_bytree': trial.suggest_float('colsample_bytree', 0.6, 1.0),
+                'eval_metric': 'logloss',
+                'verbosity': 0,
+                'random_state': 42
+            }
+            model = xgb.XGBClassifier(**params)
+            
+        elif model_name == 'svm':
+            params = {
+                'C': trial.suggest_float('C', 0.1, 10.0, log=True),
+                'max_iter': trial.suggest_int('max_iter', 500, 2000),
+                'tol': trial.suggest_float('tol', 1e-5, 1e-2, log=True),
+                'class_weight': 'balanced',
+                'random_state': 42
+            }
+            svm_model = LinearSVC(**params)
+            model = CalibratedClassifierCV(estimator=svm_model, method='sigmoid', cv=3)
+            
+        else:
+            raise ValueError(f"Model {model_name} not supported for hyperparameter optimization")
+        
+        # Train and evaluate
+        model.fit(X_train, y_train)
+        y_pred_proba = model.predict_proba(X_val)[:, 1]
+        
+        # Use PR AUC as optimization metric (better for imbalanced data)
+        score = average_precision_score(y_val, y_pred_proba)
+        return score
+    
+    # Create study
+    study = optuna.create_study(direction='maximize', 
+                               sampler=optuna.samplers.TPESampler(seed=42))
+    
+    # Optimize
+    study.optimize(objective, n_trials=n_trials, show_progress_bar=False)
+    
+    # Get best parameters
+    best_params = study.best_params
+    best_score = study.best_value
+    
+    logger.info(f"Best hyperparameters for {model_name}:")
+    for param, value in best_params.items():
+        logger.info(f"  {param}: {value}")
+    logger.info(f"Best validation PR AUC: {best_score:.4f}")
+    
+    # Create optimized model
+    if model_name == 'logistic_regression':
+        optimized_model = LogisticRegression(**best_params)
+    elif model_name == 'decision_tree':
+        optimized_model = DecisionTreeClassifier(**best_params)
+    elif model_name == 'knn':
+        optimized_model = KNeighborsClassifier(**best_params)
+    elif model_name == 'lightgbm' and LIGHTGBM_AVAILABLE:
+        optimized_model = lgb.LGBMClassifier(**best_params)
+    elif model_name == 'xgboost' and XGBOOST_AVAILABLE:
+        optimized_model = xgb.XGBClassifier(**best_params)
+    elif model_name == 'svm':
+        svm_params = {k: v for k, v in best_params.items() if k != 'method'}
+        svm_model = LinearSVC(**svm_params)
+        optimized_model = CalibratedClassifierCV(estimator=svm_model, method='sigmoid', cv=3)
+    
+    # Train optimized model
+    optimized_model.fit(X_train, y_train)
+    
+    return {
+        'best_params': best_params,
+        'best_score': best_score,
+        'optimized_model': optimized_model,
+        'study': study
+    }
+
+def create_final_pipeline(best_model, preprocessor, model_name, feature_types):
+    """
+    Create a single scikit-learn Pipeline that includes all preprocessing steps and the best model
+    
+    Args:
+        best_model: The best trained model
+        preprocessor: The fitted preprocessor
+        model_name: Name of the best model
+        feature_types: Dictionary with feature type information
+    
+    Returns:
+        Complete pipeline ready for deployment
+    """
+    logger.info(f"Creating final deployment pipeline with {model_name}...")
+    
+    # Create a new preprocessor (unfitted) with the same configuration
+    transformers = []
+    
+    # Handle numerical features
+    if feature_types['numerical']:
+        transformers.append(('num', StandardScaler(), feature_types['numerical']))
+    
+    # Handle categorical features
+    if feature_types['categorical']:
+        transformers.append(('cat', OneHotEncoder(drop='first', sparse_output=False, handle_unknown='ignore'), feature_types['categorical']))
+    
+    # Handle useful identifier columns (excluding H3)
+    useful_ids = [col for col in feature_types['identifiers'] if 'h3' not in col.lower()]
+    if useful_ids:
+        transformers.append(('id', OneHotEncoder(drop='first', sparse_output=False, handle_unknown='ignore'), useful_ids))
+    
+    # Create new preprocessor
+    new_preprocessor = ColumnTransformer(
+        transformers=transformers,
+        remainder='drop'
+    )
+    
+    # Create the complete pipeline
+    final_pipeline = Pipeline([
+        ('preprocessor', new_preprocessor),
+        ('classifier', best_model)
+    ])
+    
+    logger.info("Final pipeline structure:")
+    logger.info(f"  1. Preprocessor with {len(transformers)} transformer groups")
+    logger.info(f"  2. Classifier: {model_name}")
+    
+    return final_pipeline
+
+def hyperparameter_optimization_phase(results, X_train_final, y_train_final, X_val_final, y_val_final, 
+                                     preprocessor, feature_types, prediction_window):
+    """
+    Perform hyperparameter optimization on the top 3 models
+    
+    Args:
+        results: Training results from initial phase
+        X_train_final: Final training features
+        y_train_final: Final training labels  
+        X_val_final: Final validation features
+        y_val_final: Final validation labels
+        preprocessor: Fitted preprocessor
+        feature_types: Feature type information
+        prediction_window: Prediction window in hours
+    
+    Returns:
+        Dictionary with optimized models and final pipeline
+    """
+    logger.info(f"\n{'='*80}")
+    logger.info(f"HYPERPARAMETER OPTIMIZATION PHASE")
+    logger.info(f"{'='*80}")
+    
+    # Find top 3 models based on validation PR AUC
+    model_rankings = [(name, results[name]['validation_metrics']['pr_auc']) 
+                     for name in results.keys()]
+    model_rankings.sort(key=lambda x: x[1], reverse=True)
+    top_3_models = model_rankings[:3]
+    
+    logger.info(f"Top 3 models selected for hyperparameter optimization:")
+    for i, (model_name, score) in enumerate(top_3_models):
+        logger.info(f"  {i+1}. {model_name}: {score:.4f}")
+    
+    # Optimize each of the top 3 models
+    optimized_results = {}
+    
+    for model_name, _ in top_3_models:
+        logger.info(f"\n{'='*60}")
+        logger.info(f"Optimizing {model_name.upper()}...")
+        logger.info(f"{'='*60}")
+        
+        try:
+            optimization_result = optimize_hyperparameters_optuna(
+                model_name, X_train_final, y_train_final, X_val_final, y_val_final,
+                n_trials=20  # Reasonable number for university project
+            )
+            
+            if optimization_result:
+                # Evaluate optimized model on validation set
+                optimized_model = optimization_result['optimized_model']
+                val_metrics = evaluate_model_comprehensive(
+                    optimized_model, X_val_final, y_val_final, 
+                    f"{model_name}_optimized_validation"
+                )
+                
+                optimized_results[model_name] = {
+                    'optimization_result': optimization_result,
+                    'validation_metrics': val_metrics,
+                    'original_score': results[model_name]['validation_metrics']['pr_auc'],
+                    'optimized_score': val_metrics['pr_auc'],
+                    'improvement': val_metrics['pr_auc'] - results[model_name]['validation_metrics']['pr_auc']
+                }
+                
+                logger.info(f"{model_name} optimization completed:")
+                logger.info(f"  Original PR AUC: {optimized_results[model_name]['original_score']:.4f}")
+                logger.info(f"  Optimized PR AUC: {optimized_results[model_name]['optimized_score']:.4f}")
+                logger.info(f"  Improvement: {optimized_results[model_name]['improvement']:.4f}")
+                
+        except Exception as e:
+            logger.error(f"Error optimizing {model_name}: {e}")
+            continue
+    
+    # Find the best optimized model
+    if optimized_results:
+        best_optimized_model_name = max(optimized_results.keys(), 
+                                       key=lambda k: optimized_results[k]['optimized_score'])
+        
+        best_optimized_model = optimized_results[best_optimized_model_name]['optimization_result']['optimized_model']
+        
+        logger.info(f"\n{'='*80}")
+        logger.info(f"BEST OPTIMIZED MODEL: {best_optimized_model_name.upper()}")
+        logger.info(f"Optimized Validation PR AUC: {optimized_results[best_optimized_model_name]['optimized_score']:.4f}")
+        logger.info(f"Improvement over original: {optimized_results[best_optimized_model_name]['improvement']:.4f}")
+        logger.info(f"{'='*80}")
+        
+        # Create final pipeline with best optimized model
+        final_pipeline = create_final_pipeline(
+            best_optimized_model, preprocessor, best_optimized_model_name, feature_types
+        )
+        
+        # Save optimized model and pipeline
+        optimized_model_data = {
+            'model': best_optimized_model,
+            'pipeline': final_pipeline,
+            'preprocessor': preprocessor,
+            'feature_types': feature_types,
+            'model_name': best_optimized_model_name,
+            'prediction_window': prediction_window,
+            'training_date': datetime.now().isoformat(),
+            'hyperparameters': optimized_results[best_optimized_model_name]['optimization_result']['best_params'],
+            'optimization_score': optimized_results[best_optimized_model_name]['optimized_score'],
+            'metrics': optimized_results[best_optimized_model_name]['validation_metrics']
+        }
+        
+        # Save the best optimized model
+        best_model_filename = f"best_crime_model_{prediction_window}h.pkl"
+        joblib.dump(optimized_model_data, best_model_filename)
+        logger.info(f"Best optimized model saved as {best_model_filename}")
+        
+        # Save optimization summary
+        optimization_summary = {
+            'top_3_models': [name for name, _ in top_3_models],
+            'optimization_results': {
+                name: {
+                    'original_score': res['original_score'],
+                    'optimized_score': res['optimized_score'],
+                    'improvement': res['improvement'],
+                    'best_params': res['optimization_result']['best_params']
+                } for name, res in optimized_results.items()
+            },
+            'best_model': best_optimized_model_name,
+            'best_score': optimized_results[best_optimized_model_name]['optimized_score']
+        }
+        
+        with open(f'hyperparameter_optimization_summary_{prediction_window}h.json', 'w') as f:
+            json.dump(optimization_summary, f, indent=2)
+        
+        logger.info(f"Optimization summary saved to hyperparameter_optimization_summary_{prediction_window}h.json")
+        
+        return {
+            'best_model': best_optimized_model,
+            'best_model_name': best_optimized_model_name,
+            'final_pipeline': final_pipeline,
+            'optimization_results': optimized_results,
+            'optimization_summary': optimization_summary
+        }
+    
+    else:
+        logger.warning("No models were successfully optimized")
+        return None
+
 def main():
     """
     Main training function with command line argument support
@@ -1077,11 +1417,55 @@ def main():
     logger.info(f"Configuration: {args.prediction_window}h prediction window")
     
     try:
-        # Train models
+        # Phase 1: Train all 7 models with cross-validation
         training_results = train_models_with_cv(
             temporal_data=None,
             prediction_window=args.prediction_window,
             dataset_path=args.dataset_path
+        )
+        
+        # Phase 2: Hyperparameter optimization on top 3 models
+        logger.info(f"\n{'='*80}")
+        logger.info(f"PHASE 2: HYPERPARAMETER OPTIMIZATION")
+        logger.info(f"{'='*80}")
+        
+        # Load the same data for hyperparameter optimization
+        if args.dataset_path is None:
+            dataset_path = f"crime_prediction_temporal_dataset_{args.prediction_window}h.pkl"
+        else:
+            dataset_path = args.dataset_path
+            
+        temporal_data = load_preprocessed_dataset(dataset_path)
+        train_data, val_data, test_data = create_temporal_splits(temporal_data)
+        
+        target_col = f'target_{args.prediction_window}h'
+        feature_types = identify_feature_types(train_data, target_col)
+        
+        # Prepare data for hyperparameter optimization (same preprocessing)
+        X_train_raw = train_data.drop(feature_types['exclude'], axis=1, errors='ignore')
+        y_train = train_data[target_col]
+        X_val_raw = val_data.drop(feature_types['exclude'], axis=1, errors='ignore')
+        y_val = val_data[target_col]
+        
+        X_train, h3_train = separate_h3_indices(X_train_raw, feature_types)
+        X_val, h3_val = separate_h3_indices(X_val_raw, feature_types)
+        
+        # Use the same preprocessor from training
+        preprocessor = training_results['preprocessor']
+        X_train_processed = preprocessor.transform(X_train)
+        X_val_processed = preprocessor.transform(X_val)
+        
+        # Apply SMOTE to training data
+        X_train_final, y_train_final = apply_smote_to_training(X_train_processed, y_train)
+        X_val_final = X_val_processed
+        y_val_final = y_val
+        
+        # Perform hyperparameter optimization
+        optimization_results = hyperparameter_optimization_phase(
+            training_results['all_results'], 
+            X_train_final, y_train_final, 
+            X_val_final, y_val_final,
+            preprocessor, feature_types, args.prediction_window
         )
         
         # Training completed
@@ -1091,6 +1475,8 @@ def main():
         logger.info(f"ENHANCED TRAINING COMPLETED SUCCESSFULLY!")
         logger.info(f"Duration: {duration}")
         logger.info(f"Best Model: {training_results['best_model_name']}")
+        if optimization_results:
+            logger.info(f"Best Optimized Model: {optimization_results['best_model_name']}")
         logger.info(f"Total Models Trained: {len(training_results['all_results'])}")
         logger.info(f"{'='*80}")
         
@@ -1099,15 +1485,24 @@ def main():
             'timestamp': start_time.isoformat(),
             'duration_seconds': duration.total_seconds(),
             'prediction_window': args.prediction_window,
-            'best_model': training_results['best_model_name'],
+            'initial_best_model': training_results['best_model_name'],
+            'optimized_best_model': optimization_results['best_model_name'] if optimization_results else None,
             'total_models': len(training_results['all_results']),
-            'dataset_samples': len(training_results['metrics_comparison']) * 7  # Approximate
+            'hyperparameter_optimization': optimization_results is not None
         }
         
         with open(f'training_summary_{args.prediction_window}h.json', 'w') as f:
             json.dump(summary, f, indent=2)
         
         logger.info(f"Training summary saved to training_summary_{args.prediction_window}h.json")
+        
+        # Return combined results
+        final_results = training_results.copy()
+        if optimization_results:
+            final_results['optimization_results'] = optimization_results
+            final_results['final_pipeline'] = optimization_results['final_pipeline']
+        
+        return final_results
         
     except Exception as e:
         logger.error(f"Training failed: {e}")
