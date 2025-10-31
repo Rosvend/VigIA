@@ -1,4 +1,4 @@
-# Crime Prediction & Patrol Route Optimization in Medellín
+# VigIA (Vigilancia Inteligente para la Gestión e Intervención Anticipada)
 
 ## Overview
 This project aims to enhance police patrol efficiency in Medellín by predicting high-risk crime areas and optimizing patrol routes accordingly. Using historical crime data, we train a model to estimate crime likelihood in different grid cells of the city. These predictions are visualized on an interactive map, with color-coded risk levels (e.g., red for high-risk areas).
